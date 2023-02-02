@@ -1,0 +1,6 @@
+/* -----------------Common styles----------------- */
+
+/*@import url(./blocks/html/html.css);*/
+/*@import url(./vendor/normalize.css);*/
+/*@import url(./vendor/fonts/fonts.css);*/
+@import url(./components/page/page.css);
