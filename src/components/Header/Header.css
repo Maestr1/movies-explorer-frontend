@@ -1,0 +1,9 @@
+.header {
+  /*margin: 0 auto;*/
+  /*width: 1440px;*/
+  height: 600px;
+}
+
+.header_type_landing {
+  background-color: #073042;
+}
