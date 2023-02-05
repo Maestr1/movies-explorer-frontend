@@ -1,23 +1,21 @@
 import './Navigation.css';
+import { Link } from 'react-router-dom';
 
-export default function Navigation() {
+function Navigation() {
 
   return (
     <nav className="nav">
-      <btn className="btn nav_home-btn">To home</btn>
-      <div>
+      <Link to="/" className="btn nav_home-btn">Домой</Link>
         <ul className="nav__list">
           <li className="nav__item">
-            <btn href="#" className="btn nav__btn">Регистрация</btn>
+            <Link to="/signup" className="link nav__btn">Регистрация</Link>
           </li>
           <li className="nav__item">
-            <btn href="#" className="btn nav__btn">Регистрация</btn>
-          </li>
-          <li className="nav__item">
-            <btn href="#" className="btn nav__btn nav__btn_type_login">Войти</btn>
+            <Link aria-label="Сылка на страницу входа" to='/signin' className="btn nav__btn nav__btn_type_login">Войти</Link>
           </li>
         </ul>
-      </div>
     </nav>
   );
 }
+
+export default Navigation;

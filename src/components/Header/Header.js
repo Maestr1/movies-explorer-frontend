@@ -1,6 +1,7 @@
-import './Header.css'
+import './Header.css';
 import Navigation from '../Navigation/Navigation';
-export default function Header() {
+
+function Header(props) {
 
   return (
     <header className="header header_type_landing">
@@ -10,3 +11,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default Header;

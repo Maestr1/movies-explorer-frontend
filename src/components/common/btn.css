@@ -1,3 +1,11 @@
 .btn {
   cursor: pointer;
+  border: none;
+  background: none;
+  color: #fff;
+  transition: opacity .2s ease-in-out;
+}
+
+.btn:hover {
+  opacity: .8;
 }
