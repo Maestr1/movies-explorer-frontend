@@ -15,9 +15,9 @@ function Header(props) {
   }, [location]);
 
   return (
-    <header className={`header ${isLanding ? 'header_type_landing' : ''}`}>
+    <header className={`header ${isLanding ? 'header_type_landing' : undefined}`}>
       <div className="container header__wrapper">
-        <Navigation/>
+        <Navigation isLanding={isLanding}/>
       </div>
     </header>
   );

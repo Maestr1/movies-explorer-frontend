@@ -24,8 +24,17 @@
 }
 
 .nav__link {
+  font-size: 14px;
   text-decoration: none;
   color: #fff;
+}
+
+.nav__link-active {
+  font-weight: 500;
+}
+
+.nav__link-type-landing {
+  font-size: 12px;
 }
 
 .nav__btn {
