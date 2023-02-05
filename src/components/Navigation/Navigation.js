@@ -1,19 +1,19 @@
 import './Navigation.css';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 function Navigation({ isLanding }) {
-
-  // let activeClassName = "nav__link-active";
-  const setActive = ({isActive}) => isActive ? 'link nav__link nav__link-active' : 'link nav__link'
+  const setActive = ({ isActive }) => isActive ? 'link nav__link nav__link-active' : 'link nav__link';
 
   return (
     <>
       <Link to="/" className="btn nav_home-btn">Домой</Link>
       <nav className="nav">
         {!isLanding ? <ul className="nav__list">
-          <li className="nav__item"><NavLink className={setActive} to="/movies">Фильмы</NavLink></li>
-          <li className="nav__item"><NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
+          <li className="nav__item">
+            <NavLink className={setActive} to="/movies">Фильмы</NavLink>
+          </li>
+          <li className="nav__item">
+            <NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
           </li>
         </ul> : <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
         {isLanding ? <Link aria-label="Сылка на страницу входа" to="/signin"
