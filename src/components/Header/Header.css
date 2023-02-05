@@ -10,3 +10,11 @@
   background: url("../../images/logo.svg");
   font-size: 0;
 }
+
+.header__wrapper {
+  padding: 18px 70px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
-import './Hero.css'
+import './Promo.css'
 
-function Hero(props) {
+function Promo(props) {
   return (
     <section className="hero">
       <h1 className="hero__title">Учебный проект студента факультета Веб-разработки.</h1>
@@ -9,4 +9,4 @@ function Hero(props) {
   );
 }
 
-export default Hero;
+export default Promo;

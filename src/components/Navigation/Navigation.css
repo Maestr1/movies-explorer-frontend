@@ -2,7 +2,7 @@
   padding: 18px 70px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .nav_home-btn {
@@ -23,16 +23,30 @@
   gap: 30px;
 }
 
+.nav__link {
+  text-decoration: none;
+  color: #fff;
+}
+
 .nav__btn {
   text-decoration: none;
   color: inherit;
 }
 
 .nav__btn_type_login {
-  margin-left: 20px;
+  margin-left: 30px;
   padding: 8px 20px;
   border-radius: 3px;
   background-color: #3DDC84;
   font-weight: 500;
   color: #000;
+}
+
+.nav__btn_type_profile {
+  margin-left: 50px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  background-color: #313131;
+  font-weight: 500;
+  color: #fff;
 }

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Switch, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from '../Header/Header';
-import Hero from '../Hero/Hero';
+import Promo from '../Promo/Promo';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -18,7 +17,7 @@ function App() {
   return (
       <Routes>
         <Route path="/" element={<Layout loggedIn={loggedIn}/>}>
-          <Route path="/" element={<Hero/>}/>
+          <Route path="/" element={<Promo/>}/>
           <Route path="/movies" element={<Movies/>}/>
           <Route path="/saved-movies" element={<SavedMovies/>}/>
         </Route>
