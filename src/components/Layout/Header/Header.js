@@ -1,5 +1,5 @@
 import './Header.css';
-import Navigation from '../Navigation/Navigation';
+import Navigation from './Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
