@@ -1,5 +1,5 @@
-import './Navigation.css';
 import { Link, NavLink } from 'react-router-dom';
+import './Navigation.css'
 
 function Navigation({ isLanding }) {
   const setActive = ({ isActive }) => isActive ? 'link nav__link nav__link-active' : 'link nav__link';

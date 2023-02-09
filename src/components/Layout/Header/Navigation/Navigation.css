@@ -25,6 +25,7 @@
 
 .nav__link {
   font-size: 14px;
+  line-height: 1.33;
   text-decoration: none;
   color: #fff;
 }
@@ -38,6 +39,7 @@
 }
 
 .nav__btn {
+  line-height: 1.33;
   text-decoration: none;
   color: inherit;
 }

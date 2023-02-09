@@ -1,0 +1,48 @@
+.aboutMe__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.aboutMe__content {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.aboutMe__title {
+  margin-bottom: 66px;
+}
+
+.aboutMe__name {
+  margin: 0;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.aboutMe__job {
+  margin-top: 18px;
+  margin-bottom: 26px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.11;
+}
+
+.aboutMe__story {
+  max-width: 600px;
+  font-size: 14px;
+  line-height: 1.57;
+}
+
+.aboutMe__link {
+  position: absolute;
+  bottom: 0;
+  font-size: 14px;
+}
+
+.aboutMe__portrait {
+  margin-left: 49px;
+  max-width: 270px;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: contain;
+}
