@@ -1,5 +1,4 @@
 .nav {
-  padding: 18px 70px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -49,6 +48,7 @@
   padding: 8px 20px;
   border-radius: 3px;
   background-color: #3DDC84;
+  font-size: 12px;
   font-weight: 500;
   color: #000;
 }

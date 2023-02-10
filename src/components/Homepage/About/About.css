@@ -1,8 +1,12 @@
 .about {
   padding-top: 110px;
-  padding-bottom: 141px;
+  padding-bottom: 142px;
   display: flex;
   flex-direction: column;
+}
+
+.about__article {
+  max-width: 550px;
 }
 
 .about__article-wrapper {
@@ -32,6 +36,8 @@
 
 .about__scheme-text {
   margin: 0;
+  font-size: 14px;
+
 }
 
 .about__scheme-item {
@@ -43,20 +49,20 @@
 }
 
 .about__scheme-item_type_backend {
-  max-width: 20%;
+  max-width: 17.5%;
   background-color: #3DDC84;
   color: #000;
 }
 
 .about__scheme-item_type_frontend {
-  max-width: 80%;
+  max-width: 82.5%;
   background-color: #303030;
 }
 
 .about__scheme-label {
   position: absolute;
   right: 0;
-  bottom: -28px;
+  bottom: -33px;
   left: 0;
   font-size: 14px;
   font-weight: 500;

@@ -14,10 +14,12 @@
   font-size: 50px;
   font-weight: 400;
   line-height: 1.16;
+  letter-spacing: -0.04em;
   text-align: center;
 }
 
 .techs__subheading {
+  margin: 0;
   max-width: 460px;
   font-size: 14px;
   line-height: 1.43;
@@ -39,6 +41,8 @@
 }
 
 .techs__item {
+  font-size: 14px;
+  letter-spacing: -0.04em;
   height: 60px;
   display: flex;
   align-items: center;
