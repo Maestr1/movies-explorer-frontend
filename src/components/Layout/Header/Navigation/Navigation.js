@@ -6,7 +6,7 @@ function Navigation({ isLanding }) {
 
   return (
     <>
-      <Link to="/" className="btn nav_home-btn">Домой</Link>
+      <Link to="/" className="btn header__home-btn">Домой</Link>
       <nav className="nav">
         {!isLanding ? <ul className="nav__list">
           <li className="nav__item">
