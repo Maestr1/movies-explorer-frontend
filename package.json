@@ -37,6 +37,7 @@
     ]
   },
   "devDependencies": {
-    "react-router-hash-link": "^2.4.3"
+    "react-router-hash-link": "^2.4.3",
+    "react-switch": "^7.0.0"
   }
 }
