@@ -1,0 +1,33 @@
+.portfolio {
+  padding-bottom: 125px;
+}
+
+.portfolio__title {
+  margin-bottom: 50px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.11;
+  color: #8B8B8B;
+}
+
+.portfolio__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio__item {
+  padding: 20px 0;
+  border-bottom: 1px solid #424242;
+}
+
+.portfolio__link {
+  background: url("../../../images/link-arrow.svg") no-repeat right center;
+  display: block;
+  font-size: 30px;
+  line-height: 1.67;
+}
+
+.portfolio__item:last-child {
+  border: none;
+}
