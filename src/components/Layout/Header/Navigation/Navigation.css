@@ -62,3 +62,8 @@
   font-weight: 500;
   color: #fff;
 }
+
+@media (max-width: 1024px) {
+  .nav__link {
+  }
+}

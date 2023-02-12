@@ -22,8 +22,6 @@
 }
 
 .portfolio__link {
-  /*padding-top: 20px;*/
-  /*padding-bottom: ;*/
   padding: 20px 0 19px;
   background: url("../../../images/link-arrow.svg") no-repeat right center;
   display: block;
@@ -34,4 +32,13 @@
 
 .portfolio__item:last-child {
   border: none;
+}
+
+@media (max-width: 1024px) {
+  .portfolio {
+    padding-bottom: 71px;
+  }
+  .portfolio__link {
+    font-size: 28px;
+  }
 }

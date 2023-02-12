@@ -19,3 +19,9 @@
   align-items: center;
   justify-content: space-between;
 }
+
+@media (max-width: 1024px) {
+  .header__wrapper {
+    padding: 18px 30px;
+  }
+}

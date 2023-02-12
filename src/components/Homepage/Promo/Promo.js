@@ -3,8 +3,8 @@ import './Promo.css'
 
 function Promo(props) {
   return (
-    <section className="hero">
-      <h1 className="hero__title">Учебный проект студента факультета Веб-разработки.</h1>
+    <section className="promo">
+      <h1 className="promo__title">Учебный проект студента факультета Веб-разработки.</h1>
     </section>
   );
 }

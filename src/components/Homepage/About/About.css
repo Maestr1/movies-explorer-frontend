@@ -69,3 +69,20 @@
   line-height: 1.21;
   color: #8B8B8B;
 }
+
+@media (max-width: 1024px) {
+  .about {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+  .about__article-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .about__article-title {
+    padding-bottom: 22px;
+  }
+  .about__article-wrapper {
+    margin-bottom: 93px;
+  }
+}

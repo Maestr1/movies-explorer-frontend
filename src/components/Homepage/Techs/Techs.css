@@ -1,5 +1,6 @@
 .techs {
-  padding: 100px 0;
+  padding-top: 100px;
+  padding-bottom: 100px;
   background-color: #272727;
 }
 
@@ -14,8 +15,8 @@
   font-size: 50px;
   font-weight: 400;
   line-height: 1.16;
-  letter-spacing: -0.04em;
   text-align: center;
+  letter-spacing: -0.04em;
 }
 
 .techs__subheading {
@@ -41,12 +42,37 @@
 }
 
 .techs__item {
-  font-size: 14px;
-  letter-spacing: -0.04em;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   background-color: #303030;
+  font-size: 14px;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 1024px) {
+  .techs {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+
+  .techs__heading {
+    margin: 80px 0 22px;
+  }
+
+  .techs__subheading {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .techs__list {
+    padding: 0 30px;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  }
+
+  .techs__item {
+    font-size: 12px;
+  }
 }

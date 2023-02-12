@@ -6,7 +6,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 function NavTab(props) {
 
   return (
-    <nav className="navTab">
+    <nav className="navTab container">
       <ul className="navTab__list">
         <li className="navTab__item">
           <Link className="navTab__link link" to="/#about">О проекте</Link>
