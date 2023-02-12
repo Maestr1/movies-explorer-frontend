@@ -72,8 +72,7 @@
 
 @media (max-width: 1024px) {
   .about {
-    padding-top: 90px;
-    padding-bottom: 90px;
+    padding: 90px 50px;
   }
   .about__article-text {
     font-size: 12px;

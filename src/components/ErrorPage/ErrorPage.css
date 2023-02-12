@@ -24,4 +24,6 @@
 .error-page__back-link {
   position: absolute;
   bottom: 60px;
+  font-size: 14px;
+  color: #4285F4;
 }

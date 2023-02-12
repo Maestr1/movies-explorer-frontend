@@ -54,8 +54,7 @@
 
 @media (max-width: 1024px) {
   .techs {
-    padding-top: 90px;
-    padding-bottom: 90px;
+    padding: 90px 50px;
   }
 
   .techs__heading {
