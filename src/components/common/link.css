@@ -4,6 +4,9 @@
   color: inherit;
 }
 
-.link:hover {
-  opacity: .7;
+
+@media (min-width: 1024px) {
+  .link:hover {
+    opacity: .7;
+  }
 }
