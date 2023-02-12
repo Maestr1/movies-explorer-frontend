@@ -1,4 +1,5 @@
 .moviesCardList {
+  flex: 1 0 auto;
   padding-bottom: 80px;
   display: flex;
   flex-direction: column;
