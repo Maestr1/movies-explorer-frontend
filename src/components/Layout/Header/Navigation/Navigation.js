@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom';
-import './Navigation.css'
+import './Navigation.css';
+import Burger from '../Burger/Burger';
 
-function Navigation({ isLanding }) {
+function Navigation({ isLanding, isMenuOpen, clickHandler }) {
   const setActive = ({ isActive }) => isActive ? 'link nav__link nav__link-active' : 'link nav__link';
 
   return (
@@ -20,6 +21,7 @@ function Navigation({ isLanding }) {
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>
+      <Burger isMenuOpen={isMenuOpen} clickHandler={clickHandler}/>
     </>
   );
 }

@@ -63,7 +63,16 @@
   color: #fff;
 }
 
-@media (max-width: 1024px) {
-  .nav__link {
+.nav__burger-btn {
+  display: none
+}
+
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  .nav__burger-btn {
+    display: inline-block;
   }
 }
