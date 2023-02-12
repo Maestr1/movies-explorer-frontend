@@ -20,10 +20,10 @@ function App() {
           <Route index element={<Homepage/>}/>
           <Route path="/movies" element={<Movies/>}/>
           <Route path="/saved-movies" element={<SavedMovies/>}/>
+          <Route path="/profile" element={<Profile/>}/>
         </Route>
         <Route path="/signin" element={<Login/>}/>
         <Route path="/signup" element={<Register/>}/>
-        <Route path="/profile" element={<Profile/>}/>
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
   );

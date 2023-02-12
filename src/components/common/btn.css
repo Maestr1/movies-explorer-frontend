@@ -1,9 +1,10 @@
 .btn {
+  padding: 0;
   cursor: pointer;
   border: none;
   background: none;
-  color: #fff;
   transition: opacity .2s ease-in-out;
+  color: #fff;
 }
 
 @media (min-width: 1024px) {

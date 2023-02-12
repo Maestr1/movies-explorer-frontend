@@ -1,23 +1,15 @@
 .searchForm {
   position: relative;
-  padding-top: 80px;
+  padding-top: 78px;
   display: flex;
   flex-direction: column;
   /*border-bottom: 1px solid #424242;*/
 }
 
-/*.searchForm::before {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  bottom: 0;*/
-/*  left: 70px;*/
-/*  width: 100%;*/
-/*  border-bottom: 1px solid #424242;*/
-/*}*/
-
 .searchForm__form {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .searchForm__input {
@@ -48,8 +40,7 @@
 }
 
 .searchForm__switch-wrapper {
-  margin-top: 31px;
-  padding-bottom: 39px;
+  padding: 29px 0 39px;
   width: 100%;
   display: flex;
   align-items: center;

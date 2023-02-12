@@ -16,8 +16,7 @@
 }
 
 .moviesCardList__more-btn {
-  padding-top: 11px;
-  padding-bottom: 9px;
+  padding: 12px 0 10px;
   width: 320px;
   align-self: center;
   border-radius: 6px;

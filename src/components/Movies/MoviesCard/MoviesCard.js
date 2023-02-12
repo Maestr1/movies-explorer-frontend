@@ -14,10 +14,10 @@ function MoviesCard(props) {
     <li className="moviesCard">
       <div className="moviesCard__title-wrapper">
         <div className="moviesCard__about-wrapper">
-          <h3 className="moviesCard__title">33 слова о дизайне</h3>
+          <h2 className="moviesCard__title">33 слова о дизайне</h2>
           <p className="moviesCard__duration">1ч 47м</p>
         </div>
-        <button onClick={handleSave} className={`moviesCard__save-btn btn ${saved ? 'moviesCard__save-btn_active' : ''}`} aria-label="Добавить в сохраненные"/>
+        <button onClick={handleSave} className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`} aria-label="Добавить в сохраненные"/>
       </div>
       <img src={tempPic} alt=""/>
 
