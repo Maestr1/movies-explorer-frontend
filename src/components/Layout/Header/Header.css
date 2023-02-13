@@ -12,6 +12,7 @@
 }
 
 .header__wrapper {
+  position: relative;
   padding-top: 18px;
   padding-bottom: 18px;
   box-sizing: border-box;

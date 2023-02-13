@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
-import './Burger.css'
+import './Burger.css';
 
-function Burger(props) {
-
-  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-
-  function toggleMenuOpen() {
-    if (isBurgerOpen) {
-      setIsBurgerOpen(false);
-    } else {
-      setIsBurgerOpen(true);
-    }
-  }
+function Burger({ onClick, isMenuOpen }) {
 
   return (
-    <button onClick={toggleMenuOpen} className={`nav__burger-btn burger-btn ${isBurgerOpen ? 'burger-btn_active' : ''}`}>
-      <span className="burger-btn__bar-top"></span>
-      <span className="burger-btn__bar-mid"></span>
-      <span className="burger-btn__bar-bot"></span>
-    </button>
+    <>
+      <button onClick={onClick} className={`burger-btn ${isMenuOpen ? 'burger-btn_active' : ''}`}>
+        <span className="burger-btn__bar-top"></span>
+        <span className="burger-btn__bar-mid"></span>
+        <span className="burger-btn__bar-bot"></span>
+      </button>
+      <div className={`burger-btn__overlay ${isMenuOpen ? 'burger-btn__overlay_active' : ''}`}/>
+    </>
   );
 }
 

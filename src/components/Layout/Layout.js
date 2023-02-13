@@ -12,7 +12,7 @@ function Layout(props) {
     <>
       <Header loggedIn={props.loggedIn}/>
       <Outlet/>
-      {location.pathname !== '/profile' ? <Footer/> : undefined}
+      {location.pathname !== '/profile' ? <Footer/> : ''}
     </>
   );
 }

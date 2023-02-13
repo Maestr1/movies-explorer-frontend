@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 
 function Header(props) {
 
-  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isLanding, setIsLanding] = useState(true);
   let location = useLocation();
 
@@ -15,18 +14,10 @@ function Header(props) {
     } else setIsLanding(true);
   }, [location]);
 
-  function toggleMenuOpen() {
-    if (isBurgerOpen) {
-      setIsBurgerOpen(false);
-    } else {
-      setIsBurgerOpen(true);
-    }
-  }
-
   return (
-    <header className={`header ${isLanding ? 'header_type_landing' : undefined}`}>
+    <header className={`header ${isLanding ? 'header_type_landing' : ''}`}>
       <div className="container header__wrapper">
-        <Navigation clickHandler={toggleMenuOpen} isMenuOpen={isBurgerOpen} isLanding={isLanding}/>
+        <Navigation isLanding={isLanding}/>
       </div>
     </header>
   );
