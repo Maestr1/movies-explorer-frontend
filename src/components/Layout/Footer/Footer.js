@@ -10,7 +10,7 @@ function Footer(props) {
         <p className="footer__date">&copy; 2023</p>
         <ul className="footer__links">
           <li>
-            <Link to="https://practicum.yandex.ru/" className="footer__link link">Яндекс Практикум</Link>
+            <Link to="https://practicum.yandex.ru/" className="footer__link link">Яндекс.Практикум</Link>
           </li>
           <li>
             <Link to="https://github.com/Maestr1/" className="footer__link link">Github</Link>

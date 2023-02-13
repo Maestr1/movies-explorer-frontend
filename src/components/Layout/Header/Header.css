@@ -23,6 +23,7 @@
 
 @media (max-width: 1024px) {
   .header__wrapper {
-    padding: 18px 30px;
+    padding-top: 18px;
+    padding-bottom: 18px;
   }
 }

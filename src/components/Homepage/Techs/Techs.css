@@ -38,7 +38,7 @@
   justify-content: center;
   list-style: none;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  grid-gap: 10px;
+  column-gap: 10px;
 }
 
 .techs__item {
@@ -68,10 +68,40 @@
 
   .techs__list {
     padding: 0 30px;
-    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+    margin-top: 82px;
+    grid-template-columns: repeat(auto-fit, 84px);
   }
 
   .techs__item {
     font-size: 12px;
   }
+}
+
+@media (max-width: 576px) {
+  .techs {
+    padding: 70px 18px;
+    background-color: inherit;
+  }
+
+  .techs__content-wrapper {
+    padding: 0 10px;
+  }
+
+  .techs__heading {
+    margin: 62px 0 27px;
+    font-size: 30px;
+  }
+
+  .techs__subheading {
+    font-size: 11px;
+  }
+
+  .techs__list {
+    margin-top: 47px;
+    padding: 0;
+  }
+
+  .techs__item {
+    height: 57px;
+     }
 }

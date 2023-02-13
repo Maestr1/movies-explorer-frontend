@@ -22,3 +22,13 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+@media (max-width: 576px) {
+  .navTab__list {
+    gap: 24px;
+  }
+
+  .navTab__link {
+    font-size: 11px;
+  }
+}

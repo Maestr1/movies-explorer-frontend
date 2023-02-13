@@ -23,8 +23,8 @@
 
 .portfolio__link {
   padding: 20px 0 19px;
-  background: url("../../../images/link-arrow.svg") no-repeat right center;
   display: block;
+  background: url("../../../images/link-arrow.svg") no-repeat right center;
   font-size: 30px;
   line-height: 1.67;
   letter-spacing: -0.04em;
@@ -38,7 +38,27 @@
   .portfolio {
     padding: 0 50px 71px;
   }
+
   .portfolio__link {
+    padding-bottom: 23px;
     font-size: 28px;
   }
+}
+
+@media (max-width: 576px) {
+  .portfolio {
+    padding: 0 14px 50px;
+  }
+
+  .portfolio__title {
+    margin-bottom: 25px;
+    font-size: 14px;
+  }
+
+  .portfolio__link {
+    padding-bottom: 17px;
+    background-size: 10px 10px;
+    font-size: 18px;
+  }
+
 }
