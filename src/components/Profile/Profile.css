@@ -43,7 +43,7 @@
 .profile__input {
   width: 85%;
   border: none;
-  border-radius: 10px;
+  border-radius: 3px;
   outline: 1px solid transparent;
   outline-offset: 4px;
   background: none;
@@ -78,6 +78,15 @@
 
 .profile__logout-btn {
   color: #EE3465;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color .3s ease-in-out;
+}
+
+.profile__logout-btn:hover {
+  opacity: 1;
+  color: #EE3465CC;
 }
 
 @media (max-width: 1024px) {

@@ -46,7 +46,7 @@ function Navigation({ isLanding, clickHandler }) {
             {/*<Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>*/}
           </> :
           <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
-        {isLanding ? <Link aria-label="Сылка на страницу входа" to="/movies"
+        {isLanding ? <Link aria-label="Сылка на страницу входа" to="/signin"
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>

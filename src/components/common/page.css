@@ -3,4 +3,6 @@
   background-color: #202020;
   font-family: "Inter", sans-serif;
   color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
