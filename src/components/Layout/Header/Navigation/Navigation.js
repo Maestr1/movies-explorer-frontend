@@ -10,6 +10,10 @@ function Navigation({ isLanding, clickHandler }) {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   useEffect(() => {
+    document.body.style.overflow = isBurgerOpen ? 'hidden' : ''
+  }, [isBurgerOpen])
+
+  useEffect(() => {
     if (isLanding) {
       setIsBurgerOpen(false);
     }
@@ -17,8 +21,14 @@ function Navigation({ isLanding, clickHandler }) {
 
   function toggleMenuOpen() {
     if (isBurgerOpen) {
+      window.onscroll = function () {
+        return true
+      }
       setIsBurgerOpen(false);
     } else {
+      window.onscroll = function (){
+        return false
+      }
       setIsBurgerOpen(true);
     }
   }
