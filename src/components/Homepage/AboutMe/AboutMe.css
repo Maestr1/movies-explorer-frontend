@@ -85,9 +85,10 @@
 
 @media (max-width: 576px) {
   .aboutMe {
-    padding-left: 14px;
     padding-right: 14px;
+    padding-left: 14px;
   }
+
   .aboutMe__title {
     margin-bottom: 60px;
   }
