@@ -2,7 +2,7 @@
   transition: opacity .3s ease-in-out;
   text-decoration: none;
   color: inherit;
-  -webkit-tap-highlight-color: rgb(0,0,0,0);
+  -webkit-tap-highlight-color: rgb(0, 0, 0, 0);
 }
 
 

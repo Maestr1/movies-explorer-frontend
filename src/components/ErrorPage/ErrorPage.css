@@ -27,3 +27,25 @@
   font-size: 14px;
   color: #4285F4;
 }
+
+@media (max-width: 1024px) {
+  .error-page__back-link {
+    bottom: 222px;
+    margin-top: 186px;
+  }
+}
+
+@media (max-width: 576px) {
+  .error-page__title {
+    font-size: 80px;
+  }
+
+  .error-page__subtitle {
+    font-size: 12px;
+  }
+
+  .error-page__back-link {
+    bottom: 30px;
+    font-size: 12px;
+  }
+}

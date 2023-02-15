@@ -10,7 +10,7 @@
 
 @media (max-width: 576px) {
   .section-title {
-    font-size: 18px;
     padding-bottom: 28px;
+    font-size: 18px;
   }
 }

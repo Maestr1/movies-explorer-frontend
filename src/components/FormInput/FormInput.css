@@ -1,13 +1,14 @@
 .form__input {
-  outline: none;
-  padding-bottom: 12px;
   margin-bottom: 25px;;
+  padding-top: 5px;
+  padding-bottom: 12px;
   border: none;
   border-bottom: 1px solid #424242;
+  outline: none;
   background: none;
+  transition: border-bottom-color .3s ease-in-out;
   font-size: 14px;
   color: #fff;
-  transition: border-bottom-color .3s ease-in-out;
 }
 
 .form__input:focus {
@@ -15,7 +16,6 @@
 }
 
 .form__input-label {
-  margin-bottom: 5px;
   font-size: 10px;
   line-height: 1;
   color: #8B8B8B;

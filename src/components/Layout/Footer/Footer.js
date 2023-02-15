@@ -7,7 +7,8 @@ function Footer(props) {
     <footer className="footer container">
       <h2 className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
       <div className="footer__wrapper">
-        <p className="footer__date">&copy; 2023</p>
+        <p className="footer__date footer__date_type_desktop">&copy; 2023</p>
+        <p className="footer__date footer__date_type_mobile">&copy;2023</p>
         <ul className="footer__links">
           <li>
             <Link to="https://practicum.yandex.ru/" className="footer__link link">Яндекс.Практикум</Link>

@@ -36,12 +36,12 @@
 }
 
 .entry__submit-btn {
-  font-size: 14px;
-  font-weight: 500;
   margin-bottom: 16px;
   padding: 13px 0 15px;
   width: 396px;
   background-color: #4285F4;
+  font-size: 14px;
+  font-weight: 500;
   color: #fff;
 }
 
@@ -49,12 +49,42 @@
   margin: 0;
   width: 100%;
   display: block;
-  text-align: center;
   font-size: 14px;
+  text-align: center;
   color: #8B8B8B;
 }
 
 .entry__link {
   margin-left: 6px;
   color: #4285F4;
+}
+
+@media (max-width: 576px) {
+  .entry {
+  }
+
+  .nav_home-btn {
+    margin: 0 auto;
+  }
+
+  .entry__title {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    text-align: center;
+  }
+
+  .entry__wrapper {
+    padding: 56px 30px 30px;
+    max-height: initial;
+    align-self: initial;
+  }
+
+  .entry__submit-btn {
+    margin-bottom: 14px;
+    width: initial;
+  }
+
+  .entry__caption {
+    font-size: 12px;
+  }
 }

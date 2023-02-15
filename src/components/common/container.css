@@ -5,9 +5,9 @@
 }
 
 @media (max-width: 1024px) {
- .container {
-   padding: 0 30px;
- }
+  .container {
+    padding: 0 30px;
+  }
 }
 
 @media (max-width: 576px) {

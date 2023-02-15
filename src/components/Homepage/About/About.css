@@ -96,14 +96,14 @@
   }
 
   .about__article-wrapper {
-    flex-direction: column;
     margin: 62px 0;
+    flex-direction: column;
     gap: 56px;
   }
 
   .about__article-title {
-    font-size: 18px;
     padding-bottom: 16px;
+    font-size: 18px;
   }
 
   .about__article-text {
@@ -124,7 +124,7 @@
   }
 
   .about__scheme-label {
-    font-size: 11px;
     bottom: -25px;
+    font-size: 11px;
   }
 }

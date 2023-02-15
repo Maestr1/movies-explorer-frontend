@@ -1,9 +1,9 @@
 
 .burger-btn {
-  z-index: 3;
-  display: none;
   position: relative;
+  z-index: 3;
   padding: 0;
+  display: none;
   border: 1px solid transparent;
   background: transparent;
 }
@@ -43,14 +43,14 @@
 
 .burger-btn__overlay {
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #000;
-  opacity: 0;
   visibility: hidden;
-  transition: visibility .4s ,opacity .4s ease-in-out;
+  opacity: 0;
+  background-color: #000;
+  transition: visibility .4s, opacity .4s ease-in-out;
 }
 
 .burger-btn__overlay_active {
@@ -60,7 +60,15 @@
 
 @media (max-width: 768px) {
   .burger-btn {
-    display: inline-block;
+    display: block;
   }
+}
+
+@media (max-width: 576px) {
+  .burger-btn {
+    margin-right: 6px;
+    transform: scale3d(0.8, .85, 1);
+  }
+
 }
 

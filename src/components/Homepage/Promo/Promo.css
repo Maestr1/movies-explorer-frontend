@@ -13,8 +13,8 @@
   font-size: 50px;
   font-weight: 400;
   line-height: 1.16;
-  letter-spacing: -0.04em;
   text-align: center;
+  letter-spacing: -0.04em;
 }
 
 @media (max-width: 1024px) {
@@ -30,8 +30,8 @@
 
 @media (max-width: 576px) {
   .promo {
-    min-height: 570px;
     padding: 0 10px;
+    min-height: 570px;
     background-position: center 142px;
     background-size: 248px 248px;
   }

@@ -8,8 +8,8 @@
 
 .searchForm__form {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
 }
 
 .searchForm__input {
@@ -23,9 +23,9 @@
 }
 
 .searchForm__input::placeholder {
-  color: #8B8B8B;
   font-size: 14px;
   line-height: 1.29;
+  color: #8B8B8B;
 }
 
 .searchForm__btn {
@@ -52,4 +52,22 @@
 .searchForm__switch-label {
   font-size: 12px;
   line-height: 1.5;
+}
+
+@media (max-width: 576px) {
+  .searchForm__input {
+    padding: 0 0 0 16px;
+  }
+
+  .searchForm__input::placeholder {
+    font-size: 12px;
+  }
+
+  .searchForm__switch-wrapper {
+    padding: 43px 0;
+  }
+
+  .searchForm__switch-label {
+    font-size: 11px;
+  }
 }

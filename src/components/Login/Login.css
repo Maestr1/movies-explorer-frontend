@@ -49,11 +49,11 @@
 .login__link-title {
   width: 100%;
   display: block;
-  text-align: center;
   font-size: 14px;
+  text-align: center;
   color: #8B8B8B;
 }
 
 .login__link {
- color: #4285F4;
+  color: #4285F4;
 }

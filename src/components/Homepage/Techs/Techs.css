@@ -67,8 +67,8 @@
   }
 
   .techs__list {
-    padding: 0 30px;
     margin-top: 82px;
+    padding: 0 30px;
     grid-template-columns: repeat(auto-fit, 84px);
   }
 
@@ -103,5 +103,5 @@
 
   .techs__item {
     height: 57px;
-     }
+  }
 }
