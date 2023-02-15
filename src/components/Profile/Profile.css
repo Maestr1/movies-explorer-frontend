@@ -47,7 +47,7 @@
   outline: 1px solid transparent;
   outline-offset: 4px;
   background: none;
-  transition: outline-color .2s ease-in-out;
+  transition: outline-color .3s ease-in-out;
   font-size: 11px;
   text-align: right;
   color: inherit;

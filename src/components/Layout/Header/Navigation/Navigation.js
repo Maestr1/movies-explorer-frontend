@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 
 function Navigation({ isLanding, clickHandler }) {
 
-  // let location = useLocation();
   const setActive = ({ isActive }) => isActive ? 'link nav__link nav__link-active' : 'link nav__link';
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isBurgerOpen ? 'hidden' : ''
-  }, [isBurgerOpen])
+    document.body.style.overflow = isBurgerOpen ? 'hidden' : '';
+  }, [isBurgerOpen]);
 
   useEffect(() => {
     if (isLanding) {
@@ -21,14 +20,8 @@ function Navigation({ isLanding, clickHandler }) {
 
   function toggleMenuOpen() {
     if (isBurgerOpen) {
-      window.onscroll = function () {
-        return true
-      }
       setIsBurgerOpen(false);
     } else {
-      window.onscroll = function (){
-        return false
-      }
       setIsBurgerOpen(true);
     }
   }
@@ -37,23 +30,27 @@ function Navigation({ isLanding, clickHandler }) {
     <>
       <Link to="/" className="btn header__home-btn">Домой</Link>
       <nav className={`nav ${!isLanding ? 'nav_type_burger' : ''} ${isBurgerOpen ? 'nav_active' : ''}`}>
-        {!isLanding ? <ul className="nav__list">
-          <li className="nav__item">
-            <Link className="link nav__home-link" to="/">Главная</Link>
-          </li>
-          <li className="nav__item">
-            <NavLink className={setActive} to="/movies">Фильмы</NavLink>
-          </li>
-          <li className="nav__item">
-            <NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
-          </li>
-        </ul> : <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
+        {!isLanding ?
+          <>
+            <ul className="nav__list">
+              <li className="nav__item">
+                <Link className="link nav__home-link" to="/">Главная</Link>
+              </li>
+              <li className="nav__item">
+                <NavLink className={setActive} to="/movies">Фильмы</NavLink>
+              </li>
+              <li className="nav__item">
+                <NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
+              </li>
+            </ul>
+            {/*<Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>*/}
+          </> :
+          <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
         {isLanding ? <Link aria-label="Сылка на страницу входа" to="/movies"
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>
       {!isLanding ? <Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/> : ''}
-
     </>
   );
 }

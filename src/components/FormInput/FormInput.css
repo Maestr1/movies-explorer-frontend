@@ -7,7 +7,7 @@
   background: none;
   font-size: 14px;
   color: #fff;
-  transition: border-bottom-color .2s ease-in-out;
+  transition: border-bottom-color .3s ease-in-out;
 }
 
 .form__input:focus {
