@@ -11,10 +11,10 @@ function MoviesCardList(props) {
         <MoviesCard btnType='save'/>
         <MoviesCard btnType='save'/>
         <MoviesCard btnType='save'/>
-        {/*<MoviesCard btnType='save'/>*/}
-        {/*<MoviesCard btnType='save'/>*/}
-        {/*<MoviesCard btnType='save'/>*/}
-        {/*<MoviesCard btnType='save'/>*/}
+        <MoviesCard btnType='save'/>
+        <MoviesCard btnType='save'/>
+        <MoviesCard btnType='save'/>
+        <MoviesCard btnType='save'/>
       </ul>
       <button className="moviesCardList__more-btn btn">Еще</button>
     </section>

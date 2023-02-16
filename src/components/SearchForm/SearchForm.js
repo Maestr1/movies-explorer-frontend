@@ -13,7 +13,7 @@ function SearchForm(props) {
   return (
     <section className="searchForm container">
       <form className="searchForm__form">
-        <input placeholder="Фильм" className="searchForm__input" type="text"/>
+        <input required placeholder="Фильм" className="searchForm__input" type="text"/>
         <button className="searchForm__btn btn">Найти</button>
       </form>
       <div className="searchForm__switch-wrapper">

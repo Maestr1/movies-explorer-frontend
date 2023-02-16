@@ -19,7 +19,7 @@ function MoviesCard(props) {
         </div>
         <button onClick={handleSave} className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`} aria-label="Добавить в сохраненные"/>
       </div>
-      <img src={tempPic} alt=""/>
+      <img src={tempPic} alt="Обложка фильма"/>
 
     </li>
   );
