@@ -1,11 +1,11 @@
 .error-page {
-  --svh: 100svh;
   position: relative;
   height: var(--svh, 100vh);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  --svh: 100svh;
 }
 
 .error-page__title {

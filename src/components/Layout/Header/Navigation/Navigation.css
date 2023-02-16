@@ -76,7 +76,6 @@
 @media (max-width: 768px) {
 
   .nav_type_burger {
-    --svh: 100svh;
     position: fixed;
     top: 0;
     right: -100%;
@@ -89,6 +88,7 @@
     justify-content: space-between;
     background-color: #202020;
     transition: right .4s ease-in-out;
+    --svh: 100svh;
   }
 
   .nav_active {

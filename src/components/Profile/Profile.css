@@ -1,9 +1,9 @@
 .profile {
-  --svh: 100svh;
   min-height: calc(var(--svh, 100vh) - 74px);
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  --svh: 100svh;
 }
 
 .profile__wrapper {
@@ -16,10 +16,10 @@
 }
 
 .profile__title {
-  text-align: center;
   margin: 0;
   font-size: 24px;
   font-weight: 500;
+  text-align: center;
 }
 
 .profile__form {
@@ -86,11 +86,11 @@
 }
 
 .profile__logout-btn {
-  color: #EE3465;
+  cursor: pointer;
   border: none;
   background: none;
-  cursor: pointer;
   transition: color .3s ease-in-out;
+  color: #EE3465;
 }
 
 .profile__logout-btn:hover {
@@ -115,8 +115,8 @@
 @media (max-width: 576px) {
 
   .profile__wrapper {
-    max-height: initial;
     padding: 70px 30px 40px;
+    max-height: initial;
     align-self: initial;
   }
 

@@ -39,11 +39,11 @@
   margin-bottom: 16px;
   padding: 13px 0 15px;
   width: 396px;
+  border-radius: 3px;
   background-color: #4285F4;
   font-size: 14px;
   font-weight: 500;
   color: #fff;
-  border-radius: 3px;
 }
 
 .entry__caption {
@@ -62,9 +62,9 @@
 
 @media (max-width: 576px) {
   .entry {
-    --svh: 100svh;
     min-height: var(--svh, 100vh);
     flex-direction: row;
+    --svh: 100svh;
   }
 
   .nav_home-btn {
