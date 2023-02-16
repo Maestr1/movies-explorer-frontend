@@ -38,7 +38,7 @@
   justify-content: center;
   list-style: none;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  column-gap: 10px;
+  grid-gap: 10px;
 }
 
 .techs__item {
