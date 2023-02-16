@@ -44,7 +44,6 @@ function Navigation({ isLanding, clickHandler }) {
                 <NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
               </li>
             </ul>
-            {/*<Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>*/}
           </> :
           <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
         {isLanding ? <Link aria-label="Сылка на страницу входа" to="/signin"
