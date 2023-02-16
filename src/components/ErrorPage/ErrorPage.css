@@ -1,6 +1,7 @@
 .error-page {
+  --svh: 100svh;
   position: relative;
-  height: 100vh;
+  height: var(--svh, 100vh);
   display: flex;
   flex-direction: column;
   align-items: center;

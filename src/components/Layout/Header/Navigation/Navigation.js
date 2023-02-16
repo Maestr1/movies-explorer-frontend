@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import './Navigation.css';
 import Burger from '../Burger/Burger';
 import { useEffect, useState } from 'react';
+import Overlay from '../../../Overlay/Overlay';
 
 function Navigation({ isLanding, clickHandler }) {
 
@@ -50,7 +51,7 @@ function Navigation({ isLanding, clickHandler }) {
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>
-      {!isLanding ? <Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/> : ''}
+      {!isLanding ? <><Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/><Overlay isMenuOpen={isBurgerOpen}/></> : ''}
     </>
   );
 }

@@ -1,5 +1,6 @@
 .nav {
   position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -75,6 +76,7 @@
 @media (max-width: 768px) {
 
   .nav_type_burger {
+    --svh: 100svh;
     position: fixed;
     top: 0;
     right: -100%;
@@ -82,7 +84,7 @@
     padding-top: 159px;
     box-sizing: border-box;
     width: 67vw;
-    height: 100vh;
+    height: var(--svh, 100vh);
     flex-direction: column;
     justify-content: space-between;
     background-color: #202020;
@@ -133,6 +135,8 @@
   .nav__btn_type_profile {
     margin: 0 0 90px;
   }
+
+
 }
 
 @media (max-width: 576px) {

@@ -1,7 +1,7 @@
 
 .burger-btn {
   position: relative;
-  z-index: 3;
+  z-index: 8;
   padding: 0;
   display: none;
   border: 1px solid transparent;
@@ -41,22 +41,6 @@
   transform-origin: 0 130%;
 }
 
-.burger-btn__overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  visibility: hidden;
-  opacity: 0;
-  background-color: #000;
-  transition: visibility .4s, opacity .4s ease-in-out;
-}
-
-.burger-btn__overlay_active {
-  visibility: visible;
-  opacity: .3;
-}
 
 @media (max-width: 768px) {
   .burger-btn {

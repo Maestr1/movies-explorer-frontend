@@ -62,6 +62,9 @@
 
 @media (max-width: 576px) {
   .entry {
+    --svh: 100svh;
+    min-height: var(--svh, 100vh);
+    flex-direction: row;
   }
 
   .nav_home-btn {

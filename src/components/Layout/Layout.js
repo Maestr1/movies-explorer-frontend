@@ -11,7 +11,9 @@ function Layout(props) {
   return (
     <>
       <Header loggedIn={props.loggedIn}/>
-      <Outlet/>
+      <main>
+        <Outlet/>
+      </main>
       {location.pathname !== '/profile' ? <Footer/> : ''}
     </>
   );

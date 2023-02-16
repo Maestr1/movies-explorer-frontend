@@ -9,7 +9,6 @@ function Burger({ onClick, isMenuOpen }) {
         <span className="burger-btn__bar-mid"></span>
         <span className="burger-btn__bar-bot"></span>
       </button>
-      <div className={`burger-btn__overlay ${isMenuOpen ? 'burger-btn__overlay_active' : ''}`}/>
     </>
   );
 }
