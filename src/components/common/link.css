@@ -5,9 +5,7 @@
   -webkit-tap-highlight-color: rgb(0, 0, 0, 0);
 }
 
-
-@media (min-width: 1024px) {
-  .link:hover {
-    opacity: .7;
-  }
+.link:hover {
+  opacity: .7;
 }
+
