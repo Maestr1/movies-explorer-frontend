@@ -1,0 +1,28 @@
+.form__input {
+  margin-bottom: 25px;;
+  padding-top: 5px;
+  padding-bottom: 12px;
+  padding-left: 4px;
+  border: none;
+  border-bottom: 1px solid #424242;
+  outline: transparent solid 2px;
+  outline-offset: -2px;
+  background: none;
+  transition: outline-color .3s ease-in-out;
+  font-size: 14px;
+  color: #fff;
+}
+
+.form__input:focus {
+  outline-color: #4285F4;
+}
+
+.form__input-label {
+  font-size: 10px;
+  line-height: 1;
+  color: #8B8B8B;
+}
+
+.form__input:last-of-type {
+  margin-bottom: 0;
+}
