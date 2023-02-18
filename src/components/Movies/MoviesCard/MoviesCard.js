@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './MoviesCard.css';
-import tempPic from '../../../images/temp-img.jpg'
+import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
 
@@ -10,16 +10,24 @@ function MoviesCard(props) {
     setSaved(saved => !saved)
   }
 
+  function getTimeFromMinutes(duration) {
+    const hours = Math.trunc(duration/60);
+    const minutes = duration % 60;
+    return hours + 'ч ' + minutes + 'м';
+  }
+
   return (
     <li className="moviesCard">
       <div className="moviesCard__title-wrapper">
         <div className="moviesCard__about-wrapper">
-          <h2 className="moviesCard__title">33 слова о дизайне</h2>
-          <p className="moviesCard__duration">1ч 47м</p>
+          <h2 className="moviesCard__title">{props.title}</h2>
+          <p className="moviesCard__duration">{getTimeFromMinutes(props.duration)}</p>
         </div>
         <button onClick={handleSave} className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`} aria-label="Добавить в сохраненные"/>
       </div>
-      <img src={tempPic} alt="Обложка фильма"/>
+      <Link className="moviesCard__link" to={props.trailerLink}>
+        <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
+      </Link>
 
     </li>
   );

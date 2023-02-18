@@ -7,7 +7,7 @@ function Movies(props) {
   return (
     <>
       <SearchForm/>
-      <MoviesCardList/>
+      <MoviesCardList movies={props.movies}/>
     </>
   );
 }
