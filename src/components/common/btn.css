@@ -1,0 +1,13 @@
+.btn {
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: opacity .3s ease-in-out;
+  color: #fff;
+  -webkit-tap-highlight-color: rgb(0, 0, 0, 0);
+}
+
+.btn:hover {
+  opacity: .8;
+}

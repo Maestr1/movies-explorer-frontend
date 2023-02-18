@@ -1,0 +1,131 @@
+.profile {
+  min-height: calc(var(--svh, 100vh) - 74px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  --svh: 100svh;
+}
+
+.profile__wrapper {
+  padding: 74px 0 68px;
+  max-height: 560px;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-self: center;
+}
+
+.profile__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.profile__form {
+  margin-top: 126px;
+  width: 410px;
+  height: 100%;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile__input-wrapper {
+  padding-top: 17px;
+  padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #424242;
+}
+
+.profile__input-wrapper:last-of-type {
+  padding-bottom: 0;
+  border: none;
+}
+
+.profile__input-wrapper:first-of-type {
+  padding-top: 0;
+}
+
+.profile__input {
+  width: 85%;
+  border: none;
+  border-radius: 3px;
+  outline: 1px solid transparent;
+  outline-offset: 4px;
+  background: none;
+  transition: outline-color .3s ease-in-out;
+  font-size: 11px;
+  text-align: right;
+  color: inherit;
+}
+
+.profile__input:focus-visible {
+  outline: 1px solid #4285F4;
+}
+
+.profile__input-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.profile__btn-wrapper {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  font-size: 13px;
+  gap: 16px;
+}
+
+.profile__submit-btn:disabled {
+  cursor: default;
+  opacity: .4;
+}
+
+.profile__logout-btn {
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: color .3s ease-in-out;
+  color: #EE3465;
+}
+
+.profile__logout-btn:hover {
+  opacity: 1;
+  color: #EE3465CC;
+}
+
+@media (max-width: 1024px) {
+  .profile {
+  }
+
+  .profile__wrapper {
+    padding: 42px 0 76px;
+    box-sizing: border-box;
+  }
+
+  .profile__form {
+    margin-top: 96px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .profile__wrapper {
+    padding: 70px 30px 40px;
+    max-height: initial;
+    align-self: initial;
+  }
+
+  .profile__form {
+    margin-top: 81px;
+    width: initial;
+  }
+
+  .profile__btn-wrapper {
+    font-size: 12px;
+  }
+}
