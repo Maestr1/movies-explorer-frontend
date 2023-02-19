@@ -6,7 +6,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function MoviesCardList(props) {
 
   const moviesList = props.movies.map((item) => (
-    <MoviesCard title={item.nameRU} duration={item.duration} cover={`${moviesApiConfig.baseUrl}${item.image.url}`} trailerLink={item.trailerLink}/>
+    <MoviesCard btnType="save" title={item.nameRU} duration={item.duration} cover={`${moviesApiConfig.baseUrl}${item.image.url}`} trailerLink={item.trailerLink}/>
   ));
 
   return (

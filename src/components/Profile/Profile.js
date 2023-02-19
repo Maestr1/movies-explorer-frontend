@@ -17,6 +17,11 @@ function Profile(props) {
     setEmail(e.target.value);
   }
 
+  function handleLogout(e) {
+    e.preventDefault()
+    props.onLogout()
+  }
+
   return (
     <section className="profile">
       <div className="profile__wrapper">
@@ -39,7 +44,7 @@ function Profile(props) {
             <button disabled={!(name !== savedName || email !== savedEmail)} type="submit"
                     className="profile__submit-btn btn">Редактировать
             </button>
-            <button type="submit"
+            <button onClick={handleLogout}
                     className="profile__logout-btn btn">Выйти из аккаунта
             </button>
           </div>

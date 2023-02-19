@@ -13,7 +13,7 @@ function Entry(props) {
           <div className="entry__inputs">
             {props.children}
           </div>
-          <button className="entry__submit-btn btn">{props.btnText}</button>
+          <button onClick={props.onSubmit} className="entry__submit-btn btn">{props.btnText}</button>
           <p className="entry__caption">{props.captionText}<Link className="entry__link link"
                                                                        to={props.linkPath}>{props.linkText}</Link></p>
         </form>
