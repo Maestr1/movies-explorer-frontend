@@ -10,7 +10,7 @@ import Layout from '../Layout/Layout';
 import Profile from '../Profile/Profile';
 import Homepage from '../Homepage/Homepage';
 import mainApi from '../../utils/MainApi';
-import { CurrentUserProvider } from '../../hoc/CurrentUserContext';
+import CurrentUserProvider from '../../hoc/CurrentUserContext';
 import moviesApi from '../../utils/MoviesApi';
 import ProtectedRouteElement from '../../hoc/ProtectedRoute';
 import AuthContext from '../../hoc/AuthContext';
@@ -56,19 +56,14 @@ function App() {
       .catch(() => {
         setLoggedIn(false);
         console.log('Ошибка авторизации');
-      })
+      });
   }
-
-  // useEffect(() => {
-  //   moviesApi.getMovies()
-  //     .then(res => setMoviesList(res));
-  // }, []);
 
   function handleLogin(password, email) {
     mainApi.login({ password, email })
       .then(() => setLoggedIn(true))
       .then(() => navigate('/movies'))
-      .catch(err => console.log(err));
+      .catch(err => console.log(`Ошибка авторизации. Код ошибки: ${err}`));
   }
 
   function handleLogout() {
@@ -83,30 +78,38 @@ function App() {
       .then(() => {
         navigate('/signin');
       })
-      .catch(err => {
-        console.log(`Ошибка регистрации. Код ошибки: ${err}`);
-      });
+      .catch(err => console.log(`Ошибка регистрации. Код ошибки: ${err}`));
+  }
+
+  function searchMovies() {
+    moviesApi.getMovies()
+      .then(res => {
+        res = JSON.stringify(res)
+        localStorage.setItem('movies', res);
+      })
+      .catch(err => console.log(`Ошибка загрузки фильмов. Код ошибки: ${err}`));
+
   }
 
   if (loggedIn === undefined) {
     return <Preloader/>;
-  } else  return (
+  } else return (
     <AuthContext.Provider value={loggedIn}>
-      <CurrentUserProvider value={currentUser}>
+      <CurrentUserProvider.Provider value={currentUser}>
         <Routes>
-          <Route path="/" element={<Layout loggedIn={loggedIn}/>}>
+          <Route path="/" element={<Layout/>}>
             <Route index element={<Homepage/>}/>
             <Route path="/movies"
-                   element={<ProtectedRouteElement element={Movies} movies={moviesList}/>}/>
-            <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies} loggedIn={loggedIn}/>}/>
+                   element={<ProtectedRouteElement element={Movies} movies={moviesList} onSubmit={searchMovies}/>}/>
+            <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies} onSubmit={searchMovies}/>}/>
             <Route path="/profile"
-                   element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} onLogout={handleLogout}/>}/>
+                   element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
           </Route>
           <Route path="signin" element={<Login handleLogin={handleLogin}/>}/>
           <Route path="signup" element={<Register handleRegister={handleRegister}/>}/>
           <Route path="*" element={<ErrorPage/>}/>
         </Routes>
-      </CurrentUserProvider>
+      </CurrentUserProvider.Provider>
     </AuthContext.Provider>
   );
 }

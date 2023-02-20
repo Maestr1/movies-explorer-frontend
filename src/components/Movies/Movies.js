@@ -6,7 +6,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 function Movies(props) {
   return (
     <>
-      <SearchForm/>
+      <SearchForm onSubmit={props.onSubmit}/>
       <MoviesCardList movies={props.movies}/>
     </>
   );

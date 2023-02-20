@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Profile.css';
+import CurrentUserContext from '../../hoc/CurrentUserContext';
 
 function Profile(props) {
+  const currentUser = useContext(CurrentUserContext)
 
-  let savedName = 'Дмитрий';
-  let savedEmail = 'qwe@qwe.ru';
+  let savedName = currentUser.name;
+  let savedEmail = currentUser.email;
 
   const [name, setName] = useState(savedName);
   const [email, setEmail] = useState(savedEmail);

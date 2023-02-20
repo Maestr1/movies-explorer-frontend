@@ -10,11 +10,16 @@ function SearchForm(props) {
     setShort(prevCheck => !prevCheck);
   }
 
+  function submitHandler(e) {
+    e.preventDefault()
+    props.onSubmit()
+  }
+
   return (
     <section className="searchForm container">
       <form className="searchForm__form">
         <input required placeholder="Фильм" className="searchForm__input" type="text"/>
-        <button className="searchForm__btn btn">Найти</button>
+        <button onClick={submitHandler} className="searchForm__btn btn">Найти</button>
       </form>
       <div className="searchForm__switch-wrapper">
         <Switch aria-label="Переключатель для выбора полнометражных фильмов"
