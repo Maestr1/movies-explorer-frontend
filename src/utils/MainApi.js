@@ -48,6 +48,7 @@ class MainApi {
   }
 
   auth() {
+    // debugger
     return fetch(`${ mainApiConfig.baseUrl }/users/me`, {
       credentials: 'include',
       method: 'GET',
