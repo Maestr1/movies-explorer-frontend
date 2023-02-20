@@ -4,7 +4,7 @@ import Burger from '../Burger/Burger';
 import { useEffect, useState } from 'react';
 import Overlay from '../../../Overlay/Overlay';
 
-function Navigation({ isLanding, clickHandler }) {
+function Navigation({ loggedIn, clickHandler }) {
 
   const setActive = ({ isActive }) => isActive ? 'link nav__link nav__link-active' : 'link nav__link';
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
@@ -14,10 +14,10 @@ function Navigation({ isLanding, clickHandler }) {
   }, [isBurgerOpen]);
 
   useEffect(() => {
-    if (isLanding) {
+    if (!loggedIn) {
       setIsBurgerOpen(false);
     }
-  }, [isLanding]);
+  }, [loggedIn]);
 
   function toggleMenuOpen() {
     if (isBurgerOpen) {
@@ -30,8 +30,8 @@ function Navigation({ isLanding, clickHandler }) {
   return (
     <>
       <Link to="/" className="btn header__home-btn">Домой</Link>
-      <nav className={`nav ${!isLanding ? 'nav_type_burger' : ''} ${isBurgerOpen ? 'nav_active' : ''}`}>
-        {!isLanding ?
+      <nav className={`nav ${loggedIn ? 'nav_type_burger' : ''} ${isBurgerOpen ? 'nav_active' : ''}`}>
+        {loggedIn ?
           <>
             <ul className="nav__list">
               <li className="nav__item">
@@ -46,11 +46,11 @@ function Navigation({ isLanding, clickHandler }) {
             </ul>
           </> :
           <NavLink className="link nav__link nav__link-type-landing" to="/signup">Регистрация</NavLink>}
-        {isLanding ? <Link aria-label="Сылка на страницу входа" to="/signin"
+        {!loggedIn ? <Link aria-label="Сылка на страницу входа" to="/signin"
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>
-      {!isLanding ? <><Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/><Overlay isMenuOpen={isBurgerOpen}/></> : ''}
+      {loggedIn ? <><Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/><Overlay isMenuOpen={isBurgerOpen}/></> : ''}
     </>
   );
 }

@@ -17,7 +17,7 @@ function Header(props) {
   return (
     <header className={`header ${isLanding ? 'header_type_landing' : ''}`}>
       <div className="container header__wrapper">
-        <Navigation isLanding={isLanding}/>
+        <Navigation loggedIn={props.loggedIn}/>
       </div>
     </header>
   );
