@@ -19,6 +19,15 @@ function Navigation({ loggedIn, clickHandler }) {
     }
   }, [loggedIn]);
 
+
+
+  function handleLinkClick() {
+    if (isBurgerOpen) {
+      setTimeout(() => setIsBurgerOpen(false), 300)
+
+    }
+  }
+
   function toggleMenuOpen() {
     if (isBurgerOpen) {
       setIsBurgerOpen(false);
@@ -35,13 +44,13 @@ function Navigation({ loggedIn, clickHandler }) {
           <>
             <ul className="nav__list">
               <li className="nav__item">
-                <Link className="link nav__home-link" to="/">Главная</Link>
+                <Link onClick={handleLinkClick} className="link nav__home-link" to="/">Главная</Link>
               </li>
               <li className="nav__item">
-                <NavLink className={setActive} to="/movies">Фильмы</NavLink>
+                <NavLink onClick={handleLinkClick} className={setActive} to="/movies">Фильмы</NavLink>
               </li>
               <li className="nav__item">
-                <NavLink className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
+                <NavLink onClick={handleLinkClick} className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
               </li>
             </ul>
           </> :
@@ -50,7 +59,8 @@ function Navigation({ loggedIn, clickHandler }) {
                            className="btn nav__btn nav__btn_type_login">Войти</Link> :
           <Link className="btn nav__btn nav__btn_type_profile" to="/profile">Аккаунт</Link>}
       </nav>
-      {loggedIn ? <><Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/><Overlay isMenuOpen={isBurgerOpen}/></> : ''}
+      {loggedIn ? <><Burger onClick={toggleMenuOpen} isMenuOpen={isBurgerOpen} clickHandler={clickHandler}/><Overlay
+        isMenuOpen={isBurgerOpen}/></> : ''}
     </>
   );
 }
