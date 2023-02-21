@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
-import mainApi from '../utils/MainApi';
-import Preloader from '../components/Preloader/Preloader';
 
 const ProtectedRouteElement = ({ element: Component, ...props }) => {
   // const [authorized, setAuthorized] = useState(undefined);

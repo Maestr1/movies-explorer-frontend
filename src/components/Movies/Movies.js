@@ -7,7 +7,7 @@ function Movies(props) {
   return (
     <>
       <SearchForm onSubmit={props.onSubmit}/>
-      <MoviesCardList movies={props.movies}/>
+      <MoviesCardList error={props.error} moviesItems={props.moviesItems}/>
     </>
   );
 }

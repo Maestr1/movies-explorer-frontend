@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import ErrorPage from '../ErrorPage/ErrorPage';
@@ -15,11 +15,14 @@ import moviesApi from '../../utils/MoviesApi';
 import ProtectedRouteElement from '../../hoc/ProtectedRoute';
 import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
+import LoadingContext from '../../hoc/LoadingContext';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
-  const [moviesList, setMoviesList] = useState([]);
+  const [moviesItems, setMoviesItems] = useState([]);
+  const [moviesSearchError, setMoviesSearchError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,13 +84,29 @@ function App() {
       .catch(err => console.log(`Ошибка регистрации. Код ошибки: ${err}`));
   }
 
-  function searchMovies() {
+  function moviesFilter(list, query, isShort) {
+    return list.filter((movie) => {
+      return isShort ? movie.duration <= 40 : movie.duration > 40 && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+    });
+  }
+
+  function searchMovies(query, isShort) {
+    setIsLoading(true);
     moviesApi.getMovies()
       .then(res => {
-        res = JSON.stringify(res)
-        localStorage.setItem('movies', res);
+        const searchResult = moviesFilter(res, query, isShort);
+        if (searchResult.length) {
+          setMoviesSearchError('');
+          localStorage.setItem('movies', JSON.stringify(searchResult));
+          setMoviesItems(searchResult);
+        } else {
+          localStorage.removeItem('movies');
+          setMoviesItems([]);
+          setMoviesSearchError('Ничего не найдено');
+        }
       })
-      .catch(err => console.log(`Ошибка загрузки фильмов. Код ошибки: ${err}`));
+      .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
+      .finally(() => setIsLoading(false));
 
   }
 
@@ -96,19 +115,24 @@ function App() {
   } else return (
     <AuthContext.Provider value={loggedIn}>
       <CurrentUserProvider.Provider value={currentUser}>
-        <Routes>
-          <Route path="/" element={<Layout/>}>
-            <Route index element={<Homepage/>}/>
-            <Route path="/movies"
-                   element={<ProtectedRouteElement element={Movies} movies={moviesList} onSubmit={searchMovies}/>}/>
-            <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies} onSubmit={searchMovies}/>}/>
-            <Route path="/profile"
-                   element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
-          </Route>
-          <Route path="signin" element={<Login handleLogin={handleLogin}/>}/>
-          <Route path="signup" element={<Register handleRegister={handleRegister}/>}/>
-          <Route path="*" element={<ErrorPage/>}/>
-        </Routes>
+        <LoadingContext.Provider value={isLoading}>
+          <Routes>
+            <Route path="/" element={<Layout/>}>
+              <Route index element={<Homepage/>}/>
+              <Route path="/movies"
+                     element={<ProtectedRouteElement element={Movies} error={moviesSearchError}
+                                                     moviesItems={moviesItems}
+                                                     onSubmit={searchMovies}/>}/>
+              <Route path="/saved-movies"
+                     element={<ProtectedRouteElement element={SavedMovies} onSubmit={searchMovies}/>}/>
+              <Route path="/profile"
+                     element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
+            </Route>
+            <Route path="signin" element={<Login handleLogin={handleLogin}/>}/>
+            <Route path="signup" element={<Register handleRegister={handleRegister}/>}/>
+            <Route path="*" element={<ErrorPage/>}/>
+          </Routes>
+        </LoadingContext.Provider>
       </CurrentUserProvider.Provider>
     </AuthContext.Provider>
   );

@@ -27,6 +27,11 @@
   text-align: center;
 }
 
+.moviesCardList__error {
+  text-align: center;
+  font-size: 18px;
+}
+
 @media (max-width: 576px) {
   .moviesCardList__list {
     padding-top: 50px;
