@@ -4,9 +4,12 @@ import { moviesApiConfig } from '../../../utils/configs';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import LoadingContext from '../../../hoc/LoadingContext';
 import Preloader from '../../Preloader/Preloader';
+import {useResize} from '../../../hook/useResize';
 
 function MoviesCardList(props) {
 
+  const screenWidth = useResize()
+  console.log(screenWidth)
   const isLoading = useContext(LoadingContext);
   const moviesList = props.moviesItems.map((item) => (
     <MoviesCard btnType="save" title={item.nameRU} duration={item.duration}
