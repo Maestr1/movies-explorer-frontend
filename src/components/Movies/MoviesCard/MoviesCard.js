@@ -3,7 +3,6 @@ import './MoviesCard.css';
 import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
-
   const [saved, setSaved] = useState(false)
 
   function handleSave() {
@@ -28,7 +27,6 @@ function MoviesCard(props) {
       <Link className="moviesCard__link" to={props.trailerLink}>
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
       </Link>
-
     </li>
   );
 }

@@ -7,7 +7,7 @@ function Movies(props) {
   return (
     <>
       <SearchForm onSubmit={props.onSubmit}/>
-      <MoviesCardList error={props.error} moviesItems={props.moviesItems}/>
+      <MoviesCardList listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
     </>
   );
 }
