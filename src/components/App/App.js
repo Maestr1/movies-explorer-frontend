@@ -16,12 +16,17 @@ import ProtectedRouteElement from '../../hoc/ProtectedRoute';
 import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
+import { useResize } from '../../hook/useResize';
 
 function App() {
+  const screenWidth = useResize();
   const [loggedIn, setLoggedIn] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [moviesItems, setMoviesItems] = useState([]);
   const [moviesSearchError, setMoviesSearchError] = useState('');
+  const [numberOfCards, setNumberOfCards] = useState(0);
+  const [numberToAdd, setNumberToAdd] = useState(0);
+  const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,26 +34,34 @@ function App() {
     checkAuth();
   }, []);
 
-  // useEffect(() => {
-  //   authorize()
-  //     .then(userInfo => {
-  //       // debugger
-  //       setCurrentUser(userInfo);
-  //       console.log('auth');
-  //     })
-  //     .catch(() => {
-  //       console.log('Ошибка авторизации');
-  //     })
-  // }, []);
-  //
-  // const authorize = async () => {
-  //   try {
-  //     await mainApi.auth();
-  //     setLoggedIn(true);
-  //   } catch (err) {
-  //     setLoggedIn(false);
-  //   }
-  // };
+  useEffect(() => {
+    determinesNumberOfCards();
+  }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
+
+  useEffect(() => {
+    setListSize(numberOfCards);
+  }, [numberOfCards]);
+
+  function determinesNumberOfCards() {
+    if (screenWidth.isScreenLg) {
+      setNumberOfCards(12);
+      setNumberToAdd(3);
+    }
+    if (screenWidth.isScreenMd) {
+      setNumberOfCards(8);
+      setNumberToAdd(2);
+    }
+    if (screenWidth.isScreenSm) {
+      setNumberOfCards(5);
+      setNumberToAdd(2);
+    }
+  }
+
+  function addBtnClickHandler() {
+    setNumberOfCards(numberOfCards + numberToAdd);
+  }
+
+
   function checkAuth() {
     mainApi.auth()
       .then(userInfo => {
@@ -92,6 +105,7 @@ function App() {
 
   function searchMovies(query, isShort) {
     setIsLoading(true);
+    determinesNumberOfCards();
     moviesApi.getMovies()
       .then(res => {
         const searchResult = moviesFilter(res, query, isShort);
@@ -120,7 +134,8 @@ function App() {
             <Route path="/" element={<Layout/>}>
               <Route index element={<Homepage/>}/>
               <Route path="/movies"
-                     element={<ProtectedRouteElement element={Movies} error={moviesSearchError}
+                     element={<ProtectedRouteElement listSize={listSize} clickHandler={addBtnClickHandler}
+                                                     element={Movies} error={moviesSearchError}
                                                      moviesItems={moviesItems}
                                                      onSubmit={searchMovies}/>}/>
               <Route path="/saved-movies"
