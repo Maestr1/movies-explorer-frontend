@@ -24,8 +24,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [moviesItems, setMoviesItems] = useState([]);
   const [moviesSearchError, setMoviesSearchError] = useState('');
-  // const [isShort, setIsShort] = useState(false);
-  // const [numberOfCards, setNumberOfCards] = useState(0);
   const [numberToAdd, setNumberToAdd] = useState(0);
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,23 +41,10 @@ function App() {
     setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
 
-  // useEffect(() => {
-    // localStorage.setItem('isShort', isShort.toString());
-    // const moviesList = JSON.parse(localStorage.getItem('movies'))
-    // if (moviesList) {
-    //   const query = localStorage.getItem('query')
-    //   const result = filterResult(moviesList, query)
-    //   setMoviesItems(result)
-    // }
-  //
-  // }, [isShort])
-
   function filterByShortSwitch(isShort) {
-    localStorage.setItem('isShort', isShort.toString());
     const moviesList = JSON.parse(localStorage.getItem('movies'))
     if (moviesList) {
-      const query = localStorage.getItem('query')
-      const result = filterResult(moviesList, query, isShort)
+      const result = filterResult(moviesList, localStorage.getItem('query'), isShort)
       setMoviesItems(result)
     }
   }
@@ -141,15 +126,9 @@ function App() {
   function searchMovies(query, isShort) {
     setMoviesSearchError('')
     setIsLoading(true);
-    // if (!localStorage.getItem('movies')) {
-    //   moviesApi.getMovies()
-    //     .then(res => {
-    //       localStorage.setItem('movies', JSON.stringify(res));
-    //     })
     getMovies()
       .then(() => {
         let searchResult = filterResult(JSON.parse(localStorage.getItem('movies')), query, isShort);
-        // searchResult = filterByDuration(searchResult, isShort)
         if (searchResult.length) {
           setMoviesItems(searchResult)
         } else setMoviesSearchError('Ничего не найдено')
@@ -157,33 +136,6 @@ function App() {
       .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
       .finally(() => setIsLoading(false));
   }
-
-// Запрашивает список фильмов на сервере и фильтрует полученные данные
-// function searchMovies(query, isShort) {
-//   setIsLoading(true);
-//   determinesNumberOfCards();
-//   getMovies()
-  // moviesApi.getMovies()
-  //   .then(res => {
-  //     let searchResult = filterResult(res, query, isShort);
-  //     if (searchResult.length) {
-  //       setMoviesSearchError('');
-  //       localStorage.setItem('movies', JSON.stringify(res));
-  //       searchResult = filterByDuration(searchResult, isShort)
-  //       setMoviesItems(searchResult);
-  //     } else {
-  //       localStorage.removeItem('movies');
-  //       setMoviesItems([]);
-  //       setMoviesSearchError('Ничего не найдено');
-  //     }
-// }
-
-// )
-// .
-// catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
-//   .finally(() => setIsLoading(false));
-//
-// }
 
   if (loggedIn === undefined) {
     return <Preloader/>;

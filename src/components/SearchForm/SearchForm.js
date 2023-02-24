@@ -9,22 +9,26 @@ function SearchForm(props) {
   const [query, setQuery] = useState('');
   const location = useLocation();
 
+  // Повторная фильтрация при переключении свитчера
   useEffect(() => {
-    localStorage.setItem('isShort', JSON.stringify(isShort))
-    props.filterByShortSwitch(isShort)
-  }, [isShort])
+    props.filterByShortSwitch(isShort);
+  }, [isShort]);
 
+  // При переходе по указанным роутам - свитчер и запрос загружаются из хранилища
   useEffect(() => {
-    if (location.pathname === '/movies') {
-      // setQuery(localStorage.getItem('query'));
-      // setIsShort(Boolean(localStorage.getItem('isShort')));
+    if (location.pathname === '/movies' || location.pathname === '/saved-movies') {
+      const query = localStorage.getItem('query')
+      let value = localStorage.getItem('isShort') === 'true';
+      setTimeout(() => {
+        setIsShort(value);
+        if (query) {setQuery(query)}
+      }, 500)
     }
   }, [location.pathname]);
 
-  //  Меняем состояние в App
+  //  Меняем состояние свитчера
   function clickHandler() {
-    // setIsShort(prevCheck => !prevCheck);
-    setIsShort(prevCheck => !prevCheck)
+    setIsShort(prevCheck => !prevCheck);
   }
 
   function handleChangeQuery(e) {
@@ -33,11 +37,11 @@ function SearchForm(props) {
 
   function submitHandler(e) {
     e.preventDefault();
-    // localStorage.setItem('isShort', isShort.toString());
+    localStorage.setItem('isShort', JSON.stringify(isShort));
     localStorage.setItem('query', query);
     if (query) {
-      props.onSubmit(query, isShort)
-    } else console.log('Введите запрос')
+      props.onSubmit(query, isShort);
+    } else console.log('Введите запрос');
   }
 
   return (
