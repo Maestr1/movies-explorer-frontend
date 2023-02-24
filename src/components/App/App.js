@@ -24,57 +24,81 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [moviesItems, setMoviesItems] = useState([]);
   const [moviesSearchError, setMoviesSearchError] = useState('');
-  const [numberOfCards, setNumberOfCards] = useState(0);
+  // const [isShort, setIsShort] = useState(false);
+  // const [numberOfCards, setNumberOfCards] = useState(0);
   const [numberToAdd, setNumberToAdd] = useState(0);
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+
+  // При загрузке приложения - проверяем авторизацию и чистим хранилище от предыдущих запросов
   useEffect(() => {
     checkAuth();
+    localStorage.clear();
   }, []);
 
+  // При изменении размера экрана - определяем количество карточек для вывода
   useEffect(() => {
-    determinesNumberOfCards();
+    setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
 
-  useEffect(() => {
-    setListSize(numberOfCards);
-  }, [numberOfCards]);
+  // useEffect(() => {
+    // localStorage.setItem('isShort', isShort.toString());
+    // const moviesList = JSON.parse(localStorage.getItem('movies'))
+    // if (moviesList) {
+    //   const query = localStorage.getItem('query')
+    //   const result = filterResult(moviesList, query)
+    //   setMoviesItems(result)
+    // }
+  //
+  // }, [isShort])
 
+  function filterByShortSwitch(isShort) {
+    localStorage.setItem('isShort', isShort.toString());
+    const moviesList = JSON.parse(localStorage.getItem('movies'))
+    if (moviesList) {
+      const query = localStorage.getItem('query')
+      const result = filterResult(moviesList, query, isShort)
+      setMoviesItems(result)
+    }
+  }
+
+  // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
     if (screenWidth.isScreenLg) {
-      setNumberOfCards(12);
+      setListSize(12);
       setNumberToAdd(3);
     }
     if (screenWidth.isScreenMd) {
-      setNumberOfCards(8);
+      setListSize(8);
       setNumberToAdd(2);
     }
     if (screenWidth.isScreenSm) {
-      setNumberOfCards(5);
+      setListSize(5);
       setNumberToAdd(2);
     }
   }
 
+  // Логика доавления количества карточек по кнопке "Еще"
   function addBtnClickHandler() {
-    setNumberOfCards(numberOfCards + numberToAdd);
+    setListSize(listSize + numberToAdd);
   }
 
-
+// Проверка авторизации запросом на сервер
   function checkAuth() {
     mainApi.auth()
       .then(userInfo => {
         setLoggedIn(true);
         setCurrentUser(userInfo);
-        console.log('auth');
       })
       .catch(() => {
         setLoggedIn(false);
-        console.log('Ошибка авторизации');
+        console.log('Ошибка аутентификации');
       });
   }
 
+  // Логика авторизации с редиректом на фильмы
   function handleLogin(password, email) {
     mainApi.login({ password, email })
       .then(() => setLoggedIn(true))
@@ -89,6 +113,7 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  // Логика регистрации с редиректом на авторизацию
   function handleRegister(name, password, email) {
     mainApi.register({ name, email, password })
       .then(() => {
@@ -97,32 +122,68 @@ function App() {
       .catch(err => console.log(`Ошибка регистрации. Код ошибки: ${err}`));
   }
 
-  function moviesFilter(list, query, isShort) {
+  // фильтрует массив от сервера по запросу и длине
+  function filterResult(list, query, isShort) {
     return list.filter((movie) => {
-      return isShort ? movie.duration <= 40 : movie.duration > 40 && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+      return (isShort ? movie.duration <= 40 : movie.duration > 40) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
     });
   }
 
+  async function getMovies() {
+    if (!localStorage.getItem('movies')) {
+      await moviesApi.getMovies()
+        .then(res => {
+          localStorage.setItem('movies', JSON.stringify(res));
+        })
+    }
+  }
+
   function searchMovies(query, isShort) {
+    setMoviesSearchError('')
     setIsLoading(true);
-    determinesNumberOfCards();
-    moviesApi.getMovies()
-      .then(res => {
-        const searchResult = moviesFilter(res, query, isShort);
+    // if (!localStorage.getItem('movies')) {
+    //   moviesApi.getMovies()
+    //     .then(res => {
+    //       localStorage.setItem('movies', JSON.stringify(res));
+    //     })
+    getMovies()
+      .then(() => {
+        let searchResult = filterResult(JSON.parse(localStorage.getItem('movies')), query, isShort);
+        // searchResult = filterByDuration(searchResult, isShort)
         if (searchResult.length) {
-          setMoviesSearchError('');
-          localStorage.setItem('movies', JSON.stringify(searchResult));
-          setMoviesItems(searchResult);
-        } else {
-          localStorage.removeItem('movies');
-          setMoviesItems([]);
-          setMoviesSearchError('Ничего не найдено');
-        }
+          setMoviesItems(searchResult)
+        } else setMoviesSearchError('Ничего не найдено')
       })
       .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
       .finally(() => setIsLoading(false));
-
   }
+
+// Запрашивает список фильмов на сервере и фильтрует полученные данные
+// function searchMovies(query, isShort) {
+//   setIsLoading(true);
+//   determinesNumberOfCards();
+//   getMovies()
+  // moviesApi.getMovies()
+  //   .then(res => {
+  //     let searchResult = filterResult(res, query, isShort);
+  //     if (searchResult.length) {
+  //       setMoviesSearchError('');
+  //       localStorage.setItem('movies', JSON.stringify(res));
+  //       searchResult = filterByDuration(searchResult, isShort)
+  //       setMoviesItems(searchResult);
+  //     } else {
+  //       localStorage.removeItem('movies');
+  //       setMoviesItems([]);
+  //       setMoviesSearchError('Ничего не найдено');
+  //     }
+// }
+
+// )
+// .
+// catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
+//   .finally(() => setIsLoading(false));
+//
+// }
 
   if (loggedIn === undefined) {
     return <Preloader/>;
@@ -135,11 +196,11 @@ function App() {
               <Route index element={<Homepage/>}/>
               <Route path="/movies"
                      element={<ProtectedRouteElement listSize={listSize} clickHandler={addBtnClickHandler}
-                                                     element={Movies} error={moviesSearchError}
+                                                     element={Movies} filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
                                                      moviesItems={moviesItems}
                                                      onSubmit={searchMovies}/>}/>
               <Route path="/saved-movies"
-                     element={<ProtectedRouteElement element={SavedMovies} onSubmit={searchMovies}/>}/>
+                     element={<ProtectedRouteElement element={SavedMovies} listSize={listSize} filterByShortSwitch={filterByShortSwitch} error={moviesSearchError} onSubmit={searchMovies}/>}/>
               <Route path="/profile"
                      element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
             </Route>

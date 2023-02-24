@@ -1,29 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Switch from 'react-switch';
 import './SearchForm.css';
+import { useLocation } from 'react-router-dom';
 
 function SearchForm(props) {
 
   const [isShort, setIsShort] = useState(false);
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState('');
+  const location = useLocation();
 
+  useEffect(() => {
+    localStorage.setItem('isShort', JSON.stringify(isShort))
+    props.filterByShortSwitch(isShort)
+  }, [isShort])
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      // setQuery(localStorage.getItem('query'));
+      // setIsShort(Boolean(localStorage.getItem('isShort')));
+    }
+  }, [location.pathname]);
+
+  //  Меняем состояние в App
   function clickHandler() {
-    setIsShort(prevCheck => !prevCheck);
+    // setIsShort(prevCheck => !prevCheck);
+    setIsShort(prevCheck => !prevCheck)
   }
 
   function handleChangeQuery(e) {
-    setQuery(e.target.value)
+    setQuery(e.target.value);
   }
 
   function submitHandler(e) {
-    e.preventDefault()
-    props.onSubmit(query, isShort)
+    e.preventDefault();
+    // localStorage.setItem('isShort', isShort.toString());
+    localStorage.setItem('query', query);
+    if (query) {
+      props.onSubmit(query, isShort)
+    } else console.log('Введите запрос')
   }
 
   return (
     <section className="searchForm container">
       <form className="searchForm__form">
-        <input onChange={handleChangeQuery} value={query} required placeholder="Фильм" className="searchForm__input" type="text"/>
+        <input onChange={handleChangeQuery} value={query} required placeholder="Фильм" className="searchForm__input"
+               type="text"/>
         <button onClick={submitHandler} className="searchForm__btn btn">Найти</button>
       </form>
       <div className="searchForm__switch-wrapper">

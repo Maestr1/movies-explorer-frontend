@@ -6,7 +6,7 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 function Movies(props) {
   return (
     <>
-      <SearchForm onSubmit={props.onSubmit}/>
+      <SearchForm filterByShortSwitch={props.filterByShortSwitch} onSubmit={props.onSubmit}/>
       <MoviesCardList listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
     </>
   );

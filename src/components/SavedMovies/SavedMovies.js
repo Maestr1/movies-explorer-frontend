@@ -6,7 +6,7 @@ import SearchForm from '../SearchForm/SearchForm';
 function SavedMovies(props) {
   return (
     <>
-      <SearchForm/>
+      <SearchForm filterByShortSwitch={props.filterByShortSwitch}/>
       <section className="moviesCardList container">
         <ul className="moviesCardList__list">
           <MoviesCard btnType="remove"/>
