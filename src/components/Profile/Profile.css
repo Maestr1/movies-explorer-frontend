@@ -99,9 +99,6 @@
 }
 
 @media (max-width: 1024px) {
-  .profile {
-  }
-
   .profile__wrapper {
     padding: 42px 0 76px;
     box-sizing: border-box;
