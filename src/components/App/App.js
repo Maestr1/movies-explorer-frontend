@@ -86,7 +86,11 @@ function App() {
   // Логика авторизации с редиректом на фильмы
   function handleLogin(password, email) {
     mainApi.login({ password, email })
-      .then(() => setLoggedIn(true))
+      .then(() => {
+        setLoggedIn(true);
+        setMoviesItems([])
+        localStorage.clear();
+      })
       .then(() => navigate('/movies'))
       .catch(err => console.log(`Ошибка авторизации. Код ошибки: ${err}`));
   }
