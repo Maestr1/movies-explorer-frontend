@@ -9,8 +9,8 @@ function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
   const moviesList = props.moviesItems.slice(0, props.listSize).map((item) => (
-    <MoviesCard key={item.id} btnType="save" title={item.nameRU} duration={item.duration}
-                cover={`${moviesApiConfig.baseUrl}${item.image.url}`} trailerLink={item.trailerLink}/>
+    <MoviesCard type={props.type} movie={item} key={props.type === 'loaded' ? item.id : item._id} btnType={props.btnType} btnClickHandler={props.btnClickHandler} title={item.nameRU} duration={item.duration}
+                cover={`${moviesApiConfig.baseUrl}${props.type === 'loaded' ? item.image.url : item.image}`} trailerLink={item.trailerLink}/>
   ));
 
 
@@ -19,7 +19,7 @@ function MoviesCardList(props) {
   } else return (
     <section className="moviesCardList container">
       <ul className="moviesCardList__list">
-        {props.error ? <p className="moviesCardList__error">{props.error}</p> : moviesList}
+        {props.error ? <p className="moviesCardList__error">{props.error}</p> : props.type === 'loaded' ? moviesList : moviesList.reverse()}
       </ul>
       {props.error || props.listSize >= props.moviesItems.length ? '' : <button onClick={props.clickHandler} className="moviesCardList__more-btn btn">Еще</button>}
     </section>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Login from '../Login/Login';
@@ -17,17 +17,20 @@ import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
 import { useResize } from '../../hook/useResize';
+import CurrentUserContext from '../../hoc/CurrentUserContext';
 
 function App() {
   const screenWidth = useResize();
   const [loggedIn, setLoggedIn] = useState(undefined);
   const [currentUser, setCurrentUser] = useState({});
   const [moviesItems, setMoviesItems] = useState([]);
+  const [savedMoviesItems, setSavedMoviesItems] = useState([]);
   const [moviesSearchError, setMoviesSearchError] = useState('');
   const [numberToAdd, setNumberToAdd] = useState(0);
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
 
   // При загрузке приложения - проверяем авторизацию и чистим хранилище от предыдущих запросов
@@ -40,14 +43,6 @@ function App() {
   useEffect(() => {
     setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
-
-  function filterByShortSwitch(isShort) {
-    const moviesList = JSON.parse(localStorage.getItem('movies'))
-    if (moviesList) {
-      const result = filterResult(moviesList, localStorage.getItem('query'), isShort)
-      setMoviesItems(result)
-    }
-  }
 
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
@@ -79,6 +74,8 @@ function App() {
       })
       .catch(() => {
         setLoggedIn(false);
+        setMoviesItems([]);
+        localStorage.clear();
         console.log('Ошибка аутентификации');
       });
   }
@@ -86,18 +83,18 @@ function App() {
   // Логика авторизации с редиректом на фильмы
   function handleLogin(password, email) {
     mainApi.login({ password, email })
-      .then(() => {
-        setLoggedIn(true);
-        setMoviesItems([])
-        localStorage.clear();
-      })
+      .then(() => setLoggedIn(true))
       .then(() => navigate('/movies'))
       .catch(err => console.log(`Ошибка авторизации. Код ошибки: ${err}`));
   }
 
   function handleLogout() {
     mainApi.logout()
-      .then(() => setLoggedIn(false))
+      .then(() => {
+        setLoggedIn(false);
+        setMoviesItems([]);
+        localStorage.clear();
+      })
       .then(() => navigate('./signin'))
       .catch(err => console.log(err));
   }
@@ -118,28 +115,77 @@ function App() {
     });
   }
 
-  async function getMovies() {
+  // Функция для горячей фильтрации по переключателю
+  function filterByShortSwitch(isShort) {
+    const moviesList = JSON.parse(localStorage.getItem('movies'));
+    if (moviesList) {
+      const result = filterResult(moviesList, localStorage.getItem('query'), isShort);
+      setMoviesItems(result);
+    }
+  }
+
+  async function getMoviesList() {
     if (!localStorage.getItem('movies')) {
       await moviesApi.getMovies()
         .then(res => {
           localStorage.setItem('movies', JSON.stringify(res));
-        })
+        });
     }
   }
 
   function searchMovies(query, isShort) {
-    setMoviesSearchError('')
+    setMoviesSearchError('');
     setIsLoading(true);
-    getMovies()
+    getMoviesList()
       .then(() => {
         let searchResult = filterResult(JSON.parse(localStorage.getItem('movies')), query, isShort);
         if (searchResult.length) {
-          setMoviesItems(searchResult)
-        } else setMoviesSearchError('Ничего не найдено')
+          setMoviesItems(searchResult);
+        } else setMoviesSearchError('Ничего не найдено');
       })
       .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
       .finally(() => setIsLoading(false));
   }
+
+  useEffect(() => {
+    if (location.pathname === '/saved-movies') {
+        getSavedMoviesList();
+    }
+  }, [location]);
+
+  function getSavedMoviesList() {
+    mainApi.getMovies()
+      .then(res => {
+        setSavedMoviesItems(res);
+      })
+      .catch(err => console.log(`Ошибка запроса. Код ошибки: ${err}`));
+  }
+
+  function saveMovie(movie) {
+    console.log(movie);
+    movie.thumbnail = movie.image.formats.thumbnail.url;
+    movie.image = movie.image.url;
+    movie.owner = currentUser._id;
+    movie.movieId = movie.id;
+    delete movie.id;
+    setSavedMoviesItems([])
+    mainApi.saveMovie(movie, currentUser._id)
+      .then(() => {
+        setSavedMoviesItems([...savedMoviesItems, movie])
+      })
+      .then(() => {
+        console.log('saved');
+      })
+      .catch(err => console.log(`Ошибка сохранения. Код ошибки: ${err}`));
+  }
+
+  function deleteMovie(movie) {
+    mainApi.deleteMovie(movie._id)
+      .then(() => setSavedMoviesItems(savedMoviesItems.filter(i => i._id !== movie._id)))
+      .then(() => console.log('deleted'))
+      .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
+  }
+
 
   if (loggedIn === undefined) {
     return <Preloader/>;
@@ -151,12 +197,17 @@ function App() {
             <Route path="/" element={<Layout/>}>
               <Route index element={<Homepage/>}/>
               <Route path="/movies"
-                     element={<ProtectedRouteElement listSize={listSize} clickHandler={addBtnClickHandler}
-                                                     element={Movies} filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
+                     element={<ProtectedRouteElement element={Movies} listSize={listSize}
+                                                     clickHandler={addBtnClickHandler} btnType="save"
+                                                     filterByShortSwitch={filterByShortSwitch}
+                                                     error={moviesSearchError} saveHandler={saveMovie}
                                                      moviesItems={moviesItems}
                                                      onSubmit={searchMovies}/>}/>
               <Route path="/saved-movies"
-                     element={<ProtectedRouteElement element={SavedMovies} listSize={listSize} filterByShortSwitch={filterByShortSwitch} error={moviesSearchError} onSubmit={searchMovies}/>}/>
+                     element={<ProtectedRouteElement element={SavedMovies} moviesItems={savedMoviesItems}
+                                                     listSize={listSize} deleteHandler={deleteMovie} btnType="delete"
+                                                     filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
+                                                     onSubmit={searchMovies}/>}/>
               <Route path="/profile"
                      element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
             </Route>
