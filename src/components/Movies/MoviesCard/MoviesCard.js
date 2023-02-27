@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
 import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
-  const [saved, setSaved] = useState(false)
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (props.movie.saved) {
+      setSaved(true)
+    }
+  }, [props.movie.saved])
 
   function handleSaveClick() {
-    setSaved(true)
-    // rebuildJson(movie)
-    props.btnClickHandler(props.movie)
+    if (!saved) {
+      setSaved(true);
+      props.btnClickHandler(props.movie);
+    }
   }
 
   function handleDeleteClick() {
-    props.btnClickHandler(props.movie)
+    props.btnClickHandler(props.movie);
   }
 
   function getTimeFromMinutes(duration) {
-    const hours = Math.trunc(duration/60);
+    const hours = Math.trunc(duration / 60);
     const minutes = duration % 60;
     return hours + 'ч ' + minutes + 'м';
   }
@@ -28,7 +35,9 @@ function MoviesCard(props) {
           <h2 className="moviesCard__title">{props.title}</h2>
           <p className="moviesCard__duration">{getTimeFromMinutes(props.duration)}</p>
         </div>
-        <button onClick={props.type === 'loaded' ? handleSaveClick : handleDeleteClick} className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`} aria-label="Добавить в сохраненные"/>
+        <button onClick={props.type === 'loaded' ? handleSaveClick : handleDeleteClick}
+                className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}
+                aria-label="Добавить в сохраненные"/>
       </div>
       <Link className="moviesCard__link" to={props.trailerLink}>
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>

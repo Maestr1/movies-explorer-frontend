@@ -36,12 +36,21 @@ function App() {
   useEffect(() => {
     checkAuth();
     localStorage.clear();
+    // Загрузка созраненных фильмов при монтировании App, для подтягивания пометок о сохранении
+    getSavedMoviesList();
   }, []);
 
   // При изменении размера экрана - определяем количество карточек для вывода
   useEffect(() => {
     setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
+
+  // Загрузка созраненных фильмов при переходе на страницу сохраненных
+  useEffect(() => {
+    if (location.pathname === '/saved-movies') {
+      getSavedMoviesList();
+    }
+  }, [location]);
 
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
@@ -110,6 +119,9 @@ function App() {
   // фильтрует массив от сервера по запросу и длине
   function filterResult(list, query, isShort) {
     return list.filter((movie) => {
+      if (savedMoviesItems.find((item) => item.movieId === movie.id)) {
+        movie.saved = true;
+      }
       return (isShort ? movie.duration <= 40 : movie.duration > 40) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
     });
   }
@@ -146,12 +158,6 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  useEffect(() => {
-    if (location.pathname === '/saved-movies') {
-        getSavedMoviesList();
-    }
-  }, [location]);
-
   function getSavedMoviesList() {
     mainApi.getMovies()
       .then(res => {
@@ -161,13 +167,10 @@ function App() {
   }
 
   function saveMovie(movie) {
-    setSavedMoviesItems([])
+    setSavedMoviesItems([]);
     mainApi.saveMovie(movie, currentUser._id)
       .then(() => {
-        setSavedMoviesItems([...savedMoviesItems, movie])
-      })
-      .then(() => {
-        console.log('saved');
+        setSavedMoviesItems([...savedMoviesItems, movie]);
       })
       .catch(err => console.log(`Ошибка сохранения. Код ошибки: ${err}`));
   }
@@ -175,7 +178,13 @@ function App() {
   function deleteMovie(movie) {
     mainApi.deleteMovie(movie._id)
       .then(() => setSavedMoviesItems(savedMoviesItems.filter(i => i._id !== movie._id)))
-      .then(() => console.log('deleted'))
+      .then(() => {
+        moviesItems.forEach((item, index) => {
+          if (item.id === movie.movieId) {
+            moviesItems[index].saved = false;
+          }
+        });
+      })
       .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
   }
 
