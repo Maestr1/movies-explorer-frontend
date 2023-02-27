@@ -13,13 +13,14 @@ function MoviesCard(props) {
 
   function handleSaveClick() {
     if (!saved) {
+      props.saveHandler(props.movie);
       setSaved(true);
-      props.btnClickHandler(props.movie);
     }
   }
 
   function handleDeleteClick() {
-    props.btnClickHandler(props.movie);
+    props.deleteHandler(props.movie);
+    setSaved(false);
   }
 
   function getTimeFromMinutes(duration) {
@@ -35,7 +36,7 @@ function MoviesCard(props) {
           <h2 className="moviesCard__title">{props.title}</h2>
           <p className="moviesCard__duration">{getTimeFromMinutes(props.duration)}</p>
         </div>
-        <button onClick={props.type === 'loaded' ? handleSaveClick : handleDeleteClick}
+        <button onClick={props.type === 'loaded' && !saved ? handleSaveClick : handleDeleteClick}
                 className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}
                 aria-label="Добавить в сохраненные"/>
       </div>

@@ -6,7 +6,7 @@ function Movies(props) {
   return (
     <>
       <SearchForm searchKey={props.searchKey} filterByShortSwitch={props.filterByShortSwitch} onSubmit={props.onSubmit}/>
-      <MoviesCardList btnType={props.btnType} type={'loaded'} btnClickHandler={props.saveHandler} listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
+      <MoviesCardList btnType={props.btnType} type={'loaded'} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
     </>
   );
 }

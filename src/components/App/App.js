@@ -206,6 +206,9 @@ function App() {
   }
 
   function deleteMovie(movie) {
+    if (!movie._id) {
+      movie._id = savedMoviesItems.find(item => item.movieId === movie.id)._id
+    }
     mainApi.deleteMovie(movie._id)
       .then(() => setSavedMoviesItems(savedMoviesItems.filter(i => i._id !== movie._id)))
       .then(() => {
@@ -232,7 +235,7 @@ function App() {
                      element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY} listSize={listSize}
                                                      clickHandler={addBtnClickHandler} btnType="save"
                                                      filterByShortSwitch={filterByShortSwitch}
-                                                     error={moviesSearchError} saveHandler={saveMovie}
+                                                     error={moviesSearchError} saveHandler={saveMovie} deleteHandler={deleteMovie}
                                                      moviesItems={moviesItems}
                                                      onSubmit={searchLoadedMovies}/>}/>
               <Route path="/saved-movies"

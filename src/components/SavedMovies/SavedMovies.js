@@ -7,7 +7,7 @@ function SavedMovies(props) {
   return (
     <>
       <SearchForm searchKey={props.searchKey} filterByShortSwitch={props.filterByShortSwitch} onSubmit={props.onSubmit}/>
-      <MoviesCardList btnType={props.btnType} btnClickHandler={props.deleteHandler} type={'saved'} listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
+      <MoviesCardList btnType={props.btnType} deleteHandler={props.deleteHandler} type={'saved'} listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
     </>
   );
 }
