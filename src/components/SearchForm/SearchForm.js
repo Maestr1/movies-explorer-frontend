@@ -11,7 +11,7 @@ function SearchForm(props) {
 
   // Повторная фильтрация при переключении свитчера
   useEffect(() => {
-    props.filterByShortSwitch(isShort);
+    props.filterByShortSwitch(isShort, props.searchKey);
   }, [isShort]);
 
   // При переходе по указанным роутам - свитчер и запрос загружаются из хранилища
@@ -37,9 +37,9 @@ function SearchForm(props) {
 
   function submitHandler(e) {
     e.preventDefault();
-    localStorage.setItem('isShort', JSON.stringify(isShort));
-    localStorage.setItem('query', query);
     if (query) {
+      localStorage.setItem('isShort', JSON.stringify(isShort));
+      localStorage.setItem('query', query);
       props.onSubmit(query, isShort);
     } else console.log('Введите запрос');
   }

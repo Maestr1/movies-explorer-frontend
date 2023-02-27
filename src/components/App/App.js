@@ -17,6 +17,7 @@ import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
 import { useResize } from '../../hook/useResize';
+import { LOADED_KEY, SAVED_KEY } from '../../utils/constants';
 
 function App() {
   const screenWidth = useResize();
@@ -36,7 +37,7 @@ function App() {
   useEffect(() => {
     checkAuth();
     localStorage.clear();
-    // Загрузка созраненных фильмов при монтировании App, для подтягивания пометок о сохранении
+    // Загрузка сохраненных фильмов при монтировании App, для подтягивания пометок о сохранении
     getSavedMoviesList();
   }, []);
 
@@ -51,6 +52,8 @@ function App() {
       getSavedMoviesList();
     }
   }, [location]);
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
@@ -72,6 +75,8 @@ function App() {
   function addBtnClickHandler() {
     setListSize(listSize + numberToAdd);
   }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Проверка авторизации запросом на сервер
   function checkAuth() {
@@ -116,61 +121,86 @@ function App() {
       .catch(err => console.log(`Ошибка регистрации. Код ошибки: ${err}`));
   }
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   // фильтрует массив от сервера по запросу и длине
   function filterResult(list, query, isShort) {
-    return list.filter((movie) => {
+    list.forEach(movie => {
       if (savedMoviesItems.find((item) => item.movieId === movie.id)) {
         movie.saved = true;
       }
-      return (isShort ? movie.duration <= 40 : movie.duration > 40) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
     });
+    if (query) {
+      return list.filter((movie) => {
+        return (isShort ? movie.duration <= 40 : movie.duration > 40) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+      });
+    }
   }
 
   // Функция для горячей фильтрации по переключателю
-  function filterByShortSwitch(isShort) {
-    const moviesList = JSON.parse(localStorage.getItem('movies'));
+  function filterByShortSwitch(isShort, key) {
+    const moviesList = JSON.parse(localStorage.getItem(key));
     if (moviesList) {
       const result = filterResult(moviesList, localStorage.getItem('query'), isShort);
-      setMoviesItems(result);
+      if (key === LOADED_KEY && result) {
+        setMoviesItems(result);
+      }
+      if (key === SAVED_KEY && result) {
+        setSavedMoviesItems(result);
+      }
     }
   }
 
   async function getMoviesList() {
-    if (!localStorage.getItem('movies')) {
+    if (!localStorage.getItem(LOADED_KEY)) {
       await moviesApi.getMovies()
         .then(res => {
-          localStorage.setItem('movies', JSON.stringify(res));
+          localStorage.setItem(LOADED_KEY, JSON.stringify(res));
         });
     }
   }
 
-  function searchMovies(query, isShort) {
+  function getSavedMoviesList() {
+    setIsLoading(true);
+    mainApi.getMovies()
+      .then(res => {
+        setSavedMoviesItems(res);
+        localStorage.setItem(SAVED_KEY, JSON.stringify(res));
+      })
+      .catch(err => console.log(`Ошибка запроса. Код ошибки: ${err}`))
+      .finally(() => setIsLoading(false));
+  }
+
+  function searchMovies(query, isShort, key, handler) {
+    const searchResult = filterResult(JSON.parse(localStorage.getItem(key)), query, isShort);
+    if (searchResult.length) {
+      handler(searchResult);
+    } else setMoviesSearchError('Ничего не найдено');
+  }
+
+  function searchSavedMovies(query, isShort) {
+    setMoviesSearchError('');
+    searchMovies(query, isShort, SAVED_KEY, setSavedMoviesItems);
+  }
+
+  function searchLoadedMovies(query, isShort) {
     setMoviesSearchError('');
     setIsLoading(true);
     getMoviesList()
       .then(() => {
-        let searchResult = filterResult(JSON.parse(localStorage.getItem('movies')), query, isShort);
-        if (searchResult.length) {
-          setMoviesItems(searchResult);
-        } else setMoviesSearchError('Ничего не найдено');
+        searchMovies(query, isShort, LOADED_KEY, setMoviesItems);
       })
       .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
       .finally(() => setIsLoading(false));
   }
 
-  function getSavedMoviesList() {
-    mainApi.getMovies()
-      .then(res => {
-        setSavedMoviesItems(res);
-      })
-      .catch(err => console.log(`Ошибка запроса. Код ошибки: ${err}`));
-  }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   function saveMovie(movie) {
     setSavedMoviesItems([]);
     mainApi.saveMovie(movie, currentUser._id)
       .then(() => {
-        setSavedMoviesItems([...savedMoviesItems, movie]);
+        setSavedMoviesItems([...savedMoviesItems, { ...movie, image: movie.image.url, _id: movie.id }]);
       })
       .catch(err => console.log(`Ошибка сохранения. Код ошибки: ${err}`));
   }
@@ -199,17 +229,18 @@ function App() {
             <Route path="/" element={<Layout/>}>
               <Route index element={<Homepage/>}/>
               <Route path="/movies"
-                     element={<ProtectedRouteElement element={Movies} listSize={listSize}
+                     element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY} listSize={listSize}
                                                      clickHandler={addBtnClickHandler} btnType="save"
                                                      filterByShortSwitch={filterByShortSwitch}
                                                      error={moviesSearchError} saveHandler={saveMovie}
                                                      moviesItems={moviesItems}
-                                                     onSubmit={searchMovies}/>}/>
+                                                     onSubmit={searchLoadedMovies}/>}/>
               <Route path="/saved-movies"
-                     element={<ProtectedRouteElement element={SavedMovies} moviesItems={savedMoviesItems}
+                     element={<ProtectedRouteElement element={SavedMovies} searchKey={SAVED_KEY}
+                                                     moviesItems={savedMoviesItems}
                                                      listSize={listSize} deleteHandler={deleteMovie} btnType="delete"
                                                      filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
-                                                     onSubmit={searchMovies}/>}/>
+                                                     onSubmit={searchSavedMovies}/>}/>
               <Route path="/profile"
                      element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
             </Route>
