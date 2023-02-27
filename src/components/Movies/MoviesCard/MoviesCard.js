@@ -1,20 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import './MoviesCard.css';
 import { Link } from 'react-router-dom';
-import CurrentUserContext from '../../../hoc/CurrentUserContext';
 
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false)
-  const currentUser = useContext(CurrentUserContext)
-
-  // function rebuildJson(movie) {
-  //   debugger
-  //   movie.thumbnail = movie.image.formats.thumbnail.url
-  //   movie.image = movie.image.url
-  //   movie.owner = currentUser._id
-  //   movie.movieId = movie.id
-  //   delete movie.id
-  // }
 
   function handleSaveClick() {
     setSaved(true)

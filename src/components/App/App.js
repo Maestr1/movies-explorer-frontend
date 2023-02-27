@@ -17,7 +17,6 @@ import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
 import { useResize } from '../../hook/useResize';
-import CurrentUserContext from '../../hoc/CurrentUserContext';
 
 function App() {
   const screenWidth = useResize();
@@ -162,12 +161,6 @@ function App() {
   }
 
   function saveMovie(movie) {
-    console.log(movie);
-    movie.thumbnail = movie.image.formats.thumbnail.url;
-    movie.image = movie.image.url;
-    movie.owner = currentUser._id;
-    movie.movieId = movie.id;
-    delete movie.id;
     setSavedMoviesItems([])
     mainApi.saveMovie(movie, currentUser._id)
       .then(() => {

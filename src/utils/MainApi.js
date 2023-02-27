@@ -66,7 +66,13 @@ class MainApi {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(movie, id)
+      body: JSON.stringify({
+        ...movie,
+        movieId: movie.id,
+        image: movie.image.url,
+        thumbnail: movie.image.formats.thumbnail.url,
+        owner: id,
+      })
     })
       .then(res => this._onResponse(res));
   }

@@ -1,8 +1,6 @@
-import React, { useContext } from 'react';
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
-import currentUserContext from '../../hoc/CurrentUserContext';
 
 function Movies(props) {
   return (
