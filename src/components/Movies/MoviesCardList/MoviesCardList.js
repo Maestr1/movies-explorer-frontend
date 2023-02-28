@@ -9,8 +9,8 @@ function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
   const moviesList = props.moviesItems.slice(0, props.listSize).map((item) => (
-    <MoviesCard type={props.type} movie={item} key={props.type === 'loaded' ? item.id : item._id} btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} title={item.nameRU} duration={item.duration}
-                cover={`${moviesApiConfig.baseUrl}${props.type === 'loaded' ? item.image.url : item.image}`} trailerLink={item.trailerLink}/>
+    <MoviesCard type={props.type} movie={item} key={item.movieId} btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} title={item.nameRU} duration={item.duration}
+                cover={item.image} trailerLink={item.trailerLink}/>
   ));
 
 

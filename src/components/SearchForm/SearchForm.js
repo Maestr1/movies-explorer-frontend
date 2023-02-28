@@ -17,8 +17,8 @@ function SearchForm(props) {
   // При переходе по указанным роутам - свитчер и запрос загружаются из хранилища
   useEffect(() => {
     if (location.pathname === '/movies' || location.pathname === '/saved-movies') {
-      const query = localStorage.getItem('query')
-      let value = localStorage.getItem('isShort') === 'true';
+      const query = localStorage.getItem(`${props.searchKey}-query`)
+      const value = localStorage.getItem(`${props.searchKey}-query-short`) === 'true';
       setTimeout(() => {
         setIsShort(value);
         if (query) {setQuery(query)}
@@ -38,8 +38,8 @@ function SearchForm(props) {
   function submitHandler(e) {
     e.preventDefault();
     if (query) {
-      localStorage.setItem('isShort', JSON.stringify(isShort));
-      localStorage.setItem('query', query);
+      localStorage.setItem(`${props.searchKey}-query-short`, JSON.stringify(isShort));
+      localStorage.setItem(`${props.searchKey}-query`, query);
       props.onSubmit(query, isShort);
     } else console.log('Введите запрос');
   }

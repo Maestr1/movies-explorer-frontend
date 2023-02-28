@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
 import { Link } from 'react-router-dom';
+import protectedRoute from '../../../hoc/ProtectedRoute';
 
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
@@ -8,19 +9,20 @@ function MoviesCard(props) {
   useEffect(() => {
     if (props.movie.saved) {
       setSaved(true)
-    }
+    } else setSaved(false)
   }, [props.movie.saved])
 
   function handleSaveClick() {
     if (!saved) {
       props.saveHandler(props.movie);
-      setSaved(true);
+      // setSaved(true);
     }
   }
 
   function handleDeleteClick() {
     props.deleteHandler(props.movie);
     setSaved(false);
+    props.movie.saved = false
   }
 
   function getTimeFromMinutes(duration) {

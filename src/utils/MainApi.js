@@ -68,9 +68,6 @@ class MainApi {
       },
       body: JSON.stringify({
         ...movie,
-        movieId: movie.id,
-        image: movie.image.url,
-        thumbnail: movie.image.formats.thumbnail.url,
         owner: id,
       })
     })

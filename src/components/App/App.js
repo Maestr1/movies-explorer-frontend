@@ -18,6 +18,7 @@ import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
 import { useResize } from '../../hook/useResize';
 import { LOADED_KEY, SAVED_KEY } from '../../utils/constants';
+import { moviesApiConfig } from '../../utils/configs';
 
 function App() {
   const screenWidth = useResize();
@@ -30,7 +31,6 @@ function App() {
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
 
   // При загрузке приложения - проверяем авторизацию и чистим хранилище от предыдущих запросов
@@ -47,11 +47,11 @@ function App() {
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
 
   // Загрузка созраненных фильмов при переходе на страницу сохраненных
-  useEffect(() => {
-    if (location.pathname === '/saved-movies') {
-      getSavedMoviesList();
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   if (location.pathname === '/saved-movies') {
+  //     getSavedMoviesList();
+  //   }
+  // }, [location]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +126,11 @@ function App() {
   // фильтрует массив от сервера по запросу и длине
   function filterResult(list, query, isShort) {
     list.forEach(movie => {
-      if (savedMoviesItems.find((item) => item.movieId === movie.id)) {
+      // TODO вынести логику обновления статуса лайков
+      const savedMovieList = JSON.parse(localStorage.getItem(SAVED_KEY));
+      if (savedMovieList.find((item) => {
+        return item.movieId === movie.movieId;
+      })) {
         movie.saved = true;
       }
     });
@@ -137,16 +141,21 @@ function App() {
     }
   }
 
-  // Функция для горячей фильтрации по переключателю
+  // Функция для горячей фильтрации по переключателю, срабатывает при загрузке и показывает карточки
   function filterByShortSwitch(isShort, key) {
     const moviesList = JSON.parse(localStorage.getItem(key));
     if (moviesList) {
-      const result = filterResult(moviesList, localStorage.getItem('query'), isShort);
-      if (key === LOADED_KEY && result) {
-        setMoviesItems(result);
+      if (key === LOADED_KEY) {
+        const result = filterResult(moviesList, localStorage.getItem(`${LOADED_KEY}-query`), isShort);
+        if (result) {
+          setMoviesItems(result);
+        }
       }
-      if (key === SAVED_KEY && result) {
-        setSavedMoviesItems(result);
+      if (key === SAVED_KEY) {
+        const result = filterResult(moviesList, localStorage.getItem(`${SAVED_KEY}-query`), isShort);
+        if (result) {
+          setSavedMoviesItems(result);
+        }
       }
     }
   }
@@ -154,6 +163,16 @@ function App() {
   async function getMoviesList() {
     if (!localStorage.getItem(LOADED_KEY)) {
       await moviesApi.getMovies()
+        .then(res => {
+          res = res.map((movie) => {
+            movie.movieId = movie.id;
+            movie.thumbnail = `${moviesApiConfig.baseUrl}${movie.image.formats.thumbnail.url}`;
+            movie.image = `${moviesApiConfig.baseUrl}${movie.image.url}`;
+            delete movie.id
+            return movie;
+          });
+          return res;
+        })
         .then(res => {
           localStorage.setItem(LOADED_KEY, JSON.stringify(res));
         });
@@ -199,21 +218,30 @@ function App() {
   function saveMovie(movie) {
     setSavedMoviesItems([]);
     mainApi.saveMovie(movie, currentUser._id)
-      .then(() => {
-        setSavedMoviesItems([...savedMoviesItems, { ...movie, image: movie.image.url, _id: movie.id }]);
+      .then((res) => {
+        movie.saved = true;
+        movie._id = res._id;
+        const savedMovieList = JSON.parse(localStorage.getItem(SAVED_KEY));
+        savedMovieList.push(res);
+        localStorage.setItem(SAVED_KEY, JSON.stringify(savedMovieList));
+        setSavedMoviesItems([...savedMoviesItems, res]);
       })
       .catch(err => console.log(`Ошибка сохранения. Код ошибки: ${err}`));
   }
 
-  function deleteMovie(movie) {
+  function defineId(movie) {
     if (!movie._id) {
-      movie._id = savedMoviesItems.find(item => item.movieId === movie.id)._id
+      movie._id = savedMoviesItems.find(item => item.movieId === movie.movieId)._id;
     }
+  }
+
+  function deleteMovie(movie) {
+    defineId(movie)
     mainApi.deleteMovie(movie._id)
       .then(() => setSavedMoviesItems(savedMoviesItems.filter(i => i._id !== movie._id)))
       .then(() => {
         moviesItems.forEach((item, index) => {
-          if (item.id === movie.movieId) {
+          if (item.movieId === movie.movieId) {
             moviesItems[index].saved = false;
           }
         });
@@ -232,10 +260,12 @@ function App() {
             <Route path="/" element={<Layout/>}>
               <Route index element={<Homepage/>}/>
               <Route path="/movies"
-                     element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY} listSize={listSize}
+                     element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
+                                                     listSize={listSize}
                                                      clickHandler={addBtnClickHandler} btnType="save"
                                                      filterByShortSwitch={filterByShortSwitch}
-                                                     error={moviesSearchError} saveHandler={saveMovie} deleteHandler={deleteMovie}
+                                                     error={moviesSearchError} saveHandler={saveMovie}
+                                                     deleteHandler={deleteMovie}
                                                      moviesItems={moviesItems}
                                                      onSubmit={searchLoadedMovies}/>}/>
               <Route path="/saved-movies"
