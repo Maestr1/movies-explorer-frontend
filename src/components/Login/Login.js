@@ -1,36 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Login.css';
 import FormInput from '../FormInput/FormInput';
 import Entry from '../Entry/Entry';
+import { useFormWithValidation } from '../../hook/useFormWithValidation';
 
 function Login(props) {
 
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setPassword(e.target.value);
-  }
+const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation()
 
   function submitHandler(e) {
     e.preventDefault();
-    if (!password || !email) {
+    if (!values.email || !values.password) {
       return;
     }
-    props.handleLogin(password, email);
+    props.handleLogin(values);
   }
 
   return (
     <main>
       <Entry onSubmit={submitHandler} title="Рады видеть!" btnText="Войти" captionText="Ещё не зарегистрированы?" linkText="Регистрация"
-             linkPath="/signup">
-        <FormInput value={email} onChange={handleChangeEmail} required={true} name="email" lableName="E-mail" type="email"/>
-        <FormInput value={password} onChange={handleChangePassword} required={true} name="password" lableName="Пароль" type="password"/>
+             linkPath="/signup" isValid={isValid} error={props.error}>
+        <FormInput isValid={isValid} error={errors.email} value={values.email} onChange={handleChange} required={true} name="email" lableName="E-mail" type="email"/>
+        <FormInput isValid={isValid} error={errors.password} value={values.password} onChange={handleChange} required={true} name="password" lableName="Пароль" type="password"/>
       </Entry>
     </main>
   );

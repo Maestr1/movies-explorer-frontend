@@ -9,7 +9,7 @@ class MainApi {
     if (res.ok) {
       return res.json();
     } else {
-      return Promise.reject(`Ошибка запроса. Код ошибки: ${res.status}`);
+      return res.json().then(err => {throw err;});
     }
   }
 
@@ -24,14 +24,14 @@ class MainApi {
       .then(res => this._onResponse(res));
   }
 
-  login(password, email) {
+  login(email, password) {
     return fetch(`${mainApiConfig.baseUrl}/signin`, {
       credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(password, email)
+      body: JSON.stringify(email, password)
     })
       .then(res => this._onResponse(res));
   }

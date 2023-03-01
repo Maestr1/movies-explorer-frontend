@@ -1,5 +1,15 @@
+.form__input-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__input-wrapper:last-of-type {
+  margin-bottom: 0;
+}
+
 .form__input {
-  margin-bottom: 25px;;
   padding-top: 5px;
   padding-bottom: 12px;
   padding-left: 4px;
@@ -23,6 +33,4 @@
   color: #8B8B8B;
 }
 
-.form__input:last-of-type {
-  margin-bottom: 0;
-}
+

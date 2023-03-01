@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Login from '../Login/Login';
@@ -30,6 +30,8 @@ function App() {
   const [numberToAdd, setNumberToAdd] = useState(0);
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [entryError, setEntryError] = useState('')
+  const location = useLocation()
   const navigate = useNavigate();
 
 
@@ -44,6 +46,10 @@ function App() {
   useEffect(() => {
     setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
+
+  useEffect(() => {
+    setEntryError('')
+  }, [location])
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,11 +92,15 @@ function App() {
   }
 
   // Логика авторизации с редиректом на фильмы
-  function handleLogin(password, email) {
-    mainApi.login({ password, email })
+  function handleLogin(email, password) {
+    mainApi.login(email, password)
       .then(() => setLoggedIn(true))
       .then(() => navigate('/movies'))
-      .catch(err => console.log(`Ошибка авторизации. Код ошибки: ${err}`));
+      .catch(err => {
+        if (err.validation) {
+          setEntryError(err.validation.body.message)
+        } else setEntryError(err.message)
+      });
   }
 
   function handleLogout() {
@@ -106,11 +116,15 @@ function App() {
 
   // Логика регистрации с редиректом на авторизацию
   function handleRegister(name, password, email) {
-    mainApi.register({ name, email, password })
+    mainApi.register(name, email, password)
       .then(() => {
         navigate('/signin');
       })
-      .catch(err => console.log(`Ошибка регистрации. Код ошибки: ${err}`));
+      .catch(err => {
+        if (err.validation) {
+          setEntryError(err.validation.body.message)
+        } else setEntryError(err.message)
+      });
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,8 +287,8 @@ function App() {
               <Route path="/profile"
                      element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
             </Route>
-            <Route path="signin" element={<Login handleLogin={handleLogin}/>}/>
-            <Route path="signup" element={<Register handleRegister={handleRegister}/>}/>
+            <Route path="signin" element={<Login handleLogin={handleLogin} error={entryError}/>}/>
+            <Route path="signup" element={<Register handleRegister={handleRegister} error={entryError}/>}/>
             <Route path="*" element={<ErrorPage/>}/>
           </Routes>
         </LoadingContext.Provider>
