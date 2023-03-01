@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Login from '../Login/Login';
@@ -37,7 +37,6 @@ function App() {
   useEffect(() => {
     checkAuth();
     localStorage.clear();
-    // Загрузка сохраненных фильмов при монтировании App, для подтягивания пометок о сохранении
     getSavedMoviesList();
   }, []);
 
@@ -45,13 +44,6 @@ function App() {
   useEffect(() => {
     setTimeout(determinesNumberOfCards, 500);
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
-
-  // Загрузка созраненных фильмов при переходе на страницу сохраненных
-  // useEffect(() => {
-  //   if (location.pathname === '/saved-movies') {
-  //     getSavedMoviesList();
-  //   }
-  // }, [location]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,7 +160,7 @@ function App() {
             movie.movieId = movie.id;
             movie.thumbnail = `${moviesApiConfig.baseUrl}${movie.image.formats.thumbnail.url}`;
             movie.image = `${moviesApiConfig.baseUrl}${movie.image.url}`;
-            delete movie.id
+            delete movie.id;
             return movie;
           });
           return res;
@@ -236,9 +228,13 @@ function App() {
   }
 
   function deleteMovie(movie) {
-    defineId(movie)
+    defineId(movie);
     mainApi.deleteMovie(movie._id)
       .then(() => setSavedMoviesItems(savedMoviesItems.filter(i => i._id !== movie._id)))
+      .then(() => {
+        const savedMoviesList = JSON.parse(localStorage.getItem(SAVED_KEY)).filter((item) => item.movieId !== movie.movieId);
+        localStorage.setItem(SAVED_KEY, JSON.stringify(savedMoviesList));
+      })
       .then(() => {
         moviesItems.forEach((item, index) => {
           if (item.movieId === movie.movieId) {
