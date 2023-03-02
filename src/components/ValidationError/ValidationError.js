@@ -3,7 +3,7 @@ import './ValidationError.css'
 
 function ValidationError(props) {
   return (
-    <p className="error">{props.text}</p>
+    <p className={`error ${props.className}`}>{props.text}</p>
   );
 }
 

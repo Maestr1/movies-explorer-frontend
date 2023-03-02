@@ -138,6 +138,16 @@ function App() {
       });
   }
 
+  function handleChangeProfile(name, email) {
+    mainApi.changeProfile(name, email)
+      .then(res => setCurrentUser(res))
+      .catch(err => {
+        if (err.validation) {
+          setEntryError(err.validation.body.message);
+        } else setEntryError(err.message);
+      });
+  }
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // фильтрует массив от сервера по запросу и длине
@@ -302,7 +312,7 @@ function App() {
                                                      filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
                                                      onSubmit={searchSavedMovies}/>}/>
               <Route path="/profile"
-                     element={<ProtectedRouteElement element={Profile} onLogout={handleLogout}/>}/>
+                     element={<ProtectedRouteElement element={Profile} error={entryError} onSubmit={handleChangeProfile} onLogout={handleLogout}/>}/>
             </Route>
             <Route path="signin" element={<Login handleLogin={handleLogin} error={entryError}/>}/>
             <Route path="signup" element={<Register handleRegister={handleRegister} error={entryError}/>}/>

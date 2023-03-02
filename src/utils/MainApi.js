@@ -48,7 +48,6 @@ class MainApi {
   }
 
   auth() {
-    // debugger
     return fetch(`${mainApiConfig.baseUrl}/users/me`, {
       credentials: 'include',
       method: 'GET',
@@ -58,6 +57,18 @@ class MainApi {
     })
       .then(res => this._onResponse(res));
   }
+
+  changeProfile(name, email)  {
+      return fetch(`${mainApiConfig.baseUrl}/users/me`, {
+        credentials: 'include',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(name, email)
+      })
+        .then(res => this._onResponse(res));
+    }
 
   saveMovie(movie, id) {
     return fetch(`${mainApiConfig.baseUrl}/movies`, {

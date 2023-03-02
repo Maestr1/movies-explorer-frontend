@@ -1,49 +1,56 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Profile.css';
 import CurrentUserContext from '../../hoc/CurrentUserContext';
+import { useFormWithValidation } from '../../hook/useFormWithValidation';
+import ValidationError from '../ValidationError/ValidationError';
 
 function Profile(props) {
-  const currentUser = useContext(CurrentUserContext)
+  const currentUser = useContext(CurrentUserContext);
+  const { values, handleChange, errors, isValid, setValues } = useFormWithValidation();
 
-  let savedName = currentUser.name;
-  let savedEmail = currentUser.email;
+  useEffect(() => {
+    setValues({ ...values, name: currentUser.name, email: currentUser.email });
+  }, [currentUser.email, currentUser.name]);
 
-  const [name, setName] = useState(savedName);
-  const [email, setEmail] = useState(savedEmail);
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!values.name || !values.email) {
+      return;
+    }
+    props.onSubmit(values);
   }
 
   function handleLogout(e) {
-    e.preventDefault()
-    props.onLogout()
+    e.preventDefault();
+    props.onLogout();
   }
 
   return (
     <section className="profile">
       <div className="profile__wrapper">
-        <h1 className="profile__title">{`Привет, ${savedName}!`}</h1>
+        <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
         <form className="profile__form">
           <div className="profile__inputs-wrapper">
             <div className="profile__input-wrapper">
               <label className="profile__input-label" htmlFor="name">Имя</label>
-              <input required onChange={handleChangeName} id="name" name="name" className="profile__input" type="text"
-                     value={name}/>
+              <input required onChange={handleChange} id="name" name="name" className="profile__input" type="text"
+                     value={values.name}/>
+
             </div>
             <div className="profile__input-wrapper">
               <label className="profile__input-label" htmlFor="email">E-mail</label>
-              <input required onChange={handleChangeEmail} id="email" name="email" className="profile__input"
+              <input required onChange={handleChange} id="email" name="email" className="profile__input"
                      type="email"
-                     value={email}/>
+                     value={values.email}/>
+
             </div>
+            {!props.isValid ? <ValidationError className={'error_type_profile'} text={errors.name}/> : ''}
+            {!props.isValid ? <ValidationError className={'error_type_profile'} text={errors.email}/> : ''}
           </div>
           <div className="profile__btn-wrapper">
-            <button disabled={!(name !== savedName || email !== savedEmail)} type="submit"
+            {props.error ? <p className="entry__error">{props.error}</p> : ''}
+            <button disabled={(values.name === currentUser.name && values.email === currentUser.email) || !isValid}
+                    type="submit" onClick={handleSubmit}
                     className="profile__submit-btn btn">Редактировать
             </button>
             <button onClick={handleLogout}
