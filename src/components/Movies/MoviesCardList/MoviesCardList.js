@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import './MoviesCardList.css';
-import { moviesApiConfig } from '../../../utils/configs';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import LoadingContext from '../../../hoc/LoadingContext';
 import Preloader from '../../Preloader/Preloader';
@@ -19,7 +18,7 @@ function MoviesCardList(props) {
   } else return (
     <section className="moviesCardList container">
       <ul className="moviesCardList__list">
-        {props.error ? <p className="moviesCardList__error">{props.error}</p> : props.type === 'loaded' ? moviesList : moviesList.reverse()}
+        {props.error ? <p className="moviesCardList__error">{props.error}</p> : props.type === 'loaded' ? moviesList : moviesList}
       </ul>
       {props.error || props.listSize >= props.moviesItems.length ? '' : <button onClick={props.clickHandler} className="moviesCardList__more-btn btn">Еще</button>}
     </section>
