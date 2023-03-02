@@ -17,8 +17,9 @@ function MoviesCardList(props) {
     return <Preloader/>;
   } else return (
     <section className="moviesCardList container">
+      {props.error ? <p className="moviesCardList__error">{props.error}</p> : ''}
       <ul className="moviesCardList__list">
-        {props.error ? <p className="moviesCardList__error">{props.error}</p> : props.type === 'loaded' ? moviesList : moviesList}
+        {!props.error ? moviesList : ''}
       </ul>
       {props.error || props.listSize >= props.moviesItems.length ? '' : <button onClick={props.clickHandler} className="moviesCardList__more-btn btn">Еще</button>}
     </section>

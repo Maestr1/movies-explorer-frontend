@@ -40,6 +40,7 @@ function App() {
     checkAuth();
     if (loggedIn) {
       getSavedMoviesList();
+      localStorage.removeItem('saved-query')
     }
   }, [loggedIn]);
 
