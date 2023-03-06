@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
 import { Link } from 'react-router-dom';
-import protectedRoute from '../../../hoc/ProtectedRoute';
 
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
@@ -42,7 +41,7 @@ function MoviesCard(props) {
                 className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}
                 aria-label="Добавить в сохраненные"/>
       </div>
-      <Link className="moviesCard__link" to={props.trailerLink}>
+      <Link className="moviesCard__link" target="_blank" to={props.trailerLink}>
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
       </Link>
     </li>
