@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
+import { useResize } from '../../hook/useResize';
+import ProtectedRouteElement from '../../hoc/ProtectedRoute';
+import Preloader from '../Preloader/Preloader';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -10,21 +13,17 @@ import Layout from '../Layout/Layout';
 import Profile from '../Profile/Profile';
 import Homepage from '../Homepage/Homepage';
 import mainApi from '../../utils/MainApi';
-import CurrentUserProvider from '../../hoc/CurrentUserContext';
 import moviesApi from '../../utils/MoviesApi';
-import ProtectedRouteElement from '../../hoc/ProtectedRoute';
-import AuthContext from '../../hoc/AuthContext';
-import Preloader from '../Preloader/Preloader';
-import LoadingContext from '../../hoc/LoadingContext';
-import { useResize } from '../../hook/useResize';
+import { moviesApiConfig } from '../../utils/configs';
+import CurrentUserContext from '../../context/CurrentUserContext';
+import AuthContext from '../../context/AuthContext';
+import LoadingContext from '../../context/LoadingContext';
+import FormDisableContext from '../../context/FormDisableContext';
 import {
   LOADED_KEY, NUMBER_CARDS_SCREEN_LG, NUMBER_CARDS_SCREEN_MD,
   NUMBER_CARDS_SCREEN_SM, QUANTITY_TO_ADDED_SCREEN_LG, QUANTITY_TO_ADDED_SCREEN_MD,
-  QUANTITY_TO_ADDED_SCREEN_SM,
-  SAVED_KEY,
-  SHORT_FILM_DURATION
+  QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION
 } from '../../utils/constants';
-import { moviesApiConfig } from '../../utils/configs';
 
 function App() {
   const screenWidth = useResize();
@@ -37,6 +36,7 @@ function App() {
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [entryError, setEntryError] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ function App() {
     checkAuth();
     if (loggedIn) {
       getSavedMoviesList();
-      localStorage.removeItem('saved-query')
+      localStorage.removeItem('saved-query');
     }
   }, [loggedIn]);
 
@@ -107,6 +107,7 @@ function App() {
 
   // Логика авторизации с редиректом на фильмы
   function handleLogin(email, password) {
+    setIsDisabled(true);
     mainApi.login(email, password)
       .then(() => {
         setLoggedIn(true);
@@ -117,7 +118,8 @@ function App() {
         if (err.validation) {
           setEntryError(err.validation.body.message);
         } else setEntryError(err.message);
-      });
+      })
+      .finally(() => setIsDisabled(false));
   }
 
   function handleLogout() {
@@ -133,6 +135,7 @@ function App() {
 
   // Логика регистрации с редиректом на авторизацию
   function handleRegister(name, password, email) {
+    setIsDisabled(true);
     mainApi.register(name, email, password)
       .then(() => {
         navigate('/signin');
@@ -141,17 +144,20 @@ function App() {
         if (err.validation) {
           setEntryError(err.validation.body.message);
         } else setEntryError(err.message);
-      });
+      })
+      .finally(() => setIsDisabled(false));
   }
 
   function handleChangeProfile(name, email) {
+    setIsDisabled(true);
     mainApi.changeProfile(name, email)
       .then(res => setCurrentUser(res))
       .catch(err => {
         if (err.validation) {
           setEntryError(err.validation.body.message);
         } else setEntryError(err.message);
-      });
+      })
+      .finally(() => setIsDisabled(false));
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,14 +248,18 @@ function App() {
   }
 
   function searchLoadedMovies(query, isShort) {
-    setMoviesSearchError('');
+    setIsDisabled(true);
     setIsLoading(true);
+    setMoviesSearchError('');
     getMoviesList()
       .then(() => {
         searchMovies(query, isShort, LOADED_KEY, setMoviesItems);
       })
       .catch(() => setMoviesSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        setIsDisabled(false);
+      });
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +273,7 @@ function App() {
         const savedMoviesList = JSON.parse(localStorage.getItem(SAVED_KEY));
         savedMoviesList.unshift(res);
         localStorage.setItem(SAVED_KEY, JSON.stringify(savedMoviesList));
-        setSavedMoviesItems([res, ...savedMoviesItems ]);
+        setSavedMoviesItems([res, ...savedMoviesItems]);
       })
       .catch(err => console.log(`Ошибка сохранения. Код ошибки: ${err}`));
   }
@@ -297,35 +307,49 @@ function App() {
     return <Preloader/>;
   } else return (
     <AuthContext.Provider value={loggedIn}>
-      <CurrentUserProvider.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={currentUser}>
         <LoadingContext.Provider value={isLoading}>
-          <Routes>
-            <Route path="/" element={<Layout/>}>
-              <Route index element={<Homepage/>}/>
-              <Route path="/movies"
-                     element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
-                                                     listSize={listSize}
-                                                     clickHandler={addBtnClickHandler} btnType="save"
-                                                     filterByShortSwitch={filterByShortSwitch}
-                                                     error={moviesSearchError} saveHandler={saveMovie}
-                                                     deleteHandler={deleteMovie}
-                                                     moviesItems={moviesItems}
-                                                     onSubmit={searchLoadedMovies}/>}/>
-              <Route path="/saved-movies"
-                     element={<ProtectedRouteElement element={SavedMovies} searchKey={SAVED_KEY}
-                                                     moviesItems={savedMoviesItems} clickHandler={addBtnClickHandler}
-                                                     listSize={listSize} deleteHandler={deleteMovie} btnType="delete"
-                                                     filterByShortSwitch={filterByShortSwitch} error={moviesSearchError}
-                                                     onSubmit={searchSavedMovies}/>}/>
-              <Route path="/profile"
-                     element={<ProtectedRouteElement element={Profile} error={entryError} onSubmit={handleChangeProfile} onLogout={handleLogout}/>}/>
-            </Route>
-            <Route path="signin" element={<Login handleLogin={handleLogin} error={entryError}/>}/>
-            <Route path="signup" element={<Register handleRegister={handleRegister} error={entryError}/>}/>
-            <Route path="*" element={<ErrorPage/>}/>
-          </Routes>
+          <FormDisableContext.Provider value={isDisabled}>
+            <Routes>
+              <Route path="/" element={<Layout/>}>
+                <Route index element={<Homepage/>}/>
+                <Route path="/movies"
+                       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
+                                                       listSize={listSize}
+                                                       clickHandler={addBtnClickHandler}
+                                                       btnType="save"
+                                                       filterByShortSwitch={filterByShortSwitch}
+                                                       error={moviesSearchError}
+                                                       saveHandler={saveMovie}
+                                                       deleteHandler={deleteMovie}
+                                                       moviesItems={moviesItems}
+                                                       onSubmit={searchLoadedMovies}/>}/>
+                <Route path="/saved-movies"
+                       element={<ProtectedRouteElement element={SavedMovies}
+                                                       searchKey={SAVED_KEY}
+                                                       moviesItems={savedMoviesItems}
+                                                       clickHandler={addBtnClickHandler}
+                                                       listSize={listSize}
+                                                       deleteHandler={deleteMovie}
+                                                       btnType="delete"
+                                                       filterByShortSwitch={filterByShortSwitch}
+                                                       error={moviesSearchError}
+                                                       onSubmit={searchSavedMovies}/>}/>
+                <Route path="/profile"
+                       element={<ProtectedRouteElement element={Profile}
+                                                       error={entryError}
+                                                       onSubmit={handleChangeProfile}
+                                                       onLogout={handleLogout}/>}/>
+              </Route>
+              <Route path="signin"
+                     element={<Login handleLogin={handleLogin} error={entryError}/>}/>
+              <Route path="signup"
+                     element={<Register handleRegister={handleRegister} error={entryError}/>}/>
+              <Route path="*" element={<ErrorPage/>}/>
+            </Routes>
+          </FormDisableContext.Provider>
         </LoadingContext.Provider>
-      </CurrentUserProvider.Provider>
+      </CurrentUserContext.Provider>
     </AuthContext.Provider>
   );
 }

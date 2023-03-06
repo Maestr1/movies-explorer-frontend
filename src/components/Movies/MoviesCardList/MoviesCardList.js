@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import LoadingContext from '../../../hoc/LoadingContext';
+import LoadingContext from '../../../context/LoadingContext';
 import Preloader from '../../Preloader/Preloader';
 
 function MoviesCardList(props) {

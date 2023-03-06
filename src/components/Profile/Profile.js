@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import './Profile.css';
-import CurrentUserContext from '../../hoc/CurrentUserContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import { useFormWithValidation } from '../../hook/useFormWithValidation';
 import ValidationError from '../ValidationError/ValidationError';
+import FormDisableContext from '../../context/FormDisableContext';
 
 function Profile(props) {
   const currentUser = useContext(CurrentUserContext);
+  const isDisabled = useContext(FormDisableContext)
   const { values, handleChange, errors, isValid, setValues } = useFormWithValidation();
 
   useEffect(() => {
@@ -33,13 +35,13 @@ function Profile(props) {
           <div className="profile__inputs-wrapper">
             <div className="profile__input-wrapper">
               <label className="profile__input-label" htmlFor="name">Имя</label>
-              <input required onChange={handleChange} id="name" name="name" className="profile__input" type="text"
+              <input required disabled={isDisabled} onChange={handleChange} id="name" name="name" className="profile__input" type="text"
                      value={values.name}/>
 
             </div>
             <div className="profile__input-wrapper">
               <label className="profile__input-label" htmlFor="email">E-mail</label>
-              <input required onChange={handleChange} id="email" name="email" className="profile__input"
+              <input required disabled={isDisabled} onChange={handleChange} id="email" name="email" className="profile__input"
                      type="email"
                      value={values.email}/>
 
@@ -49,7 +51,7 @@ function Profile(props) {
           </div>
           <div className="profile__btn-wrapper">
             {props.error ? <p className="entry__error">{props.error}</p> : ''}
-            <button disabled={(values.name === currentUser.name && values.email === currentUser.email) || !isValid}
+            <button disabled={(values.name === currentUser.name && values.email === currentUser.email) || !isValid || isDisabled}
                     type="submit" onClick={handleSubmit}
                     className="profile__submit-btn btn">Редактировать
             </button>

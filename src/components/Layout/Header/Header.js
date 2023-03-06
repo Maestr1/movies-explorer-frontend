@@ -2,9 +2,9 @@ import './Header.css';
 import Navigation from './Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import AuthContext from '../../../hoc/AuthContext';
+import AuthContext from '../../../context/AuthContext';
 
-function Header(props) {
+function Header() {
 
   const loggedIn = useContext(AuthContext)
   const [isLanding, setIsLanding] = useState(true);
