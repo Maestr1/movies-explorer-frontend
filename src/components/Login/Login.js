@@ -5,8 +5,7 @@ import Entry from '../Entry/Entry';
 import { useFormWithValidation } from '../../hook/useFormWithValidation';
 
 function Login(props) {
-
-const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation()
+const { values, handleChange, errors, isValid } = useFormWithValidation()
 
   function submitHandler(e) {
     e.preventDefault();

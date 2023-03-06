@@ -113,7 +113,7 @@ function App() {
         setLoggedIn(true);
         localStorage.setItem('login', 'true');
       })
-      .then(() => navigate('/movies'))
+      .then(() => navigate('/movies', { replace: true }))
       .catch(err => {
         if (err.validation) {
           setEntryError(err.validation.body.message);
@@ -129,7 +129,7 @@ function App() {
         setMoviesItems([]);
         localStorage.clear();
       })
-      .then(() => navigate('./signin'))
+      .then(() => navigate('./', { replace: true }))
       .catch(err => console.log(err));
   }
 
@@ -302,7 +302,6 @@ function App() {
       .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
   }
 
-
   if (loggedIn === undefined) {
     return <Preloader/>;
   } else return (
@@ -341,10 +340,10 @@ function App() {
                                                        onSubmit={handleChangeProfile}
                                                        onLogout={handleLogout}/>}/>
               </Route>
-              <Route path="signin"
-                     element={<Login handleLogin={handleLogin} error={entryError}/>}/>
-              <Route path="signup"
-                     element={<Register handleRegister={handleRegister} error={entryError}/>}/>
+              {!loggedIn ? <Route path="signin"
+                      element={<Login handleLogin={handleLogin} error={entryError}/>}/> : ''}
+              {!loggedIn ? <Route path="signup"
+                     element={<Register handleRegister={handleRegister} error={entryError}/>}/> : ''}
               <Route path="*" element={<ErrorPage/>}/>
             </Routes>
           </FormDisableContext.Provider>
