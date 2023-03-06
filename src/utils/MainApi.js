@@ -13,25 +13,26 @@ class MainApi {
     }
   }
 
-  register(name, password, email) {
+  register(values) {
+    debugger
     return fetch(`${mainApiConfig.baseUrl}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(name, password, email)
+      body: JSON.stringify({ name: values.name, password: values.password, email: values.email })
     })
       .then(res => this._onResponse(res));
   }
 
-  login(email, password) {
+  login(values) {
     return fetch(`${mainApiConfig.baseUrl}/signin`, {
       credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(email, password)
+      body: JSON.stringify({ password: values.password, email: values.email })
     })
       .then(res => this._onResponse(res));
   }

@@ -106,9 +106,9 @@ function App() {
   }
 
   // Логика авторизации с редиректом на фильмы
-  function handleLogin(email, password) {
+  function handleLogin(values) {
     setIsDisabled(true);
-    mainApi.login(email, password)
+    mainApi.login(values)
       .then(() => {
         setLoggedIn(true);
         localStorage.setItem('login', 'true');
@@ -133,13 +133,11 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  // Логика регистрации с редиректом на авторизацию
-  function handleRegister(name, password, email) {
+  // Логика регистрации с последующей авторизацией при успехе
+  function handleRegister(values) {
     setIsDisabled(true);
-    mainApi.register(name, email, password)
-      .then(() => {
-        navigate('/signin');
-      })
+    mainApi.register(values)
+      .then(() => handleLogin(values))
       .catch(err => {
         if (err.validation) {
           setEntryMessage(err.validation.body.message);
