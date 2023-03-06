@@ -17,7 +17,13 @@ import AuthContext from '../../hoc/AuthContext';
 import Preloader from '../Preloader/Preloader';
 import LoadingContext from '../../hoc/LoadingContext';
 import { useResize } from '../../hook/useResize';
-import { LOADED_KEY, SAVED_KEY } from '../../utils/constants';
+import {
+  LOADED_KEY, NUMBER_CARDS_SCREEN_LG, NUMBER_CARDS_SCREEN_MD,
+  NUMBER_CARDS_SCREEN_SM, QUANTITY_TO_ADDED_SCREEN_LG, QUANTITY_TO_ADDED_SCREEN_MD,
+  QUANTITY_TO_ADDED_SCREEN_SM,
+  SAVED_KEY,
+  SHORT_FILM_DURATION
+} from '../../utils/constants';
 import { moviesApiConfig } from '../../utils/configs';
 
 function App() {
@@ -59,16 +65,16 @@ function App() {
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
     if (screenWidth.isScreenLg) {
-      setListSize(12);
-      setNumberToAdd(3);
+      setListSize(NUMBER_CARDS_SCREEN_LG);
+      setNumberToAdd(QUANTITY_TO_ADDED_SCREEN_LG);
     }
     if (screenWidth.isScreenMd) {
-      setListSize(8);
-      setNumberToAdd(2);
+      setListSize(NUMBER_CARDS_SCREEN_MD);
+      setNumberToAdd(QUANTITY_TO_ADDED_SCREEN_MD);
     }
     if (screenWidth.isScreenSm) {
-      setListSize(5);
-      setNumberToAdd(2);
+      setListSize(NUMBER_CARDS_SCREEN_SM);
+      setNumberToAdd(QUANTITY_TO_ADDED_SCREEN_SM);
     }
   }
 
@@ -165,11 +171,11 @@ function App() {
     }
     if (query) {
       return list.filter((movie) => {
-        return (isShort ? movie.duration <= 40 : movie.duration > 40) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
+        return (isShort ? movie.duration <= SHORT_FILM_DURATION : movie.duration > SHORT_FILM_DURATION) && (movie.nameEN.toLowerCase().includes(query.toLowerCase()) || movie.nameRU.toLowerCase().includes(query.toLowerCase()));
       });
     } else {
       return list.filter((movie) => {
-        return (isShort ? movie.duration <= 40 : movie.duration > 40);
+        return (isShort ? movie.duration <= SHORT_FILM_DURATION : movie.duration > SHORT_FILM_DURATION);
       });
     }
   }
