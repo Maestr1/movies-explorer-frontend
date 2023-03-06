@@ -4,6 +4,7 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 import { useFormWithValidation } from '../../hook/useFormWithValidation';
 import ValidationError from '../ValidationError/ValidationError';
 import FormDisableContext from '../../context/FormDisableContext';
+import { SUCCESS_PATCH_MESSAGE } from '../../utils/constants';
 
 function Profile(props) {
   const currentUser = useContext(CurrentUserContext);
@@ -50,7 +51,7 @@ function Profile(props) {
             {!props.isValid ? <ValidationError className={'error_type_profile'} text={errors.email}/> : ''}
           </div>
           <div className="profile__btn-wrapper">
-            {props.error ? <p className="entry__error">{props.error}</p> : ''}
+            {props.error ? <p className={`profile__message ${props.error === SUCCESS_PATCH_MESSAGE ? 'profile__message_success' : ''}`}>{props.error}</p> : ''}
             <button disabled={(values.name === currentUser.name && values.email === currentUser.email) || !isValid || isDisabled}
                     type="submit" onClick={handleSubmit}
                     className="profile__submit-btn btn">Редактировать

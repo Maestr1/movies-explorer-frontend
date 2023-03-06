@@ -1,5 +1,5 @@
 import React from 'react';
-import './Enrty.css'
+import './Entry.css'
 import { Link } from 'react-router-dom';
 
 function Entry(props) {

@@ -73,6 +73,18 @@
   font-weight: 500;
 }
 
+.profile__message {
+  margin: 0 0 20px;
+  color: #FF004C;
+  font-size: 11px;
+  text-align: center;
+  transition: all ease-in-out .3s;
+}
+
+.profile__message_success {
+  color: #3DDC84;
+}
+
 .profile__btn-wrapper {
   width: fit-content;
   display: flex;

@@ -22,7 +22,7 @@ import FormDisableContext from '../../context/FormDisableContext';
 import {
   LOADED_KEY, NUMBER_CARDS_SCREEN_LG, NUMBER_CARDS_SCREEN_MD,
   NUMBER_CARDS_SCREEN_SM, QUANTITY_TO_ADDED_SCREEN_LG, QUANTITY_TO_ADDED_SCREEN_MD,
-  QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION
+  QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION, SUCCESS_PATCH_MESSAGE
 } from '../../utils/constants';
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
   const [numberToAdd, setNumberToAdd] = useState(0);
   const [listSize, setListSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [entryError, setEntryError] = useState('');
+  const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ function App() {
 
   // Очищаем ошибку входа при переходах между страницами
   useEffect(() => {
-    setEntryError('');
+    setEntryMessage('');
   }, [location]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,8 +116,8 @@ function App() {
       .then(() => navigate('/movies', { replace: true }))
       .catch(err => {
         if (err.validation) {
-          setEntryError(err.validation.body.message);
-        } else setEntryError(err.message);
+          setEntryMessage(err.validation.body.message);
+        } else setEntryMessage(err.message);
       })
       .finally(() => setIsDisabled(false));
   }
@@ -142,8 +142,8 @@ function App() {
       })
       .catch(err => {
         if (err.validation) {
-          setEntryError(err.validation.body.message);
-        } else setEntryError(err.message);
+          setEntryMessage(err.validation.body.message);
+        } else setEntryMessage(err.message);
       })
       .finally(() => setIsDisabled(false));
   }
@@ -151,13 +151,18 @@ function App() {
   function handleChangeProfile(name, email) {
     setIsDisabled(true);
     mainApi.changeProfile(name, email)
-      .then(res => setCurrentUser(res))
+      .then(res => {
+        setEntryMessage(SUCCESS_PATCH_MESSAGE);
+        setTimeout(() => setEntryMessage(''), 4000);
+        setCurrentUser(res);
+      })
       .catch(err => {
         if (err.validation) {
-          setEntryError(err.validation.body.message);
-        } else setEntryError(err.message);
+          setEntryMessage(err.validation.body.message);
+        } else setEntryMessage(err.message);
       })
-      .finally(() => setIsDisabled(false));
+      .finally(() => setIsDisabled(false)
+      );
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -336,14 +341,14 @@ function App() {
                                                        onSubmit={searchSavedMovies}/>}/>
                 <Route path="/profile"
                        element={<ProtectedRouteElement element={Profile}
-                                                       error={entryError}
+                                                       error={entryMessage}
                                                        onSubmit={handleChangeProfile}
                                                        onLogout={handleLogout}/>}/>
               </Route>
               {!loggedIn ? <Route path="signin"
-                      element={<Login handleLogin={handleLogin} error={entryError}/>}/> : ''}
+                                  element={<Login handleLogin={handleLogin} error={entryMessage}/>}/> : ''}
               {!loggedIn ? <Route path="signup"
-                     element={<Register handleRegister={handleRegister} error={entryError}/>}/> : ''}
+                                  element={<Register handleRegister={handleRegister} error={entryMessage}/>}/> : ''}
               <Route path="*" element={<ErrorPage/>}/>
             </Routes>
           </FormDisableContext.Provider>
