@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import isEmail from 'validator/lib/isEmail';
 import { REGEX_NAME } from '../utils/constants';
 
 export function useFormWithValidation() {
@@ -16,6 +17,10 @@ export function useFormWithValidation() {
     if (target.name === 'name' && !REGEX_NAME.test(target.value)) {
       setIsValid(false);
       setErrors({ ...errors, [name]: 'Имя может содержать только латиницу кириллицу пробел или дефис' });
+    }
+    if (target.name === 'email' && target.value && !isEmail(target.value)) {
+      setIsValid(false);
+      setErrors({ ...errors, [name]: 'E-mail имеет некорректный формат' });
     }
   };
 
