@@ -36,7 +36,7 @@ function Profile(props) {
           <div className="profile__inputs-wrapper">
             <div className="profile__input-wrapper">
               <label className="profile__input-label" htmlFor="name">Имя</label>
-              <input required disabled={isDisabled} onChange={handleChange} id="name" name="name" className="profile__input" type="text"
+              <input required disabled={isDisabled} onChange={handleChange} minLength='2' maxLength='30' id="name" name="name" className="profile__input" type="text"
                      value={values.name}/>
 
             </div>

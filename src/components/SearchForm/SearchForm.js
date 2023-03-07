@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import FormDisableContext from '../../context/FormDisableContext';
 
 function SearchForm(props) {
-  const isDisabled = useContext(FormDisableContext)
+  const isDisabled = useContext(FormDisableContext);
   const [isShort, setIsShort] = useState(false);
   const [query, setQuery] = useState('');
   const location = useLocation();
@@ -17,7 +17,7 @@ function SearchForm(props) {
 
   // При переходе по указанным роутам - свитчер и запрос загружаются из хранилища
   useEffect(() => {
-    if (location.pathname === '/movies') {
+    if (location.pathname === '/movies' || location.pathname === '/saved-movies') {
       const query = localStorage.getItem(`${props.searchKey}-query`);
       const value = localStorage.getItem(`${props.searchKey}-query-short`) === 'true';
       setTimeout(() => {
@@ -30,8 +30,9 @@ function SearchForm(props) {
   }, [location.pathname]);
 
   //  Меняем состояние свитчера
-  function clickHandler() {
+  function clickHandler(value) {
     setIsShort(prevCheck => !prevCheck);
+    localStorage.setItem(`${props.searchKey}-query-short`, JSON.stringify(value));
   }
 
   function handleChangeQuery(e) {
@@ -41,8 +42,8 @@ function SearchForm(props) {
   function submitHandler(e) {
     e.preventDefault();
     if (query) {
-        localStorage.setItem(`${props.searchKey}-query-short`, JSON.stringify(isShort));
-        localStorage.setItem(`${props.searchKey}-query`, query);
+      // localStorage.setItem(`${props.searchKey}-query-short`, JSON.stringify(isShort));
+      localStorage.setItem(`${props.searchKey}-query`, query);
       props.onSubmit(query, isShort);
     } else console.log('Введите запрос');
   }
@@ -50,7 +51,8 @@ function SearchForm(props) {
   return (
     <section className="searchForm container">
       <form className="searchForm__form">
-        <input onChange={handleChangeQuery} disabled={isDisabled} value={query} required placeholder="Фильм" className="searchForm__input"
+        <input onChange={handleChangeQuery} disabled={isDisabled} value={query} required placeholder="Фильм"
+               className="searchForm__input"
                type="text"/>
         <button onClick={submitHandler} disabled={isDisabled} className="searchForm__btn btn">Найти</button>
       </form>
