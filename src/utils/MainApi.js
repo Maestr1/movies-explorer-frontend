@@ -1,10 +1,6 @@
 import { mainApiConfig } from './configs';
 
 class MainApi {
-  constructor(options) {
-    this._options = options;
-  }
-
   _onResponse(res) {
     if (res.ok) {
       return res.json();
@@ -14,7 +10,6 @@ class MainApi {
   }
 
   register(values) {
-    debugger
     return fetch(`${mainApiConfig.baseUrl}/signup`, {
       method: 'POST',
       headers: {

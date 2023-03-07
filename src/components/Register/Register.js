@@ -6,7 +6,7 @@ import { useFormWithValidation } from '../../hook/useFormWithValidation';
 import { REGEX_NAME } from '../../utils/constants';
 
 function Register(props) {
-  const { values, handleChange, errors, isValid, setIsValid, resetForm } = useFormWithValidation();
+  const { values, handleChange, errors, isValid, setIsValid } = useFormWithValidation();
 
   function submitHandler(e) {
     e.preventDefault();
