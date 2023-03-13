@@ -8,6 +8,12 @@
   -webkit-tap-highlight-color: rgb(0, 0, 0, 0);
 }
 
-.btn:hover {
-  opacity: .8;
+.btn:disabled {
+  opacity: .5;
+}
+
+@media (min-width: 1024px) {
+  .btn:hover {
+    opacity: .8;
+  }
 }

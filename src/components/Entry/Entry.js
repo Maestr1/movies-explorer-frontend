@@ -1,7 +1,6 @@
 import React from 'react';
-import './Enrty.css'
+import './Entry.css'
 import { Link } from 'react-router-dom';
-
 
 function Entry(props) {
   return (
@@ -13,7 +12,8 @@ function Entry(props) {
           <div className="entry__inputs">
             {props.children}
           </div>
-          <button className="entry__submit-btn btn">{props.btnText}</button>
+          {props.error ? <p className="entry__error">{props.error}</p> : ''}
+          <button disabled={!props.isValid} onClick={props.onSubmit} className="entry__submit-btn btn">{props.btnText}</button>
           <p className="entry__caption">{props.captionText}<Link className="entry__link link"
                                                                        to={props.linkPath}>{props.linkText}</Link></p>
         </form>

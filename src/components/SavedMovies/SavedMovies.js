@@ -1,19 +1,13 @@
 import React from 'react';
 import './SavedMovies.css';
-import MoviesCard from '../Movies/MoviesCard/MoviesCard';
 import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 
 function SavedMovies(props) {
   return (
     <>
-      <SearchForm/>
-      <section className="moviesCardList container">
-        <ul className="moviesCardList__list">
-          <MoviesCard btnType="remove"/>
-          <MoviesCard btnType="remove"/>
-          <MoviesCard btnType="remove"/>
-        </ul>
-      </section>
+      <SearchForm queryKey={props.queryKey} searchKey={props.searchKey} filterByShortSwitch={props.filterByShortSwitch} onSubmit={props.onSubmit}/>
+      <MoviesCardList btnType={props.btnType} deleteHandler={props.deleteHandler} type={'saved'} listSize={props.listSize} clickHandler={props.clickHandler} error={props.error} moviesItems={props.moviesItems}/>
     </>
   );
 }

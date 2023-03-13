@@ -10,7 +10,7 @@ function Layout(props) {
 
   return (
     <>
-      <Header loggedIn={props.loggedIn}/>
+      <Header/>
       <main>
         <Outlet/>
       </main>

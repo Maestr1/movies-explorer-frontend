@@ -46,6 +46,11 @@
   color: #fff;
 }
 
+.entry__submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .entry__caption {
   margin: 0;
   width: 100%;
@@ -58,6 +63,13 @@
 .entry__link {
   margin-left: 6px;
   color: #4285F4;
+}
+
+.entry__error {
+  margin: 0 0 20px;
+  color: #FF004C;
+  font-size: 11px;
+  text-align: center;
 }
 
 @media (max-width: 576px) {
