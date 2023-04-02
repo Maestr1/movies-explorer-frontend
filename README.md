@@ -1,7 +1,7 @@
-# Проект Movies Explorer
+# Дипломный Проект Movies Explorer
 
-## Ссылка на сайт проекта: https://movie.nomoredomainsclub.ru/
+## Позволяет искать и добавлять в избранное фильмы с фестиваля Beat Film
 
-## Ссылка на макет: https://disk.yandex.ru/d/O6rV5Ocx8bhAtw
+## Стек: React.js v18, JS ES6, CSS, HTML
 
-### Ссылка на пул-реквест: https://github.com/Maestr1/movies-explorer-frontend/pull/2
+### Для развертывания запустить в папке репозитория команду "npm start", локальный сервер откроется по адресу http://localhost:3000
