@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import './App.css';
-import { useResize } from '../../hook/useResize';
+import {useResize} from '../../hook/useResize';
 import ProtectedRouteElement from '../../hoc/ProtectedRoute';
 import Preloader from '../Preloader/Preloader';
 import ErrorPage from '../ErrorPage/ErrorPage';
@@ -11,10 +11,10 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Layout from '../Layout/Layout';
 import Profile from '../Profile/Profile';
-import Homepage from '../Homepage/Homepage';
+// import Homepage from '../Homepage/Homepage';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
-import { moviesApiConfig } from '../../utils/configs';
+import {moviesApiConfig} from '../../utils/configs';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import AuthContext from '../../context/AuthContext';
 import LoadingContext from '../../context/LoadingContext';
@@ -24,6 +24,8 @@ import {
   NUMBER_CARDS_SCREEN_SM, QUANTITY_TO_ADDED_SCREEN_LG, QUANTITY_TO_ADDED_SCREEN_MD,
   QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION, SUCCESS_PATCH_MESSAGE
 } from '../../utils/constants';
+import kinopoiskApi from '../../utils/KinopoiskApi';
+import Main from '../Main/Main';
 
 function App() {
   const screenWidth = useResize();
@@ -37,6 +39,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  const [popularMovies, setPopularMovies] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -46,6 +49,7 @@ function App() {
     checkAuth();
     if (loggedIn) {
       getSavedMoviesList();
+      getPopularMovies();
     }
   }, [loggedIn]);
 
@@ -60,6 +64,15 @@ function App() {
   }, [location]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  function getPopularMovies() {
+    kinopoiskApi.getPopularMovies()
+      .then(data => {
+        if (data && data.films) {
+          setPopularMovies(data.films);
+        }
+      })
+      .catch(err => console.error(err));
+  }
 
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
@@ -313,7 +326,10 @@ function App() {
           <FormDisableContext.Provider value={isDisabled}>
             <Routes>
               <Route path="/" element={<Layout/>}>
-                <Route index element={<Homepage/>}/>
+                {/*<Route index element={<Homepage/>}/>*/}
+                <Route index element={<ProtectedRouteElement element={Main} moviesItems={popularMovies}
+                                                                listSize={listSize} btnType="save"
+                                                             clickHandler={addBtnClickHandler}/>}/>
                 <Route path="/movies"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
                                                        listSize={listSize}

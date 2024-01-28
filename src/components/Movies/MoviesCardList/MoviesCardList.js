@@ -7,9 +7,9 @@ import Preloader from '../../Preloader/Preloader';
 function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
-  const moviesList = props.moviesItems.slice(0, props.listSize).map((item) => (
-    <MoviesCard type={props.type} movie={item} key={item.movieId} btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} title={item.nameRU} duration={item.duration}
-                cover={item.image} trailerLink={item.trailerLink}/>
+  const moviesList = props.moviesItems.slice(0, props.listSize).map((item, index) => (
+    <MoviesCard type={props.type} movie={item} key={`movie-card-${index}`} btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} title={item.nameRu} duration={item.filmLength}
+                cover={item.posterUrl}/>
   ));
 
 

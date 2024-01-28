@@ -2,8 +2,8 @@ import React from 'react';
 import './Register.css';
 import FormInput from '../FormInput/FormInput';
 import Entry from '../Entry/Entry';
-import { useFormWithValidation } from '../../hook/useFormWithValidation';
-import { REGEX_NAME } from '../../utils/constants';
+import {useFormWithValidation} from '../../hook/useFormWithValidation';
+import {REGEX_NAME} from '../../utils/constants';
 
 function Register(props) {
   const { values, handleChange, errors, isValid, setIsValid } = useFormWithValidation();
@@ -28,10 +28,12 @@ function Register(props) {
              linkPath="/signin" isValid={isValid} error={props.error}>
         <FormInput min="2" max="30" value={values.name} error={errors.name} onChange={handleChange} required={true}
                    name="name" lableName="Имя" type="text"/>
-        <FormInput value={values.email} error={errors.email} onChange={handleChange} required={true} name="email"
-                   lableName="E-mail" type="email"/>
+        <FormInput value={values.email} error={errors.email} onChange={handleChange} required={true}
+                   name="email" lableName="E-mail" type="email"/>
         <FormInput value={values.password} error={errors.password} onChange={handleChange} required={true}
                    name="password" lableName="Пароль" type="password"/>
+        <FormInput value={values.apiToken} error={errors.apiToken} onChange={handleChange} required={false}
+                   name="apiToken" lableName="API Token" type="text"/>
       </Entry>
     </main>
   );

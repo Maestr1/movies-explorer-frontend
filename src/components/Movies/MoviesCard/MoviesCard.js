@@ -30,12 +30,19 @@ function MoviesCard(props) {
     return hours + 'ч ' + minutes + 'м';
   }
 
+  function splitDuration() {
+    if (props.duration) {
+      const time = props.duration.split(':');
+      return `${time[0]}ч ${time[1]}м`;
+    } else return '-ч -м'
+  }
+
   return (
     <li className="moviesCard">
       <div className="moviesCard__title-wrapper">
         <div className="moviesCard__about-wrapper">
           <h2 className="moviesCard__title">{props.title}</h2>
-          <p className="moviesCard__duration">{getTimeFromMinutes(props.duration)}</p>
+          <p className="moviesCard__duration">{splitDuration()}</p>
         </div>
         <button onClick={props.type === 'loaded' && !saved ? handleSaveClick : handleDeleteClick}
                 className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}

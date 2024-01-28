@@ -15,7 +15,7 @@ class MainApi {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name: values.name, password: values.password, email: values.email })
+      body: JSON.stringify({ name: values.name, password: values.password, email: values.email, apiToken: values.apiToken })
     })
       .then(res => this._onResponse(res));
   }
