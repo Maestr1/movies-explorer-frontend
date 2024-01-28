@@ -47,9 +47,9 @@ function App() {
   // При загрузке приложения - проверяем авторизацию и загружаем сохраненные фильмы, если залогинены
   useEffect(() => {
     checkAuth();
+    getPopularMovies();
     if (loggedIn) {
       getSavedMoviesList();
-      getPopularMovies();
     }
   }, [loggedIn]);
 
@@ -125,7 +125,7 @@ function App() {
         setLoggedIn(true);
         localStorage.setItem('login', 'true');
       })
-      .then(() => navigate('/movies', { replace: true }))
+      .then(() => navigate('/', { replace: true }))
       .catch(err => {
         if (err.validation) {
           setEntryMessage(err.validation.body.message);
@@ -141,7 +141,7 @@ function App() {
         setMoviesItems([]);
         localStorage.clear();
       })
-      .then(() => navigate('./', { replace: true }))
+      .then(() => navigate('/', { replace: true }))
       .catch(err => console.log(err));
   }
 
@@ -327,9 +327,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Layout/>}>
                 {/*<Route index element={<Homepage/>}/>*/}
-                <Route index element={<ProtectedRouteElement element={Main} moviesItems={popularMovies}
-                                                                listSize={listSize} btnType="save"
-                                                             clickHandler={addBtnClickHandler}/>}/>
+                <Route index
+                       element={<Main moviesItems={popularMovies} listSize={listSize} btnType="save"
+                                      clickHandler={addBtnClickHandler}/>}/>
                 <Route path="/movies"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
                                                        listSize={listSize}

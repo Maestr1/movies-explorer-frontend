@@ -7,7 +7,7 @@ const ProtectedRouteElement = ({ element: Component, ...props }) => {
 
   return loggedIn
     ? <Component {...props} />
-    : <Navigate to="/signin" replace />;
+    : <Navigate to="/" replace />;
 };
 
 

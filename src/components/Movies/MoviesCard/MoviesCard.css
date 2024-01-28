@@ -1,29 +1,31 @@
 .moviesCard {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
   background-color: #222222;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.28);
 }
 
 .moviesCard__title-wrapper {
   padding: 14px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .moviesCard__about-wrapper {
-  overflow: hidden;
   padding-right: 10px;
+  overflow: hidden;
 }
 
 .moviesCard__title {
   margin: 0 0 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 15px;
   font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .moviesCard__duration {
@@ -56,8 +58,8 @@
 }
 
 .moviesCard__cover {
-  aspect-ratio: 0.666;
   width: 100%;
   height: 100%;
+  aspect-ratio: 0.666;
   object-fit: cover;
 }
