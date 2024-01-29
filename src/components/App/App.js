@@ -56,6 +56,7 @@ function App() {
   // При изменении размера экрана - определяем количество карточек для вывода
   useEffect(() => {
     setTimeout(determinesNumberOfCards, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screenWidth.isScreenLg, screenWidth.isScreenMd, screenWidth.isScreenSm]);
 
   // Очищаем ошибку входа при переходах между страницами
@@ -332,6 +333,7 @@ function App() {
                                       clickHandler={addBtnClickHandler}/>}/>
                 <Route path="/movies"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
+                                                       type='movies'
                                                        listSize={listSize}
                                                        clickHandler={addBtnClickHandler}
                                                        btnType="save"
@@ -341,7 +343,19 @@ function App() {
                                                        deleteHandler={deleteMovie}
                                                        moviesItems={moviesItems}
                                                        onSubmit={searchLoadedMovies}/>}/>
-                <Route path="/saved-movies"
+                <Route path="/shows"
+                       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
+                                                       type='shows'
+                                                       listSize={listSize}
+                                                       clickHandler={addBtnClickHandler}
+                                                       btnType="save"
+                                                       filterByShortSwitch={filterByShortSwitch}
+                                                       error={moviesSearchError}
+                                                       saveHandler={saveMovie}
+                                                       deleteHandler={deleteMovie}
+                                                       moviesItems={moviesItems}
+                                                       onSubmit={searchLoadedMovies}/>}/>
+                <Route path="/favorites"
                        element={<ProtectedRouteElement element={SavedMovies}
                                                        searchKey={SAVED_KEY}
                                                        moviesItems={savedMoviesItems}

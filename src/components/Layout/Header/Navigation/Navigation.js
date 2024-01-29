@@ -44,13 +44,16 @@ function Navigation({ loggedIn, clickHandler }) {
           <>
             <ul className="nav__list">
               <li className="nav__item">
-                <Link onClick={handleLinkClick} className="link nav__home-link" to="/">Главная</Link>
+                <Link onClick={handleLinkClick} className="link nav__home-link" to="/">Популярное</Link>
               </li>
               <li className="nav__item">
                 <NavLink onClick={handleLinkClick} className={setActive} to="/movies">Фильмы</NavLink>
               </li>
               <li className="nav__item">
-                <NavLink onClick={handleLinkClick} className={setActive} to="/saved-movies">Сохранённые фильмы</NavLink>
+                <NavLink onClick={handleLinkClick} className={setActive} to="/shows">Сериалы</NavLink>
+              </li>
+              <li className="nav__item">
+                <NavLink onClick={handleLinkClick} className={setActive} to="/favorites">Избранное</NavLink>
               </li>
             </ul>
           </> :
