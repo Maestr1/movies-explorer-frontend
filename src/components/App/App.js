@@ -330,7 +330,10 @@ function App() {
                 {/*<Route index element={<Homepage/>}/>*/}
                 <Route index
                        element={<Main moviesItems={popularMovies} listSize={listSize} btnType="save"
-                                      clickHandler={addBtnClickHandler}/>}/>
+                                      clickHandler={addBtnClickHandler}
+                                      saveHandler={saveMovie}
+                                      deleteHandler={deleteMovie}
+                       />}/>
                 <Route path="/movies"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
                                                        type='movies'
@@ -363,7 +366,7 @@ function App() {
                                                        listSize={listSize}
                                                        deleteHandler={deleteMovie}
                                                        btnType="delete"
-                                                       filterByShortSwitch={filterByShortSwitch}
+                                                       // filterByShortSwitch={filterByShortSwitch}
                                                        error={moviesSearchError}
                                                        onSubmit={searchSavedMovies}/>}/>
                 <Route path="/profile"

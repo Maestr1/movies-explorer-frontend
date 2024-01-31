@@ -15,6 +15,7 @@ function MoviesCard(props) {
     event.stopPropagation()
     if (!saved) {
       props.saveHandler(props.movie);
+      // console.log(props.movie)
       // setSaved(true);
     }
   }
