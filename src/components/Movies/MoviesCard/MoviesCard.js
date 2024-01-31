@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
@@ -11,24 +11,26 @@ function MoviesCard(props) {
     } else setSaved(false)
   }, [props.movie.saved])
 
-  function handleSaveClick() {
+  function handleSaveClick(event) {
+    event.stopPropagation()
     if (!saved) {
       props.saveHandler(props.movie);
       // setSaved(true);
     }
   }
 
-  function handleDeleteClick() {
+  function handleDeleteClick(event) {
+    event.stopPropagation()
     props.deleteHandler(props.movie);
     setSaved(false);
     props.movie.saved = false
   }
 
-  function getTimeFromMinutes(duration) {
-    const hours = Math.trunc(duration / 60);
-    const minutes = duration % 60;
-    return hours + 'ч ' + minutes + 'м';
-  }
+  // function getTimeFromMinutes(duration) {
+  //   const hours = Math.trunc(duration / 60);
+  //   const minutes = duration % 60;
+  //   return hours + 'ч ' + minutes + 'м';
+  // }
 
   function splitDuration() {
     if (props.duration) {
@@ -37,8 +39,12 @@ function MoviesCard(props) {
     } else return '-ч -м'
   }
 
+  function openMoviePopup() {
+    console.log('open')
+  }
+
   return (
-    <li className="moviesCard">
+    <li className="moviesCard" onClick={openMoviePopup}>
       <div className="moviesCard__title-wrapper">
         <div className="moviesCard__about-wrapper">
           <h2 className="moviesCard__title">{props.title}</h2>
@@ -48,9 +54,9 @@ function MoviesCard(props) {
                 className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}
                 aria-label="Добавить в сохраненные"/>
       </div>
-      <Link className="moviesCard__link" target="_blank" to={props.trailerLink}>
+      {/*<Link className="moviesCard__link" target="_blank" to={props.trailerLink}>*/}
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
-      </Link>
+      {/*</Link>*/}
     </li>
   );
 }
