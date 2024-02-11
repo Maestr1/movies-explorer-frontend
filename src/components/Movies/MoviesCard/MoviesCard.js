@@ -71,9 +71,10 @@ function MoviesCard(props) {
                             className={`moviesCard__btn moviesCard__btn_type_${props.btnType} btn ${saved ? `moviesCard__btn_type_${props.btnType}_active` : ''}`}
                             aria-label="Добавить в сохраненные"/> : null}
       </div>
-      <div className='moviesCard__cover-wrapper'>
+      <div className="moviesCard__cover-wrapper">
         {props.movie.rating.indexOf('%') !== -1 ?
-          <p className='moviesCard__rating moviesCard__rating-text'>{`Рейтинг ожидания `}<span className='moviesCard__rating-percent'>{modifiedRating}</span></p> :
+          <p className="moviesCard__rating moviesCard__rating-text">{`Рейтинг ожидания `}<span
+            className="moviesCard__rating-percent">{modifiedRating}</span></p> :
           <p className={`moviesCard__rating moviesCard__rating_type_${ratingColorCalc()}`}>{props.movie.rating}</p>}
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
       </div>
