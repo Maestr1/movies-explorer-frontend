@@ -14,6 +14,7 @@ import Profile from '../Profile/Profile';
 // import Homepage from '../Homepage/Homepage';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import kinopoiskApi from '../../utils/KinopoiskApi';
 import {moviesApiConfig} from '../../utils/configs';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import AuthContext from '../../context/AuthContext';
@@ -24,7 +25,6 @@ import {
   NUMBER_CARDS_SCREEN_SM, QUANTITY_TO_ADDED_SCREEN_LG, QUANTITY_TO_ADDED_SCREEN_MD,
   QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION, SUCCESS_PATCH_MESSAGE
 } from '../../utils/constants';
-import kinopoiskApi from '../../utils/KinopoiskApi';
 import Main from '../Main/Main';
 
 function App() {
@@ -40,6 +40,8 @@ function App() {
   const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const [popularMovies, setPopularMovies] = useState([]);
+  const [moviePopupIsOpen, setMoviePopupIsOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -318,6 +320,16 @@ function App() {
       .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
   }
 
+
+  function handlePopupOpen(data) {
+    setMoviePopupIsOpen(true);
+    setSelectedMovie(data);
+  }
+
+  function closeAllPopups() {
+    setMoviePopupIsOpen(false);
+  }
+
   if (loggedIn === undefined) {
     return <Preloader/>;
   } else return (
@@ -329,14 +341,16 @@ function App() {
               <Route path="/" element={<Layout/>}>
                 {/*<Route index element={<Homepage/>}/>*/}
                 <Route index
-                       element={<Main moviesItems={popularMovies} listSize={listSize} btnType="save"
+                       element={<Main selectedMovie={selectedMovie} handlePopupOpen={handlePopupOpen} closePopup={closeAllPopups}
+                                      moviePopupIsOpen={moviePopupIsOpen} moviesItems={popularMovies}
+                                      listSize={listSize} btnType="save"
                                       clickHandler={addBtnClickHandler}
                                       saveHandler={saveMovie}
                                       deleteHandler={deleteMovie}
                        />}/>
                 <Route path="/movies"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
-                                                       type='movies'
+                                                       type="movies"
                                                        listSize={listSize}
                                                        clickHandler={addBtnClickHandler}
                                                        btnType="save"
@@ -348,7 +362,7 @@ function App() {
                                                        onSubmit={searchLoadedMovies}/>}/>
                 <Route path="/shows"
                        element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
-                                                       type='shows'
+                                                       type="shows"
                                                        listSize={listSize}
                                                        clickHandler={addBtnClickHandler}
                                                        btnType="save"
@@ -366,7 +380,7 @@ function App() {
                                                        listSize={listSize}
                                                        deleteHandler={deleteMovie}
                                                        btnType="delete"
-                                                       // filterByShortSwitch={filterByShortSwitch}
+                         // filterByShortSwitch={filterByShortSwitch}
                                                        error={moviesSearchError}
                                                        onSubmit={searchSavedMovies}/>}/>
                 <Route path="/profile"

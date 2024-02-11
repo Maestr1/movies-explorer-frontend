@@ -1,0 +1,38 @@
+.movies-popup {
+  padding: 34px 36px 37px;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 830px;
+  background-color: #202020;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 767px) {
+  .movies-popup {
+    margin-left: 19px;
+    margin-right: 19px;
+    padding: 25px 22px;
+  }
+}
+
+.movies-popup__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.movies-popup__main {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  gap: 20px;
+}
+
+.movies-popup__description {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}

@@ -24,6 +24,12 @@ class KinopoiskApi {
       .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
   }
 
+  getMovie(id) {
+    return this._requester.get(`films/${id}`)
+      .then(res => res.data)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
+  }
+
   getMovies() {
     return fetch(`${this._options.baseUrl}/beatfilm-movies`)
       .then(res => this._onResponse(res));
