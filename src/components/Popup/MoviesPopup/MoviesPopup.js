@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './MoviesPopup.css';
 import kinopoiskApi from '../../../utils/KinopoiskApi';
 import YouTubePlayer from './YouTubePlayer/YouTubePlayer';
+import {Link} from 'react-router-dom';
 
 function MoviesPopup(props) {
 
@@ -31,6 +32,18 @@ function MoviesPopup(props) {
     if (props.selectedMovie.genres) {
       return props.selectedMovie.genres.map(item => item.genre).join(', ');
     }
+  }
+
+  function countriesConstructor() {
+    if (props.selectedMovie.countries) {
+      return props.selectedMovie.countries.map(item => item.country).join(', ');
+    }
+  }
+
+  function getTimeFromMinutes(duration) {
+    const hours = Math.trunc(duration / 60);
+    const minutes = duration % 60;
+    return hours + 'ч ' + minutes + 'м';
   }
 
 
@@ -63,12 +76,21 @@ function MoviesPopup(props) {
         </div>
         <div className="movies-popup__details">
           <p className="movies-popup__detail">{`Год: ${movie.year}`}</p>
-          {movie.countries && <p className="movies-popup__detail">{`Страна: ${movie.countries}`}</p>}
+          {movie.countries && <p className="movies-popup__detail">{`Страна: ${countriesConstructor()}`}</p>}
           {movie.ratingImdb && <p className="movies-popup__detail">{`Рейтинг IMDb: ${movie.ratingImdb}`}</p>}
-          {movie.ratingKinopoisk && <p className="movies-popup__detail">{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</p>}
-          {(!movie.ratingImdb && !movie.ratingKinopoisk) && <p className="movies-popup__detail">{`Рейтинг ожидания: ${movie.ratingAwait}%`}</p>}
-          <p className="movies-popup__detail">{`Жанры: ${genresConstructor()}`}</p>
+          {movie.ratingKinopoisk &&
+            <p className="movies-popup__detail">{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</p>}
+          {(!movie.ratingImdb && !movie.ratingKinopoisk) &&
+            <p className="movies-popup__detail">{`Рейтинг ожидания: ${movie.ratingAwait}%`}</p>}
+          <p className="movies-popup__detail">{`Жанр: ${genresConstructor()}`}</p>
+          {movie.filmLength &&
+            <p className="movies-popup__detail">{`Продолжительность: ${getTimeFromMinutes(movie.filmLength)}`}</p>}
           <p className="movies-popup__description">{movie.description}</p>
+          <div className="movies-popup__links">
+
+            <Link to={movie.webUrl} target="_blank" className="movies-popup__link link">Открыть на Кинопоиске</Link>
+            <Link to={movie.webUrl} target="_blank" className="movies-popup__save-btn link"></Link>
+          </div>
         </div>
       </div>
     </div>
