@@ -38,18 +38,8 @@ function MoviesPopup(props) {
 
   function staffConstructor() {
     const directors = staff.filter(item => item.professionKey === 'DIRECTOR').map(item => item.nameRu).join(', ');
-    const actors = staff.filter(item => item.professionKey === 'ACTOR');
+    const actors = staff.filter(item => item.professionKey === 'ACTOR').map(item => item.nameRu)
     const writers = staff.filter(item => item.professionKey === 'WRITER').map(item => item.nameRu)
-    // const writers = (() => {
-    //   const writerStaff = staff.filter(item => item.professionKey === 'WRITER');
-    //   if (writerStaff.length > 3) {
-    //     writerStaff.splice(-1, 1, '...');
-    //     return writerStaff.slice(0, 3);
-    //   } else {
-    //     return writerStaff;
-    //   }
-    // })();
-    // const writers = staff.filter(item => item.professionKey === 'WRITER');
     const producers = staff.filter(item => item.professionKey === 'PRODUCER');
     setMovie(prevState => ({
       ...prevState,
@@ -115,6 +105,9 @@ function MoviesPopup(props) {
           {movie.writers &&
             <p className="movies-popup__detail">{`Сценарий: ${movie.writers.length > 3 ? movie.writers.slice(0, 3).join(', ') + ', ' : movie.writers.join(', ')}`}
               {movie.writers.length > 3 && <Link className="link" to='#'>...</Link>}</p>}
+          {movie.actors &&
+            <p className="movies-popup__detail">{`Актеры: ${movie.actors.length > 5 ? movie.actors.slice(0, 5).join(', ') + ', ' : movie.actors.join(', ')}`}
+              {movie.actors.length > 3 && <Link className="link" to='#'>...</Link>}</p>}
           {movie.ratingImdb && <p className="movies-popup__detail">{`Рейтинг IMDb: ${movie.ratingImdb}`}</p>}
           {movie.ratingKinopoisk &&
             <p className="movies-popup__detail">{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</p>}
