@@ -7,7 +7,7 @@ import AuthContext from '../../../context/AuthContext';
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
   const loggedIn = useContext(AuthContext);
-  const modifiedRating = props.movie.rating.slice(0, -3) + props.movie.rating.slice(-1);
+  const modifiedRating = (props.movie.rating || '').slice(0, -3) + (props.movie.rating || '').slice(-1);
 
   useEffect(() => {
     if (props.movie.saved) {
@@ -72,10 +72,12 @@ function MoviesCard(props) {
                             aria-label="Добавить в сохраненные"/> : null}
       </div>
       <div className="moviesCard__cover-wrapper">
-        {props.movie.rating.indexOf('%') !== -1 ?
-          <p className="moviesCard__rating moviesCard__rating-text">{`Рейтинг ожидания `}<span
-            className="moviesCard__rating-percent">{modifiedRating}</span></p> :
-          <p className={`moviesCard__rating moviesCard__rating_type_${ratingColorCalc()}`}>{props.movie.rating}</p>}
+        {props.movie.rating ?
+          (props.movie.rating.indexOf('%') !== -1 ?
+            <p className="moviesCard__rating moviesCard__rating-text">{`Рейтинг ожидания `}<span
+              className="moviesCard__rating-percent">{modifiedRating}</span></p> :
+            <p className={`moviesCard__rating moviesCard__rating_type_${ratingColorCalc()}`}>{props.movie.rating}</p>)
+          : <p className="moviesCard__rating moviesCard__rating-text">Рейтинг отсутствует</p>}
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
       </div>
     </li>

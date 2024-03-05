@@ -45,11 +45,13 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    getPopularMovies()
+  }, []);
 
   // При загрузке приложения - проверяем авторизацию и загружаем сохраненные фильмы, если залогинены
   useEffect(() => {
     checkAuth();
-    getPopularMovies();
     if (loggedIn) {
       getSavedMoviesList();
     }

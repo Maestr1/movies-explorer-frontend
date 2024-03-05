@@ -8,14 +8,16 @@ function MoviesPopup(props) {
 
   const [movie, setMovie] = useState({});
   const [videos, setVideos] = useState({});
+  const [staff, setStaff] = useState({});
   const [trailerID, setTrailerID] = useState('');
 
   useEffect(() => {
     if (props.selectedMovie && props.selectedMovie.filmId) {
-      Promise.all([kinopoiskApi.getMovie(props.selectedMovie.filmId), kinopoiskApi.getVideos(props.selectedMovie.filmId)])
+      Promise.all([kinopoiskApi.getMovie(props.selectedMovie.filmId), kinopoiskApi.getVideos(props.selectedMovie.filmId), kinopoiskApi.getStaff(props.selectedMovie.filmId)])
         .then((res) => {
           setMovie(res[0]);
           setVideos(res[1]);
+          setStaff(res[2]);
         });
     }
   }, [props.selectedMovie]);
@@ -25,8 +27,38 @@ function MoviesPopup(props) {
   }, [movie]);
 
   useEffect(() => {
-    setTrailerID(extractID);
-  }, [videos]);
+    if (staff.length > 0) {
+      staffConstructor();
+    }
+  }, [staff]);
+
+  function qwe() {
+
+  }
+
+  function staffConstructor() {
+    const directors = staff.filter(item => item.professionKey === 'DIRECTOR').map(item => item.nameRu).join(', ');
+    const actors = staff.filter(item => item.professionKey === 'ACTOR');
+    const writers = staff.filter(item => item.professionKey === 'WRITER').map(item => item.nameRu)
+    // const writers = (() => {
+    //   const writerStaff = staff.filter(item => item.professionKey === 'WRITER');
+    //   if (writerStaff.length > 3) {
+    //     writerStaff.splice(-1, 1, '...');
+    //     return writerStaff.slice(0, 3);
+    //   } else {
+    //     return writerStaff;
+    //   }
+    // })();
+    // const writers = staff.filter(item => item.professionKey === 'WRITER');
+    const producers = staff.filter(item => item.professionKey === 'PRODUCER');
+    setMovie(prevState => ({
+      ...prevState,
+      directors: directors,
+      actors: actors,
+      writers: writers,
+      producers: producers
+    }));
+  }
 
   function genresConstructor() {
     if (props.selectedMovie.genres) {
@@ -68,21 +100,26 @@ function MoviesPopup(props) {
 
   return (
     <div className="movies-popup">
-      <h2 className="movies-popup__title">{movie.nameRu}</h2>
       <div className="movies-popup__wrapper">
         <div className="movies-popup__main">
           <img src={movie.posterUrlPreview} alt=""/>
           {extractID() && <YouTubePlayer id={extractID()}/>}
         </div>
         <div className="movies-popup__details">
-          <p className="movies-popup__detail">{`Год: ${movie.year}`}</p>
+          <h2 className="movies-popup__title">{movie.nameRu}</h2>
+          <p className="movies-popup__detail">{`Год производства: ${movie.year}`}</p>
           {movie.countries && <p className="movies-popup__detail">{`Страна: ${countriesConstructor()}`}</p>}
+          <p className="movies-popup__detail">{`Жанр: ${genresConstructor()}`}</p>
+          {movie.directors &&
+            <p className="movies-popup__detail">{`Режисер: ${movie.directors}`}</p>}
+          {movie.writers &&
+            <p className="movies-popup__detail">{`Сценарий: ${movie.writers.length > 3 ? movie.writers.slice(0, 3).join(', ') + ', ' : movie.writers.join(', ')}`}
+              {movie.writers.length > 3 && <Link className="link" to='#'>...</Link>}</p>}
           {movie.ratingImdb && <p className="movies-popup__detail">{`Рейтинг IMDb: ${movie.ratingImdb}`}</p>}
           {movie.ratingKinopoisk &&
             <p className="movies-popup__detail">{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</p>}
           {(!movie.ratingImdb && !movie.ratingKinopoisk) &&
             <p className="movies-popup__detail">{`Рейтинг ожидания: ${movie.ratingAwait}%`}</p>}
-          <p className="movies-popup__detail">{`Жанр: ${genresConstructor()}`}</p>
           {movie.filmLength &&
             <p className="movies-popup__detail">{`Продолжительность: ${getTimeFromMinutes(movie.filmLength)}`}</p>}
           <p className="movies-popup__description">{movie.description}</p>
