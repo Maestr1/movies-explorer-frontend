@@ -9,7 +9,6 @@ function MoviesPopup(props) {
   const [movie, setMovie] = useState({});
   const [videos, setVideos] = useState({});
   const [staff, setStaff] = useState({});
-  const [trailerID, setTrailerID] = useState('');
 
   useEffect(() => {
     if (props.selectedMovie && props.selectedMovie.filmId) {
@@ -31,10 +30,6 @@ function MoviesPopup(props) {
       staffConstructor();
     }
   }, [staff]);
-
-  function qwe() {
-
-  }
 
   function staffConstructor() {
     const directors = staff.filter(item => item.professionKey === 'DIRECTOR').map(item => item.nameRu).join(', ');
@@ -118,8 +113,8 @@ function MoviesPopup(props) {
           <p className="movies-popup__description">{movie.description}</p>
           <div className="movies-popup__links">
 
-            <Link to={movie.webUrl} target="_blank" className="movies-popup__link link">Открыть на Кинопоиске</Link>
-            <Link to={movie.webUrl} target="_blank" className="movies-popup__save-btn link"></Link>
+            <Link to={movie.webUrl} target="_blank" className="movies-popup__link btn">Открыть на Кинопоиске</Link>
+            <Link to={movie.webUrl} target="_blank" className="movies-popup__save-btn btn"></Link>
           </div>
         </div>
       </div>

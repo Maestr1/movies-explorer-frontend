@@ -14,7 +14,7 @@ function Entry(props) {
           </div>
           {props.error ? <p className="entry__error">{props.error}</p> : ''}
           <button disabled={!props.isValid} onClick={props.onSubmit} className="entry__submit-btn btn">{props.btnText}</button>
-          <p className="entry__caption">{props.captionText}<Link className="entry__link link"
+          <p className="entry__caption">{props.captionText}<Link className="entry__link btn"
                                                                        to={props.linkPath}>{props.linkText}</Link></p>
         </form>
       </div>

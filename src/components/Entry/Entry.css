@@ -40,7 +40,7 @@
   padding: 13px 0 15px;
   width: 396px;
   border-radius: 3px;
-  background-color: #4285F4;
+  background-color: var(--btn-color);
   font-size: 14px;
   font-weight: 500;
   color: #fff;
@@ -62,7 +62,7 @@
 
 .entry__link {
   margin-left: 6px;
-  color: #4285F4;
+  color: var(--btn-color);
 }
 
 .entry__error {

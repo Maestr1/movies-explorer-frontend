@@ -1,16 +1,16 @@
 .header_type_landing {
-  background-color: #073042;
+  /*background-color: #073042;*/
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.28);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .header__home-btn {
-  width: 38px;
+  width: 165px;
   height: 38px;
   display: block;
-  border-radius: 19%;
-  background: url("../../../images/logo.svg");
+  /*border-radius: 19%;*/
+  background: url("../../../images/logo_new.svg") center no-repeat;
   font-size: 0;
 }
 
