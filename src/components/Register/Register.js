@@ -32,8 +32,6 @@ function Register(props) {
                    name="email" lableName="E-mail" type="email"/>
         <FormInput value={values.password} error={errors.password} onChange={handleChange} required={true}
                    name="password" lableName="Пароль" type="password"/>
-        <FormInput value={values.apiToken} error={errors.apiToken} onChange={handleChange} required={false}
-                   name="apiToken" lableName="API Token" type="text"/>
       </Entry>
     </main>
   );
