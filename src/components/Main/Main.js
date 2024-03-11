@@ -1,5 +1,5 @@
 import '../Movies/Movies.css';
-// import SearchForm from '../SearchForm/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import Popup from '../Popup/Popup';
 import MoviesPopup from '../Popup/MoviesPopup/MoviesPopup';
@@ -10,7 +10,7 @@ function Movies(props) {
       <Popup isOpen={props.moviePopupIsOpen} onClose={props.closePopup}>
         <MoviesPopup selectedMovie={props.selectedMovie}/>
       </Popup>
-      {/*<SearchForm queryKey={props.queryKey} searchKey={props.searchKey} filterByShortSwitch={props.filterByShortSwitch} onSubmit={props.onSubmit}/>*/}
+      <SearchForm onSubmit={props.findHandler}/>
       <MoviesCardList handlePopupOpen={props.handlePopupOpen} btnType={props.btnType} type={'loaded'} deleteHandler={props.deleteHandler}
                       saveHandler={props.saveHandler} listSize={props.listSize} clickHandler={props.clickHandler}
                       error={props.error} moviesItems={props.moviesItems}/>

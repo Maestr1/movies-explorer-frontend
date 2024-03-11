@@ -7,7 +7,8 @@ import AuthContext from '../../../context/AuthContext';
 function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
   const loggedIn = useContext(AuthContext);
-  const modifiedRating = (props.movie.rating || '').slice(0, -3) + (props.movie.rating || '').slice(-1);
+  const modifiedRating = props.movie.rating.slice(0, -3) + props.movie.rating.slice(-1);
+  console.log(props.movie.rating);
 
   useEffect(() => {
     if (props.movie.saved) {
@@ -19,7 +20,6 @@ function MoviesCard(props) {
     event.stopPropagation();
     if (!saved) {
       props.saveHandler(props.movie);
-      // console.log(props.movie)
       // setSaved(true);
     }
   }
@@ -50,7 +50,7 @@ function MoviesCard(props) {
   }
 
   function ratingColorCalc() {
-    if (props.movie.rating.indexOf('%') === -1) {
+    if (props.movie.rating.indexOf('%') === -1 && props.movie.rating !== 'Рейтинг не указан') {
       if (props.movie.rating >= 7) {
         return 'high';
       } else if (props.movie.rating >= 4) {
@@ -72,7 +72,7 @@ function MoviesCard(props) {
                             aria-label="Добавить в сохраненные"/> : null}
       </div>
       <div className="moviesCard__cover-wrapper">
-        {props.movie.rating ?
+        {(props.movie.rating) ?
           (props.movie.rating.indexOf('%') !== -1 ?
             <p className="moviesCard__rating moviesCard__rating-text">{`Рейтинг ожидания `}<span
               className="moviesCard__rating-percent">{modifiedRating}</span></p> :

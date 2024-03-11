@@ -7,7 +7,7 @@ class KinopoiskApi {
     this._requester = axios.create({
       withCredentials: true,
       baseURL: this._options.baseUrl
-    })
+    });
   }
 
   _onResponse(res) {
@@ -21,25 +21,31 @@ class KinopoiskApi {
   getPopularMovies() {
     return this._requester.get(`/films/popular`)
       .then(res => res.data)
-      .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.response.status}`);
+  }
+
+  findMovies(params) {
+    return this._requester.get(`/films/`, { params })
+      .then(res => res.data)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.response.status}`);
   }
 
   getMovie(id) {
     return this._requester.get(`films/${id}`)
       .then(res => res.data)
-      .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.response.status}`);
   }
 
   getStaff(id) {
     return this._requester.get(`films/${id}/staff`)
       .then(res => res.data)
-      .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.response.status}`);
   }
 
   getVideos(id) {
     return this._requester.get(`films/${id}/videos`)
       .then(res => res.data)
-      .catch(err => `Ошибка запроса. Код ошибки: ${err.status}`)
+      .catch(err => `Ошибка запроса. Код ошибки: ${err.response.status}`);
   }
 
   getMovies() {

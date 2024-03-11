@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import LoadingContext from '../../../context/LoadingContext';
@@ -7,10 +7,20 @@ import Preloader from '../../Preloader/Preloader';
 function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
-  const moviesList = props.moviesItems.slice(0, props.listSize).map((item, index) => (
-    <MoviesCard handlePopupOpen={props.handlePopupOpen} type={props.type} movie={item} key={`movie-card-${index}`} btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler} title={item.nameRu} duration={item.filmLength}
-                cover={item.posterUrlPreview}/>
-  ));
+  const moviesList = props.moviesItems.slice(0, props.listSize).map((item, index) => {
+    if (!item.rating && item.ratingImdb) {
+      item.rating = item.ratingImdb.toString();
+    }
+    if (!item.rating && !item.ratingImdb) {
+      item.rating = 'Рейтинг не указан';
+    }
+    return (
+      <MoviesCard handlePopupOpen={props.handlePopupOpen} type={props.type} movie={item} key={`movie-card-${index}`}
+                  btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler}
+                  title={item.nameRu || item.nameEN || item.nameOriginal} duration={item.filmLength}
+                  cover={item.posterUrlPreview}/>
+    );
+  });
 
 
   if (isLoading) {
@@ -21,7 +31,8 @@ function MoviesCardList(props) {
       <ul className="moviesCardList__list">
         {!props.error ? moviesList : ''}
       </ul>
-      {props.error || props.listSize >= props.moviesItems.length ? '' : <button onClick={props.clickHandler} className="moviesCardList__more-btn btn">Еще</button>}
+      {props.error || props.listSize >= props.moviesItems.length ? '' :
+        <button onClick={props.clickHandler} className="moviesCardList__more-btn btn">Еще</button>}
     </section>
   );
 }

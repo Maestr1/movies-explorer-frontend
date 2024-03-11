@@ -39,7 +39,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [moviesList, setMoviesList] = useState([]);
   const [moviePopupIsOpen, setMoviePopupIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState({});
   const location = useLocation();
@@ -73,7 +73,7 @@ function App() {
     kinopoiskApi.getPopularMovies()
       .then(data => {
         if (data && data.films) {
-          setPopularMovies(data.films);
+          setMoviesList(data.films);
         }
       })
       .catch(err => console.error(err));
@@ -179,6 +179,19 @@ function App() {
       .finally(() => setIsDisabled(false)
       );
   }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //Логика поиска по фильмам
+  function findMovies(body) {
+    setIsLoading(true)
+    kinopoiskApi.findMovies(body)
+      .then(res => {
+        setMoviesList(res.items);
+        setIsLoading(false)
+      })
+      .catch(err => console.log(err));
+  }
+
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -343,8 +356,8 @@ function App() {
               <Route path="/" element={<Layout/>}>
                 {/*<Route index element={<Homepage/>}/>*/}
                 <Route index
-                       element={<Main selectedMovie={selectedMovie} handlePopupOpen={handlePopupOpen} closePopup={closeAllPopups}
-                                      moviePopupIsOpen={moviePopupIsOpen} moviesItems={popularMovies}
+                       element={<Main findHandler={findMovies} selectedMovie={selectedMovie} handlePopupOpen={handlePopupOpen} closePopup={closeAllPopups}
+                                      moviePopupIsOpen={moviePopupIsOpen} moviesItems={moviesList}
                                       listSize={listSize} btnType="save"
                                       clickHandler={addBtnClickHandler}
                                       saveHandler={saveMovie}
