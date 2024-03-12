@@ -8,12 +8,7 @@ function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
   const moviesList = props.moviesItems.slice(0, props.listSize).map((item, index) => {
-    if (!item.rating && item.ratingImdb) {
-      item.rating = item.ratingImdb.toString();
-    }
-    if (!item.rating && !item.ratingImdb) {
-      item.rating = 'Рейтинг не указан';
-    }
+    convertMoviesBody(item)
     return (
       <MoviesCard handlePopupOpen={props.handlePopupOpen} type={props.type} movie={item} key={`movie-card-${index}`}
                   btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler}
@@ -22,6 +17,18 @@ function MoviesCardList(props) {
     );
   });
 
+  function convertMoviesBody(item) {
+    if (!item.rating && item.ratingImdb) {
+      item.rating = item.ratingImdb.toString();
+    }
+    if (!item.rating && !item.ratingImdb) {
+      item.rating = 'Рейтинг не указан';
+    }
+    if (!item.filmId && item.kinopoiskId) {
+      item.filmId = item.kinopoiskId;
+    }
+
+  }
 
   if (isLoading) {
     return <Preloader/>;

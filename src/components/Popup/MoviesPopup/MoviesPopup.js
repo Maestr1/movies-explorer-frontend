@@ -22,10 +22,6 @@ function MoviesPopup(props) {
   }, [props.selectedMovie]);
 
   useEffect(() => {
-    console.log(movie);
-  }, [movie]);
-
-  useEffect(() => {
     if (staff.length > 0) {
       staffConstructor();
     }
@@ -67,7 +63,8 @@ function MoviesPopup(props) {
   function extractID() {
     if (videos && videos.items) {
       try {
-        const urlObj = new URL(videos.items.find(item => item.site === 'YOUTUBE').url);
+        console.log(videos.items)
+        const urlObj = new URL(videos.items.find(item => item.site === 'YOUTUBE' && (item.name.indexOf("дублированный") !== -1) || item.name.indexOf("Трейлер") !== -1).url);
         if (urlObj.hostname === 'youtu.be') {
           return urlObj.pathname.slice(1);
         } else if (urlObj.hostname.includes('youtube')) {

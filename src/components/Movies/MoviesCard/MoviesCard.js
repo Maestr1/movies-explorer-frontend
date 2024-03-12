@@ -8,7 +8,6 @@ function MoviesCard(props) {
   const [saved, setSaved] = useState(false);
   const loggedIn = useContext(AuthContext);
   const modifiedRating = props.movie.rating.slice(0, -3) + props.movie.rating.slice(-1);
-  console.log(props.movie.rating);
 
   useEffect(() => {
     if (props.movie.saved) {

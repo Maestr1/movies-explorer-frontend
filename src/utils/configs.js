@@ -3,12 +3,12 @@ export const moviesApiConfig = {
 };
 
 export const mainApiConfig = {
-  baseUrl: (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://api.movie.nomoredomainsclub.ru')
+  baseUrl: (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://api.xn-----nlcbqkiqehcmxg.xn--p1ai'),
 };
 
 
 export const kinopoiskApiConfig = {
-  baseUrl: 'http://localhost:3000',
+  baseUrl: (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://api.xn-----nlcbqkiqehcmxg.xn--p1ai'),
   config: {
     withCredentials: true,
   }
