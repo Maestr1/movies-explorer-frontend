@@ -29,8 +29,8 @@ function MoviesPopup(props) {
 
   function staffConstructor() {
     const directors = staff.filter(item => item.professionKey === 'DIRECTOR').map(item => item.nameRu).join(', ');
-    const actors = staff.filter(item => item.professionKey === 'ACTOR').map(item => item.nameRu)
-    const writers = staff.filter(item => item.professionKey === 'WRITER').map(item => item.nameRu)
+    const actors = staff.filter(item => item.professionKey === 'ACTOR').map(item => item.nameRu);
+    const writers = staff.filter(item => item.professionKey === 'WRITER').map(item => item.nameRu);
     const producers = staff.filter(item => item.professionKey === 'PRODUCER');
     setMovie(prevState => ({
       ...prevState,
@@ -59,16 +59,21 @@ function MoviesPopup(props) {
     return hours + 'ч ' + minutes + 'м';
   }
 
-
   function extractID() {
     if (videos && videos.items) {
       try {
-        console.log(videos.items)
-        const urlObj = new URL(videos.items.find(item => item.site === 'YOUTUBE' && (item.name.indexOf("дублированный") !== -1) || item.name.indexOf("Трейлер") !== -1).url);
+        const urlObj = new URL(videos.items.find(item => item.site === 'YOUTUBE' && (item.name.indexOf('Трейлер') !== -1 || item.name.indexOf('трейлер') !== -1 || item.name.indexOf('ТВ-ролик') !== -1)).url);
+
+
         if (urlObj.hostname === 'youtu.be') {
           return urlObj.pathname.slice(1);
         } else if (urlObj.hostname.includes('youtube')) {
+          if (urlObj.pathname.includes('/v/')) {
+            console.log('ok');
+            return urlObj.pathname.slice(3);
+          }
           const params = urlObj.searchParams;
+          console.log(params.get('v'));
           // Интуитивно понятный запрос идентификатора видео
           return params && params.get('v');
         }
@@ -95,11 +100,13 @@ function MoviesPopup(props) {
           {movie.directors &&
             <p className="movies-popup__detail">{`Режисер: ${movie.directors}`}</p>}
           {movie.writers &&
-            <p className="movies-popup__detail">{`Сценарий: ${movie.writers.length > 3 ? movie.writers.slice(0, 3).join(', ') + ', ' : movie.writers.join(', ')}`}
-              {movie.writers.length > 3 && <Link className="link" to='#'>...</Link>}</p>}
+            <p
+              className="movies-popup__detail">{`Сценарий: ${movie.writers.length > 3 ? movie.writers.slice(0, 3).join(', ') + ', ' : movie.writers.join(', ')}`}
+              {movie.writers.length > 3 && <Link className="link" to="#">...</Link>}</p>}
           {movie.actors &&
-            <p className="movies-popup__detail">{`Актеры: ${movie.actors.length > 5 ? movie.actors.slice(0, 5).join(', ') + ', ' : movie.actors.join(', ')}`}
-              {movie.actors.length > 3 && <Link className="link" to='#'>...</Link>}</p>}
+            <p
+              className="movies-popup__detail">{`Актеры: ${movie.actors.length > 5 ? movie.actors.slice(0, 5).join(', ') + ', ' : movie.actors.join(', ')}`}
+              {movie.actors.length > 3 && <Link className="link" to="#">...</Link>}</p>}
           {movie.ratingImdb && <p className="movies-popup__detail">{`Рейтинг IMDb: ${movie.ratingImdb}`}</p>}
           {movie.ratingKinopoisk &&
             <p className="movies-popup__detail">{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</p>}
