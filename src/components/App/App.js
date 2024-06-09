@@ -26,6 +26,7 @@ import {
   QUANTITY_TO_ADDED_SCREEN_SM, SAVED_KEY, SHORT_FILM_DURATION, SUCCESS_PATCH_MESSAGE
 } from '../../utils/constants';
 import Main from '../Main/Main';
+import FilmPage from '../FilmPage/FilmPage';
 
 function App() {
   const screenWidth = useResize();
@@ -39,15 +40,13 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
-  const [moviesList, setMoviesList] = useState([]);
   const [moviePopupIsOpen, setMoviePopupIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState({});
+  const [moviesList, setMoviesList] = useState([]);
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getPopularMovies()
-  }, []);
 
   // При загрузке приложения - проверяем авторизацию и загружаем сохраненные фильмы, если залогинены
   useEffect(() => {
@@ -69,15 +68,7 @@ function App() {
   }, [location]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  function getPopularMovies() {
-    kinopoiskApi.getPopularMovies()
-      .then(data => {
-        if (data && data.films) {
-          setMoviesList(data.films);
-        }
-      })
-      .catch(err => console.error(err));
-  }
+
 
   // Определяем количество карточек для вывода и добавления
   function determinesNumberOfCards() {
@@ -186,7 +177,7 @@ function App() {
     setIsLoading(true)
     kinopoiskApi.findMovies(body)
       .then(res => {
-        setMoviesList(res.items);
+        // setMoviesList(res.items);
         setIsLoading(false)
       })
       .catch(err => console.log(err));
@@ -343,7 +334,6 @@ function App() {
   function closeAllPopups() {
     setMoviePopupIsOpen(false);
   }
-
   if (loggedIn === undefined) {
     return <Preloader/>;
   } else return (
@@ -362,30 +352,32 @@ function App() {
                                       saveHandler={saveMovie}
                                       deleteHandler={deleteMovie}
                        />}/>
-                <Route path="/movies"
-                       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
-                                                       type="movies"
-                                                       listSize={listSize}
-                                                       clickHandler={addBtnClickHandler}
-                                                       btnType="save"
-                                                       filterByShortSwitch={filterByShortSwitch}
-                                                       error={moviesSearchError}
-                                                       saveHandler={saveMovie}
-                                                       deleteHandler={deleteMovie}
-                                                       moviesItems={moviesItems}
-                                                       onSubmit={searchLoadedMovies}/>}/>
-                <Route path="/shows"
-                       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}
-                                                       type="shows"
-                                                       listSize={listSize}
-                                                       clickHandler={addBtnClickHandler}
-                                                       btnType="save"
-                                                       filterByShortSwitch={filterByShortSwitch}
-                                                       error={moviesSearchError}
-                                                       saveHandler={saveMovie}
-                                                       deleteHandler={deleteMovie}
-                                                       moviesItems={moviesItems}
-                                                       onSubmit={searchLoadedMovies}/>}/>
+                {/*<Route path="/movies"*/}
+                {/*       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}*/}
+                {/*                                       type="movies"*/}
+                {/*                                       listSize={listSize}*/}
+                {/*                                       clickHandler={addBtnClickHandler}*/}
+                {/*                                       btnType="save"*/}
+                {/*                                       filterByShortSwitch={filterByShortSwitch}*/}
+                {/*                                       error={moviesSearchError}*/}
+                {/*                                       saveHandler={saveMovie}*/}
+                {/*                                       deleteHandler={deleteMovie}*/}
+                {/*                                       moviesItems={moviesItems}*/}
+                {/*                                       onSubmit={searchLoadedMovies}/>}/>*/}
+                <Route path="/film/:id"
+                       element={<FilmPage />}/>
+                {/*<Route path="/shows"*/}
+                {/*       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}*/}
+                {/*                                       type="shows"*/}
+                {/*                                       listSize={listSize}*/}
+                {/*                                       clickHandler={addBtnClickHandler}*/}
+                {/*                                       btnType="save"*/}
+                {/*                                       filterByShortSwitch={filterByShortSwitch}*/}
+                {/*                                       error={moviesSearchError}*/}
+                {/*                                       saveHandler={saveMovie}*/}
+                {/*                                       deleteHandler={deleteMovie}*/}
+                {/*                                       moviesItems={moviesItems}*/}
+                {/*                                       onSubmit={searchLoadedMovies}/>}/>*/}
                 <Route path="/favorites"
                        element={<ProtectedRouteElement element={SavedMovies}
                                                        searchKey={SAVED_KEY}

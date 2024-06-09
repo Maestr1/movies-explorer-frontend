@@ -1,3 +1,4 @@
-.YouTubePlayer {
+.youtube-player {
   width: 100%;
+  aspect-ratio: 16/9;
 }

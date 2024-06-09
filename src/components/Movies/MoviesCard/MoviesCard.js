@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './MoviesCard.css';
 import AuthContext from '../../../context/AuthContext';
+import {Link} from 'react-router-dom';
 
 // import { Link } from 'react-router-dom';
 
@@ -60,7 +61,8 @@ function MoviesCard(props) {
 
 
   return (
-    <li className="moviesCard" onClick={openMoviePopup}>
+    <li className="moviesCard">
+      <Link className="moviesCard__link" to={`./film/${props.movie.filmId}`}>
       <div className="moviesCard__title-wrapper">
         <div className="moviesCard__about-wrapper">
           <h2 className="moviesCard__title">{props.title}</h2>
@@ -79,6 +81,7 @@ function MoviesCard(props) {
           : <p className="moviesCard__rating moviesCard__rating-text">Рейтинг отсутствует</p>}
         <img className="moviesCard__cover" src={props.cover} alt="Обложка фильма"/>
       </div>
+      </Link>
     </li>
   );
 }
