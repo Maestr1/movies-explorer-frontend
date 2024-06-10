@@ -28,6 +28,10 @@ const DetailsWrapper = styled.div`
   width: 70%;
 `;
 
+const Poster = styled.img`
+  border-radius: 10px;
+`;
+
 const Title = styled.h1`
   padding-bottom: 30px;
   margin: 0;
@@ -155,7 +159,7 @@ function FilmPage(props) {
   return (
     <Section>
       <PosterWrapper>
-        <img src={movie.posterUrlPreview} alt=""/>
+        <Poster src={movie.posterUrlPreview} alt=""/>
         {extractID() && <YouTubePlayer id={extractID()}/>}
       </PosterWrapper>
       <DetailsWrapper>
