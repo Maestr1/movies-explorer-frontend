@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import {Link, useParams} from 'react-router-dom';
 import kinopoiskApi from '../../utils/KinopoiskApi';
 import YouTubePlayer from '../Popup/MoviesPopup/YouTubePlayer/YouTubePlayer';
+import Popup from '../Popup/Popup';
+import MoviesPopup from '../Popup/MoviesPopup/MoviesPopup';
+import CoverPopup from '../Popup/CoverPopup';
 
 const Section = styled.section`
   width: 100%;
@@ -15,7 +18,7 @@ const PosterWrapper = styled.div`
   padding-right: 14px;
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 25%;
   gap: 14px;
   border-right: 1px solid #565656;
 `;
@@ -24,11 +27,24 @@ const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap: 4px;
-  width: 70%;
+  gap: 16px;
+  width: 75%;
+`;
+
+const PosterButton = styled.button`
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform ease-in-out .3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const Poster = styled.img`
+  width: 100%;
   border-radius: 10px;
 `;
 
@@ -78,12 +94,15 @@ const SaveBtn = styled.button`
   transition: background .3s ease-in-out, opacity .3s ease-in-out;
 `;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function FilmPage(props) {
 
   const { id } = useParams();
   const [movie, setMovie] = useState({});
   const [videos, setVideos] = useState({});
   const [staff, setStaff] = useState({});
+  const [coverPopupIsOpen, setCoverPopupIsOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([kinopoiskApi.getMovie(id), kinopoiskApi.getVideos(id), kinopoiskApi.getStaff(id)])
@@ -156,10 +175,16 @@ function FilmPage(props) {
     return hours + 'ч ' + minutes + 'м';
   }
 
-  return (
+  function closePopup() {
+    setCoverPopupIsOpen(false);
+  }
+
+  return (<>
     <Section>
       <PosterWrapper>
-        <Poster src={movie.posterUrlPreview} alt=""/>
+        <PosterButton onClick={() => setCoverPopupIsOpen(true)}>
+          <Poster src={movie.posterUrlPreview} alt=""/>
+        </PosterButton>
         {extractID() && <YouTubePlayer id={extractID()}/>}
       </PosterWrapper>
       <DetailsWrapper>
@@ -167,7 +192,7 @@ function FilmPage(props) {
         <Detail>{`Год производства: ${movie.year}`}</Detail>
         {movie.countries && <Detail>{`Страна: ${countriesConstructor()}`}</Detail>}
         <Detail>{`Жанр: ${genresConstructor()}`}</Detail>
-        {movie.directors && <Detail>{`Режисер: ${movie.directors}`}</Detail>}
+        {movie.directors && <Detail>{`Режиссер: ${movie.directors}`}</Detail>}
         {movie.writers &&
           <Detail>{`Сценарий: ${movie.writers.length > 3 ? movie.writers.slice(0, 3).join(', ') + ', ' : movie.writers.join(', ')}`}
             {movie.writers.length > 3 && <Link className="link" to="#">...</Link>}</Detail>}
@@ -175,12 +200,10 @@ function FilmPage(props) {
           <Detail>{`Актеры: ${movie.actors.length > 5 ? movie.actors.slice(0, 5).join(', ') + ', ' : movie.actors.join(', ')}`}
             {movie.actors.length > 3 && <Link className="link" to="#">...</Link>}</Detail>}
         {movie.ratingImdb && <Detail>{`Рейтинг IMDb: ${movie.ratingImdb}`}</Detail>}
-        {movie.ratingKinopoisk &&
-          <Detail>{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</Detail>}
+        {movie.ratingKinopoisk && <Detail>{`Рейтинг Кинопоиска: ${movie.ratingKinopoisk}`}</Detail>}
         {(!movie.ratingImdb && !movie.ratingKinopoisk) &&
           <Detail>{`Рейтинг ожидания: ${movie.ratingAwait}%`}</Detail>}
-        {movie.filmLength &&
-          <Detail>{`Продолжительность: ${getTimeFromMinutes(movie.filmLength)}`}</Detail>}
+        {movie.filmLength && <Detail>{`Продолжительность: ${getTimeFromMinutes(movie.filmLength)}`}</Detail>}
         <Description>{movie.description}</Description>
         <Links>
           <StyledLink to={movie.webUrl} target="_blank" className="btn">Открыть на Кинопоиске</StyledLink>
@@ -188,7 +211,10 @@ function FilmPage(props) {
         </Links>
       </DetailsWrapper>
     </Section>
-  );
+    <Popup isOpen={coverPopupIsOpen} onClose={closePopup}>
+      <CoverPopup selectedMovie={movie}/>
+    </Popup>
+  </>);
 }
 
 export default FilmPage;

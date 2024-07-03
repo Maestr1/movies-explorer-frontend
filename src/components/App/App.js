@@ -40,7 +40,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [entryMessage, setEntryMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
-  const [moviePopupIsOpen, setMoviePopupIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState({});
   const [moviesList, setMoviesList] = useState([]);
 
@@ -177,7 +176,7 @@ function App() {
     setIsLoading(true)
     kinopoiskApi.findMovies(body)
       .then(res => {
-        // setMoviesList(res.items);
+        // setMovidesList(res.items);
         setIsLoading(false)
       })
       .catch(err => console.log(err));
@@ -325,15 +324,6 @@ function App() {
       .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
   }
 
-
-  function handlePopupOpen(data) {
-    setMoviePopupIsOpen(true);
-    setSelectedMovie(data);
-  }
-
-  function closeAllPopups() {
-    setMoviePopupIsOpen(false);
-  }
   if (loggedIn === undefined) {
     return <Preloader/>;
   } else return (
@@ -345,8 +335,8 @@ function App() {
               <Route path="/" element={<Layout/>}>
                 {/*<Route index element={<Homepage/>}/>*/}
                 <Route index
-                       element={<Main findHandler={findMovies} selectedMovie={selectedMovie} handlePopupOpen={handlePopupOpen} closePopup={closeAllPopups}
-                                      moviePopupIsOpen={moviePopupIsOpen} moviesItems={moviesList}
+                       element={<Main findHandler={findMovies} selectedMovie={selectedMovie}
+                                       moviesItems={moviesList}
                                       listSize={listSize} btnType="save"
                                       clickHandler={addBtnClickHandler}
                                       saveHandler={saveMovie}

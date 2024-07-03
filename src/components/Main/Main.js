@@ -27,9 +27,9 @@ function Movies(props) {
 
   return (
     <>
-      <Popup isOpen={props.moviePopupIsOpen} onClose={props.closePopup}>
-        <MoviesPopup selectedMovie={props.selectedMovie}/>
-      </Popup>
+      {/*<Popup isOpen={props.moviePopupIsOpen} onClose={props.closePopup}>*/}
+      {/*  <MoviesPopup selectedMovie={props.selectedMovie}/>*/}
+      {/*</Popup>*/}
       <SearchForm onSubmit={props.findHandler}/>
       <MoviesCardList handlePopupOpen={props.handlePopupOpen} btnType={props.btnType} type={'loaded'} deleteHandler={props.deleteHandler}
                       saveHandler={props.saveHandler} listSize={props.listSize} clickHandler={props.clickHandler}
