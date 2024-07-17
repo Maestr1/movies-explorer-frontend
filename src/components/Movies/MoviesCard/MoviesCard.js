@@ -31,12 +31,6 @@ function MoviesCard(props) {
     props.movie.saved = false;
   }
 
-  // function getTimeFromMinutes(duration) {
-  //   const hours = Math.trunc(duration / 60);
-  //   const minutes = duration % 60;
-  //   return hours + 'ч ' + minutes + 'м';
-  // }
-
   function splitDuration() {
     if (props.duration) {
       const time = props.duration.split(':');

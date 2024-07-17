@@ -171,13 +171,26 @@ function App() {
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  function getPopularMovies() {
+    setIsLoading(true);
+    kinopoiskApi.getPopularMovies()
+      .then(data => {
+        if (data && data.films) {
+          setMoviesList(data.films);
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setIsLoading(false));
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Логика поиска по фильмам
   function findMovies(body) {
-    setIsLoading(true)
+    setIsLoading(true);
     kinopoiskApi.findMovies(body)
       .then(res => {
-        // setMovidesList(res.items);
-        setIsLoading(false)
+        setMoviesList(res.items);
+        setIsLoading(false);
       })
       .catch(err => console.log(err));
   }
@@ -336,7 +349,8 @@ function App() {
                 {/*<Route index element={<Homepage/>}/>*/}
                 <Route index
                        element={<Main findHandler={findMovies} selectedMovie={selectedMovie}
-                                       moviesItems={moviesList}
+                                      moviesItems={moviesList}
+                                      getPopularMovies={getPopularMovies}
                                       listSize={listSize} btnType="save"
                                       clickHandler={addBtnClickHandler}
                                       saveHandler={saveMovie}
@@ -355,7 +369,7 @@ function App() {
                 {/*                                       moviesItems={moviesItems}*/}
                 {/*                                       onSubmit={searchLoadedMovies}/>}/>*/}
                 <Route path="/film/:id"
-                       element={<FilmPage />}/>
+                       element={<FilmPage/>}/>
                 {/*<Route path="/shows"*/}
                 {/*       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}*/}
                 {/*                                       type="shows"*/}
