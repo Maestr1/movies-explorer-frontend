@@ -42,6 +42,7 @@ function App() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState({});
   const [moviesList, setMoviesList] = useState([]);
+  const [loginRequestPopupIsOpen, setLoginRequestPopupIsOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -337,6 +338,10 @@ function App() {
       .catch(err => console.log(`Ошибка удаления. Код ошибки: ${err}`));
   }
 
+  function closeAllPopups() {
+    setLoginRequestPopupIsOpen(false)
+  }
+
   if (loggedIn === undefined) {
     return <Preloader/>;
   } else return (
@@ -355,7 +360,12 @@ function App() {
                                       clickHandler={addBtnClickHandler}
                                       saveHandler={saveMovie}
                                       deleteHandler={deleteMovie}
+                                      loginRequestPopupIsOpen={loginRequestPopupIsOpen}
+                                      setLoginRequestPopupIsOpen={setLoginRequestPopupIsOpen}
+                                      closeAllPopups={closeAllPopups}
                        />}/>
+                <Route path="/film/:id"
+                       element={<FilmPage/>}/>
                 {/*<Route path="/movies"*/}
                 {/*       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}*/}
                 {/*                                       type="movies"*/}
@@ -368,8 +378,7 @@ function App() {
                 {/*                                       deleteHandler={deleteMovie}*/}
                 {/*                                       moviesItems={moviesItems}*/}
                 {/*                                       onSubmit={searchLoadedMovies}/>}/>*/}
-                <Route path="/film/:id"
-                       element={<FilmPage/>}/>
+
                 {/*<Route path="/shows"*/}
                 {/*       element={<ProtectedRouteElement element={Movies} searchKey={LOADED_KEY}*/}
                 {/*                                       type="shows"*/}

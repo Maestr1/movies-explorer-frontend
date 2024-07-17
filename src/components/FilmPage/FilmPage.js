@@ -36,10 +36,10 @@ const PosterButton = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
-  transition: transform ease-in-out .3s;
+  transition: transform ease-in-out .2s;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 `;
 

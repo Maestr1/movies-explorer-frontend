@@ -2,9 +2,9 @@
   border-radius: 10px;
   width: 100%;
   aspect-ratio: 16/9;
-  transition: transform ease-in-out .3s;
+  transition: transform ease-in-out .2s;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 }

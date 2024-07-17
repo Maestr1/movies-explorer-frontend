@@ -6,11 +6,11 @@
   border-radius: 10px;
   background-color: #222222;
   box-shadow: 0 4px 24px 5px rgba(0, 0, 0, 0.28);
-  transition: transform ease-in-out .3s;
+  transition: transform ease-in-out .2s;
 }
 
 .moviesCard:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .moviesCard__title-wrapper {

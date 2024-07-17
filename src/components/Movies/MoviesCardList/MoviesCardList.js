@@ -8,9 +8,10 @@ function MoviesCardList(props) {
 
   const isLoading = useContext(LoadingContext);
   const moviesList = props.moviesItems.slice(0, props.listSize).map((item, index) => {
-    convertMoviesBody(item)
+    convertMoviesBody(item);
     return (
-      <MoviesCard handlePopupOpen={props.handlePopupOpen} type={props.type} movie={item} key={`movie-card-${index}`}
+      <MoviesCard setLoginRequestPopupIsOpen={props.setLoginRequestPopupIsOpen}
+                  type={props.type} movie={item} key={`movie-card-${index}`}
                   btnType={props.btnType} deleteHandler={props.deleteHandler} saveHandler={props.saveHandler}
                   title={item.nameRu || item.nameEN || item.nameOriginal} duration={item.filmLength}
                   cover={item.posterUrlPreview}/>
